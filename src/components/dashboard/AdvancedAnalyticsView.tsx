@@ -14,6 +14,9 @@ import {
   Award,
   Zap
 } from 'lucide-react';
+import PipelineFunnelChart from '../charts/PipelineFunnelChart';
+import RevenueTimelineChart from '../charts/RevenueTimelineChart';
+import WinLossChart from '../charts/WinLossChart';
 
 interface AnalyticsData {
   totalDeals: number;
@@ -455,6 +458,49 @@ export default function AdvancedAnalyticsView() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Pipeline Funnel</h3>
+          <PipelineFunnelChart
+            data={analytics.stageMetrics
+              .filter(s => !s.stage.includes('closed'))
+              .map(s => ({
+                stage: s.stage,
+                count: s.count,
+                value: s.value,
+              }))}
+          />
+        </div>
+
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Win/Loss Trend</h3>
+          <WinLossChart
+            data={[
+              { period: 'Jan', won: 12, lost: 5 },
+              { period: 'Feb', won: 15, lost: 4 },
+              { period: 'Mar', won: 18, lost: 6 },
+              { period: 'Apr', won: 14, lost: 3 },
+              { period: 'May', won: 20, lost: 5 },
+              { period: 'Jun', won: 22, lost: 4 },
+            ]}
+          />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <h3 className="text-lg font-semibold text-slate-900 mb-4">Revenue Over Time</h3>
+        <RevenueTimelineChart
+          data={[
+            { period: 'Jan', revenue: 125000, deals: 12 },
+            { period: 'Feb', revenue: 168000, deals: 15 },
+            { period: 'Mar', revenue: 210000, deals: 18 },
+            { period: 'Apr', revenue: 185000, deals: 14 },
+            { period: 'May', revenue: 245000, deals: 20 },
+            { period: 'Jun', revenue: 280000, deals: 22 },
+          ]}
+        />
       </div>
     </div>
   );

@@ -22,6 +22,9 @@ export default function PipelineView() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedDealId, setSelectedDealId] = useState<string | null>(null);
+  const [selectedDeals, setSelectedDeals] = useState<Set<string>>(new Set());
+  const [showBulkStageModal, setShowBulkStageModal] = useState(false);
+  const [bulkStage, setBulkStage] = useState('');
 
   useEffect(() => {
     loadDeals();

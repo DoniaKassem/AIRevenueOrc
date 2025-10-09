@@ -10,6 +10,7 @@ import AnalyticsView from './components/dashboard/AnalyticsView';
 import AdvancedAnalyticsView from './components/dashboard/AdvancedAnalyticsView';
 import SettingsView from './components/dashboard/SettingsView';
 import KnowledgeBaseView from './components/dashboard/KnowledgeBaseView';
+import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 
 function App() {
   const [currentView, setCurrentView] = useState('');
@@ -52,7 +53,12 @@ function App() {
     }
   };
 
-  return <DashboardLayout>{renderView()}</DashboardLayout>;
+  return (
+    <>
+      <DashboardLayout>{renderView()}</DashboardLayout>
+      <KeyboardShortcuts onNavigate={setCurrentView} />
+    </>
+  );
 }
 
 export default App;

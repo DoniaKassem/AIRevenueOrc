@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Settings, Mail, Plug, Bell, Shield, Plus, Sparkles, Key, Database } from 'lucide-react';
+import { Settings, Mail, Plug, Bell, Shield, Plus, Sparkles, Key, Database, Moon, Sun, Monitor } from 'lucide-react';
 import EmailTemplateForm from '../forms/EmailTemplateForm';
 import EnrichmentProvidersPanel from './EnrichmentProvidersPanel';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function SettingsView() {
-  const [activeTab, setActiveTab] = useState('templates');
+  const [activeTab, setActiveTab] = useState('general');
   const [templates, setTemplates] = useState<any[]>([]);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (activeTab === 'templates') {
@@ -24,6 +26,7 @@ export default function SettingsView() {
   }
 
   const tabs = [
+    { id: 'general', name: 'General', icon: Settings },
     { id: 'ai', name: 'AI Settings', icon: Sparkles },
     { id: 'enrichment', name: 'Data Enrichment', icon: Database },
     { id: 'templates', name: 'Email Templates', icon: Mail },
@@ -62,6 +65,76 @@ export default function SettingsView() {
         </div>
 
         <div className="p-6">
+          {activeTab === 'general' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">General Settings</h2>
+                <p className="text-sm text-slate-600 mt-1">
+                  Manage your appearance and preferences
+                </p>
+              </div>
+
+              <div className="bg-white border border-slate-200 rounded-lg p-6">
+                <h3 className="text-base font-semibold text-slate-900 mb-4">Appearance</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-3">
+                      Theme
+                    </label>
+                    <div className="grid grid-cols-3 gap-3">
+                      <button
+                        onClick={() => setTheme('light')}
+                        className={`flex flex-col items-center space-y-2 p-4 border-2 rounded-lg transition ${
+                          theme === 'light'
+                            ? 'border-blue-600 bg-blue-50'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <Sun className={`w-6 h-6 ${theme === 'light' ? 'text-blue-600' : 'text-slate-600'}`} />
+                        <span className={`text-sm font-medium ${theme === 'light' ? 'text-blue-900' : 'text-slate-700'}`}>
+                          Light
+                        </span>
+                      </button>
+
+                      <button
+                        onClick={() => setTheme('dark')}
+                        className={`flex flex-col items-center space-y-2 p-4 border-2 rounded-lg transition ${
+                          theme === 'dark'
+                            ? 'border-blue-600 bg-blue-50'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <Moon className={`w-6 h-6 ${theme === 'dark' ? 'text-blue-600' : 'text-slate-600'}`} />
+                        <span className={`text-sm font-medium ${theme === 'dark' ? 'text-blue-900' : 'text-slate-700'}`}>
+                          Dark
+                        </span>
+                      </button>
+
+                      <button
+                        onClick={() => setTheme('auto')}
+                        className={`flex flex-col items-center space-y-2 p-4 border-2 rounded-lg transition ${
+                          theme === 'auto'
+                            ? 'border-blue-600 bg-blue-50'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <Monitor className={`w-6 h-6 ${theme === 'auto' ? 'text-blue-600' : 'text-slate-600'}`} />
+                        <span className={`text-sm font-medium ${theme === 'auto' ? 'text-blue-900' : 'text-slate-700'}`}>
+                          Auto
+                        </span>
+                      </button>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2">
+                      {theme === 'auto'
+                        ? 'Theme will match your system preferences'
+                        : `${theme === 'light' ? 'Light' : 'Dark'} theme is active`}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'enrichment' && <EnrichmentProvidersPanel />}
 
           {activeTab === 'ai' && (
