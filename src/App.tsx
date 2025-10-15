@@ -11,6 +11,8 @@ import AdvancedAnalyticsView from './components/dashboard/AdvancedAnalyticsView'
 import SettingsView from './components/dashboard/SettingsView';
 import KnowledgeBaseView from './components/dashboard/KnowledgeBaseView';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { UndoRedoProvider } from './contexts/UndoRedoContext';
 
 function App() {
   const [currentView, setCurrentView] = useState('');
@@ -54,10 +56,12 @@ function App() {
   };
 
   return (
-    <>
-      <DashboardLayout>{renderView()}</DashboardLayout>
-      <KeyboardShortcuts onNavigate={setCurrentView} />
-    </>
+    <ThemeProvider>
+      <UndoRedoProvider>
+        <DashboardLayout currentView={currentView}>{renderView()}</DashboardLayout>
+        <KeyboardShortcuts onNavigate={setCurrentView} />
+      </UndoRedoProvider>
+    </ThemeProvider>
   );
 }
 

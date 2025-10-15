@@ -9,7 +9,9 @@ import {
   Sparkles,
   ArrowUp,
   ArrowDown,
+  Settings,
 } from 'lucide-react';
+import CustomizableDashboard from './CustomizableDashboard';
 
 interface DashboardStats {
   prospects: number;
@@ -30,6 +32,16 @@ export default function DashboardHome() {
     activeCadences: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'default' | 'custom'>(() => {
+    const stored = localStorage.getItem('dashboard-view-mode');
+    return (stored as 'default' | 'custom') || 'default';
+  });
+
+  const toggleViewMode = () => {
+    const newMode = viewMode === 'default' ? 'custom' : 'default';
+    setViewMode(newMode);
+    localStorage.setItem('dashboard-view-mode', newMode);
+  };
 
   useEffect(() => {
     loadDashboardStats();
@@ -133,15 +145,28 @@ export default function DashboardHome() {
     },
   ];
 
+  if (viewMode === 'custom') {
+    return <CustomizableDashboard />;
+  }
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900">
-          Revenue Operations Dashboard
-        </h1>
-        <p className="text-slate-600 mt-1">
-          Here's what's happening with your revenue operations
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+            Revenue Operations Dashboard
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            Here's what's happening with your revenue operations
+          </p>
+        </div>
+        <button
+          onClick={toggleViewMode}
+          className="flex items-center space-x-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-lg transition"
+        >
+          <Settings className="w-5 h-5" />
+          <span>Customize</span>
+        </button>
       </div>
 
       {loading ? (

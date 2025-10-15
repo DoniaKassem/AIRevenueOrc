@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { UserPlus, Search, Filter, TrendingUp, Mail, Phone, Target, Download, PhoneCall, Sparkles, Database, Brain } from 'lucide-react';
+import { UserPlus, Search, Filter, TrendingUp, Mail, Phone, Target, Download, PhoneCall, Sparkles, Database, Brain, Upload, Send } from 'lucide-react';
 import AddProspectForm from '../forms/AddProspectForm';
 import EnrollCadenceForm from '../forms/EnrollCadenceForm';
 import LogCallForm from '../forms/LogCallForm';
 import AIEmailComposer from '../forms/AIEmailComposer';
 import EnrichContactForm from '../forms/EnrichContactForm';
 import AIInsightsPanel from './AIInsightsPanel';
+import BulkEmailForm from '../forms/BulkEmailForm';
+import BulkImportForm from '../forms/BulkImportForm';
 import { exportToCSV } from '../../utils/exportCSV';
 
 const DEFAULT_TEAM_ID = '00000000-0000-0000-0000-000000000001';
@@ -34,6 +36,8 @@ export default function ProspectsView() {
   const [showAiEmailModal, setShowAiEmailModal] = useState(false);
   const [showEnrichModal, setShowEnrichModal] = useState(false);
   const [showAIInsightsModal, setShowAIInsightsModal] = useState(false);
+  const [showBulkEmailModal, setShowBulkEmailModal] = useState(false);
+  const [showBulkImportModal, setShowBulkImportModal] = useState(false);
   const [selectedProspectForEmail, setSelectedProspectForEmail] = useState<Prospect | null>(null);
   const [selectedProspectForEnrich, setSelectedProspectForEnrich] = useState<Prospect | null>(null);
   const [selectedProspectForInsights, setSelectedProspectForInsights] = useState<Prospect | null>(null);
@@ -120,18 +124,18 @@ export default function ProspectsView() {
         </div>
         <div className="flex items-center space-x-3">
           <button
+            onClick={() => setShowBulkImportModal(true)}
+            className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-lg transition"
+          >
+            <Upload className="w-5 h-5" />
+            <span>Import</span>
+          </button>
+          <button
             onClick={handleExport}
-            className="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg transition"
+            className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-lg transition"
           >
             <Download className="w-5 h-5" />
             <span>Export</span>
-          </button>
-          <button
-            onClick={() => setShowLogCallModal(true)}
-            className="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg transition"
-          >
-            <PhoneCall className="w-5 h-5" />
-            <span>Log Call</span>
           </button>
           <button
             onClick={() => setShowAddModal(true)}
@@ -186,6 +190,13 @@ export default function ProspectsView() {
             </span>
             <div className="flex items-center space-x-2">
               <button
+                onClick={() => setShowBulkEmailModal(true)}
+                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-sm transition"
+              >
+                <Send className="w-4 h-4" />
+                <span>Send Email</span>
+              </button>
+              <button
                 onClick={() => setShowEnrollModal(true)}
                 className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm transition"
               >
@@ -207,14 +218,14 @@ export default function ProspectsView() {
                   }));
                   exportToCSV(exportData, 'selected_prospects');
                 }}
-                className="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-sm transition"
+                className="flex items-center space-x-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-sm transition"
               >
                 <Download className="w-4 h-4" />
                 <span>Export</span>
               </button>
               <button
                 onClick={() => setSelectedProspects(new Set())}
-                className="text-sm text-slate-600 hover:text-slate-900 px-3 py-1.5"
+                className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 px-3 py-1.5"
               >
                 Clear
               </button>
@@ -464,6 +475,23 @@ export default function ProspectsView() {
           }}
         />
       )}
+
+      <BulkEmailForm
+        isOpen={showBulkEmailModal}
+        onClose={() => setShowBulkEmailModal(false)}
+        prospectIds={Array.from(selectedProspects)}
+        prospectCount={selectedProspects.size}
+        onSuccess={() => {
+          loadProspects();
+          setSelectedProspects(new Set());
+        }}
+      />
+
+      <BulkImportForm
+        isOpen={showBulkImportModal}
+        onClose={() => setShowBulkImportModal(false)}
+        onSuccess={loadProspects}
+      />
     </div>
   );
 }
