@@ -15,6 +15,7 @@ import PipelineHealthView from './components/dashboard/PipelineHealthView';
 import LookAlikeProspectsView from './components/dashboard/LookAlikeProspectsView';
 import PerformanceDashboardView from './components/dashboard/PerformanceDashboardView';
 import SocialSellingView from './components/dashboard/SocialSellingView';
+import IntegrationsView from './components/dashboard/IntegrationsView';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
@@ -63,6 +64,8 @@ function App() {
         return <PerformanceDashboardView />;
       case 'social':
         return <SocialSellingView />;
+      case 'integrations':
+        return <IntegrationsView />;
       case 'settings':
         return <SettingsView />;
       default:
