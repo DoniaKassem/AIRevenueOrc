@@ -12,6 +12,9 @@ import SettingsView from './components/dashboard/SettingsView';
 import KnowledgeBaseView from './components/dashboard/KnowledgeBaseView';
 import DailyTasksView from './components/dashboard/DailyTasksView';
 import PipelineHealthView from './components/dashboard/PipelineHealthView';
+import LookAlikeProspectsView from './components/dashboard/LookAlikeProspectsView';
+import PerformanceDashboardView from './components/dashboard/PerformanceDashboardView';
+import SocialSellingView from './components/dashboard/SocialSellingView';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
@@ -54,6 +57,12 @@ function App() {
         return <DailyTasksView />;
       case 'health':
         return <PipelineHealthView />;
+      case 'lookalike':
+        return <LookAlikeProspectsView />;
+      case 'performance':
+        return <PerformanceDashboardView />;
+      case 'social':
+        return <SocialSellingView />;
       case 'settings':
         return <SettingsView />;
       default:

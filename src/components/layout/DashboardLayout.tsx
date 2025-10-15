@@ -16,6 +16,9 @@ import {
   Redo2,
   CheckSquare,
   Activity,
+  UserCheck,
+  Award,
+  Linkedin,
 } from 'lucide-react';
 import AIAssistantChat from '../common/AIAssistantChat';
 import GlobalSearch from '../common/GlobalSearch';
@@ -53,6 +56,9 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
     { name: 'Dashboard', icon: LayoutDashboard, href: '#', view: '' },
     { name: 'Daily Tasks', icon: CheckSquare, href: '#tasks', view: 'tasks' },
     { name: 'Pipeline Health', icon: Activity, href: '#health', view: 'health' },
+    { name: 'Look-Alike Prospects', icon: UserCheck, href: '#lookalike', view: 'lookalike' },
+    { name: 'Performance', icon: Award, href: '#performance', view: 'performance' },
+    { name: 'Social Selling', icon: Linkedin, href: '#social', view: 'social' },
     { name: 'Prospects', icon: Users, href: '#prospects', view: 'prospects' },
     { name: 'Cadences', icon: Target, href: '#cadences', view: 'cadences' },
     { name: 'Pipeline', icon: TrendingUp, href: '#pipeline', view: 'pipeline' },
