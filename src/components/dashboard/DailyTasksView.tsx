@@ -15,87 +15,11 @@ export default function DailyTasksView() {
   async function loadTasks() {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const mockTasks: Task[] = [
-        {
-          id: '1',
-          type: 'call',
-          title: 'Follow up with Sarah Chen at TechCorp',
-          description: 'Demo request detected in last email - high interest!',
-          prospect_id: '1',
-          prospect_name: 'Sarah Chen',
-          company: 'TechCorp',
-          priority_score: 95,
-          urgency: 'critical',
-          estimated_minutes: 20,
-          context: {
-            deal_value: 125000,
-            close_probability: 0.75,
-          },
-        },
-        {
-          id: '2',
-          type: 'email',
-          title: 'Send pricing info to John Smith',
-          description: 'Prospect asked about pricing in previous conversation',
-          prospect_id: '2',
-          prospect_name: 'John Smith',
-          company: 'Acme Corp',
-          priority_score: 88,
-          urgency: 'high',
-          estimated_minutes: 15,
-          context: {
-            days_since_contact: 2,
-          },
-        },
-        {
-          id: '3',
-          type: 'meeting',
-          title: 'Demo with Emma Davis',
-          description: 'Scheduled product demonstration',
-          prospect_id: '3',
-          prospect_name: 'Emma Davis',
-          company: 'StartupXYZ',
-          priority_score: 85,
-          urgency: 'high',
-          due_date: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
-          estimated_minutes: 45,
-          context: {
-            deal_value: 75000,
-          },
-        },
-        {
-          id: '4',
-          type: 'follow_up',
-          title: 'Re-engage Michael Brown',
-          description: 'No response in 7 days - try different approach',
-          prospect_id: '4',
-          prospect_name: 'Michael Brown',
-          company: 'Enterprise LLC',
-          priority_score: 65,
-          urgency: 'medium',
-          estimated_minutes: 10,
-          context: {
-            days_since_contact: 7,
-          },
-        },
-        {
-          id: '5',
-          type: 'research',
-          title: 'Research DataFlow Inc',
-          description: 'New inbound lead - gather company intelligence',
-          prospect_id: '5',
-          prospect_name: 'Lisa Anderson',
-          company: 'DataFlow Inc',
-          priority_score: 55,
-          urgency: 'medium',
-          estimated_minutes: 30,
-          context: {},
-        },
-      ];
-
-      setTasks(mockTasks);
+      const realTasks = await generateDailyTasks('00000000-0000-0000-0000-000000000001');
+      setTasks(realTasks);
+    } catch (error) {
+      console.error('Error loading tasks:', error);
+      setTasks([]);
     } finally {
       setLoading(false);
     }

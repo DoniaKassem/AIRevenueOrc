@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AlertTriangle, TrendingDown, TrendingUp, Activity, DollarSign, Clock } from 'lucide-react';
 import { DealHealthMetrics, calculateDealHealth } from '../../lib/pipelineHealthMonitor';
+import { supabase } from '../../lib/supabase';
 
 export default function PipelineHealthView() {
   const [deals, setDeals] = useState<any[]>([]);
@@ -15,110 +16,32 @@ export default function PipelineHealthView() {
   async function loadPipelineHealth() {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { data: deals, error } = await supabase
+        .from('deals')
+        .select('*')
+        .not('stage', 'in', '(closed_won,closed_lost)');
 
-      const mockMetrics: DealHealthMetrics[] = [
-        {
-          deal_id: '1',
-          health_score: 35,
-          risk_level: 'critical',
-          risk_factors: [
-            {
-              category: 'Stagnation',
-              description: 'No activity for 21 days',
-              severity: 'high',
-              impact_score: 30,
-            },
-            {
-              category: 'Single Threading',
-              description: 'Only one stakeholder engaged on high-value deal',
-              severity: 'high',
-              impact_score: 20,
-            },
-          ],
-          recommendations: [
-            'Schedule immediate check-in call to re-engage',
-            'Identify and engage additional stakeholders',
-          ],
-          last_calculated: new Date().toISOString(),
-        },
-        {
-          deal_id: '2',
-          health_score: 55,
-          risk_level: 'high',
-          risk_factors: [
-            {
-              category: 'Timeline Risk',
-              description: 'Deal closes in 5 days but still in discovery stage',
-              severity: 'high',
-              impact_score: 25,
-            },
-          ],
-          recommendations: ['Accelerate deal progression or adjust close date'],
-          last_calculated: new Date().toISOString(),
-        },
-        {
-          deal_id: '3',
-          health_score: 75,
-          risk_level: 'medium',
-          risk_factors: [
-            {
-              category: 'Engagement Quality',
-              description: 'Only email communication - no calls or meetings',
-              severity: 'medium',
-              impact_score: 15,
-            },
-          ],
-          recommendations: ['Schedule a discovery call to deepen relationship'],
-          last_calculated: new Date().toISOString(),
-        },
-        {
-          deal_id: '4',
-          health_score: 92,
-          risk_level: 'low',
-          risk_factors: [],
-          recommendations: ['Keep momentum going with regular check-ins'],
-          last_calculated: new Date().toISOString(),
-        },
-      ];
+      if (error) {
+        console.error('Error loading deals:', error);
+        setHealthMetrics([]);
+        setDeals([]);
+        return;
+      }
 
-      const mockDeals = [
-        {
-          id: '1',
-          name: 'Acme Corp - Enterprise Plan',
-          company: 'Acme Corp',
-          value: 125000,
-          stage: 'discovery',
-          probability: 0.25,
-        },
-        {
-          id: '2',
-          name: 'TechStart - Growth Plan',
-          company: 'TechStart',
-          value: 75000,
-          stage: 'discovery',
-          probability: 0.3,
-        },
-        {
-          id: '3',
-          name: 'DataFlow - Pro Plan',
-          company: 'DataFlow',
-          value: 45000,
-          stage: 'proposal',
-          probability: 0.6,
-        },
-        {
-          id: '4',
-          name: 'InnovateXYZ - Custom Solution',
-          company: 'InnovateXYZ',
-          value: 200000,
-          stage: 'negotiation',
-          probability: 0.85,
-        },
-      ];
+      const realDeals = deals || [];
+      setDeals(realDeals);
 
-      setHealthMetrics(mockMetrics);
-      setDeals(mockDeals);
+      const metrics: DealHealthMetrics[] = [];
+      for (const deal of realDeals) {
+        const health = await calculateDealHealth(deal.id);
+        metrics.push(health);
+      }
+
+      setHealthMetrics(metrics);
+    } catch (error) {
+      console.error('Error calculating pipeline health:', error);
+      setHealthMetrics([]);
+      setDeals([]);
     } finally {
       setLoading(false);
     }

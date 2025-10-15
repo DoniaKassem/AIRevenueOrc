@@ -221,31 +221,13 @@ export default function DashboardHome() {
                 <Sparkles className="w-5 h-5 text-blue-600" />
               </div>
               <div className="space-y-4">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-sm font-medium text-blue-900 mb-1">
-                    Burning Hot Lead Detected
+                <div className="text-center py-12">
+                  <Sparkles className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                  <p className="text-sm text-slate-600">
+                    AI insights will appear here as you interact with prospects
                   </p>
-                  <p className="text-sm text-blue-700">
-                    Sarah Chen at TechCorp has a lead score of 85 with very positive sentiment.
-                    Suggested action: Schedule demo within 2 hours.
-                  </p>
-                </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-sm font-medium text-green-900 mb-1">
-                    Demo Request Identified
-                  </p>
-                  <p className="text-sm text-green-700">
-                    AI detected explicit demo request from John Smith.
-                    Meeting scheduling automation triggered.
-                  </p>
-                </div>
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                  <p className="text-sm font-medium text-orange-900 mb-1">
-                    Negative Sentiment Alert
-                  </p>
-                  <p className="text-sm text-orange-700">
-                    Emma Davis sent reply with negative sentiment (-0.65).
-                    Recommended: Personal phone call to address concerns.
+                  <p className="text-xs text-slate-500 mt-2">
+                    Start adding prospects and deals to see intelligent recommendations
                   </p>
                 </div>
               </div>
@@ -261,38 +243,14 @@ export default function DashboardHome() {
                 </button>
               </div>
               <div className="space-y-4">
-                <div className="flex items-start space-x-3 pb-4 border-b border-slate-200">
-                  <div className="bg-blue-100 p-2 rounded-lg">
-                    <Mail className="w-4 h-4 text-blue-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-slate-900">
-                      Email sent to John Smith
-                    </p>
-                    <p className="text-xs text-slate-600 mt-1">2 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3 pb-4 border-b border-slate-200">
-                  <div className="bg-green-100 p-2 rounded-lg">
-                    <Phone className="w-4 h-4 text-green-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-slate-900">
-                      Call completed with Emma Davis
-                    </p>
-                    <p className="text-xs text-slate-600 mt-1">5 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="bg-purple-100 p-2 rounded-lg">
-                    <Target className="w-4 h-4 text-purple-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-slate-900">
-                      Deal moved to Proposal stage
-                    </p>
-                    <p className="text-xs text-slate-600 mt-1">1 day ago</p>
-                  </div>
+                <div className="text-center py-12">
+                  <Users className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                  <p className="text-sm text-slate-600">
+                    No recent activity
+                  </p>
+                  <p className="text-xs text-slate-500 mt-2">
+                    Activity will appear here as you engage with prospects
+                  </p>
                 </div>
               </div>
             </div>
