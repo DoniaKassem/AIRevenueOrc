@@ -14,6 +14,8 @@ import {
   Sun,
   Undo2,
   Redo2,
+  CheckSquare,
+  Activity,
 } from 'lucide-react';
 import AIAssistantChat from '../common/AIAssistantChat';
 import GlobalSearch from '../common/GlobalSearch';
@@ -49,12 +51,13 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
 
   const navigation = [
     { name: 'Dashboard', icon: LayoutDashboard, href: '#', view: '' },
+    { name: 'Daily Tasks', icon: CheckSquare, href: '#tasks', view: 'tasks' },
+    { name: 'Pipeline Health', icon: Activity, href: '#health', view: 'health' },
     { name: 'Prospects', icon: Users, href: '#prospects', view: 'prospects' },
     { name: 'Cadences', icon: Target, href: '#cadences', view: 'cadences' },
     { name: 'Pipeline', icon: TrendingUp, href: '#pipeline', view: 'pipeline' },
     { name: 'Conversations', icon: MessageSquare, href: '#conversations', view: 'conversations' },
     { name: 'Analytics', icon: BarChart3, href: '#analytics', view: 'analytics' },
-    { name: 'Advanced Analytics', icon: LineChart, href: '#advanced-analytics', view: 'advanced-analytics' },
     { name: 'AI Agents', icon: Sparkles, href: '#ai', view: 'ai' },
     { name: 'Knowledge Base', icon: Book, href: '#knowledge', view: 'knowledge' },
   ];

@@ -10,6 +10,8 @@ import AnalyticsView from './components/dashboard/AnalyticsView';
 import AdvancedAnalyticsView from './components/dashboard/AdvancedAnalyticsView';
 import SettingsView from './components/dashboard/SettingsView';
 import KnowledgeBaseView from './components/dashboard/KnowledgeBaseView';
+import DailyTasksView from './components/dashboard/DailyTasksView';
+import PipelineHealthView from './components/dashboard/PipelineHealthView';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
@@ -48,6 +50,10 @@ function App() {
         return <AnalyticsView />;
       case 'advanced-analytics':
         return <AdvancedAnalyticsView />;
+      case 'tasks':
+        return <DailyTasksView />;
+      case 'health':
+        return <PipelineHealthView />;
       case 'settings':
         return <SettingsView />;
       default:
