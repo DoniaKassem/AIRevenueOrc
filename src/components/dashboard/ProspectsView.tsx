@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { UserPlus, Search, Filter, TrendingUp, Mail, Phone, Target, Download, PhoneCall, Sparkles, Database } from 'lucide-react';
+import { UserPlus, Search, Filter, TrendingUp, Mail, Phone, Target, Download, PhoneCall, Sparkles, Database, Brain } from 'lucide-react';
 import AddProspectForm from '../forms/AddProspectForm';
 import EnrollCadenceForm from '../forms/EnrollCadenceForm';
 import LogCallForm from '../forms/LogCallForm';
 import AIEmailComposer from '../forms/AIEmailComposer';
 import EnrichContactForm from '../forms/EnrichContactForm';
+import AIInsightsPanel from './AIInsightsPanel';
 import { exportToCSV } from '../../utils/exportCSV';
 
 const DEFAULT_TEAM_ID = '00000000-0000-0000-0000-000000000001';
@@ -32,8 +33,10 @@ export default function ProspectsView() {
   const [showLogCallModal, setShowLogCallModal] = useState(false);
   const [showAiEmailModal, setShowAiEmailModal] = useState(false);
   const [showEnrichModal, setShowEnrichModal] = useState(false);
+  const [showAIInsightsModal, setShowAIInsightsModal] = useState(false);
   const [selectedProspectForEmail, setSelectedProspectForEmail] = useState<Prospect | null>(null);
   const [selectedProspectForEnrich, setSelectedProspectForEnrich] = useState<Prospect | null>(null);
+  const [selectedProspectForInsights, setSelectedProspectForInsights] = useState<Prospect | null>(null);
   const [selectedProspects, setSelectedProspects] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -357,23 +360,33 @@ export default function ProspectsView() {
                       <div className="flex items-center space-x-3">
                         <button
                           onClick={() => {
+                            setSelectedProspectForInsights(prospect);
+                            setShowAIInsightsModal(true);
+                          }}
+                          className="flex items-center space-x-1 text-sm text-green-600 hover:text-green-700 font-medium"
+                          title="View AI Insights"
+                        >
+                          <Brain className="w-4 h-4" />
+                          <span>Insights</span>
+                        </button>
+                        <button
+                          onClick={() => {
                             setSelectedProspectForEmail(prospect);
                             setShowAiEmailModal(true);
                           }}
                           className="flex items-center space-x-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
                         >
                           <Sparkles className="w-4 h-4" />
-                          <span>AI Email</span>
+                          <span>Email</span>
                         </button>
                         <button
                           onClick={() => {
                             setSelectedProspectForEnrich(prospect);
                             setShowEnrichModal(true);
                           }}
-                          className="flex items-center space-x-1 text-sm text-purple-600 hover:text-purple-700 font-medium"
+                          className="flex items-center space-x-1 text-sm text-slate-600 hover:text-slate-700 font-medium"
                         >
                           <Database className="w-4 h-4" />
-                          <span>Enrich</span>
                         </button>
                       </div>
                     </td>
@@ -438,6 +451,17 @@ export default function ProspectsView() {
             company: selectedProspectForEnrich.company || undefined,
           }}
           onSuccess={loadProspects}
+        />
+      )}
+
+      {showAIInsightsModal && selectedProspectForInsights && (
+        <AIInsightsPanel
+          prospectId={selectedProspectForInsights.id}
+          prospectName={`${selectedProspectForInsights.first_name || ''} ${selectedProspectForInsights.last_name || ''}`.trim()}
+          onClose={() => {
+            setShowAIInsightsModal(false);
+            setSelectedProspectForInsights(null);
+          }}
         />
       )}
     </div>

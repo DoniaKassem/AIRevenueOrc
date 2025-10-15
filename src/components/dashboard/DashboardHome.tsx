@@ -198,29 +198,29 @@ export default function DashboardHome() {
               <div className="space-y-4">
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-sm font-medium text-blue-900 mb-1">
-                    High Priority Prospect
+                    Burning Hot Lead Detected
                   </p>
                   <p className="text-sm text-blue-700">
-                    Sarah Chen at TechCorp has viewed your pricing page 3 times
-                    this week. Consider reaching out.
+                    Sarah Chen at TechCorp has a lead score of 85 with very positive sentiment.
+                    Suggested action: Schedule demo within 2 hours.
                   </p>
                 </div>
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                   <p className="text-sm font-medium text-green-900 mb-1">
-                    Deal at Risk
+                    Demo Request Identified
                   </p>
                   <p className="text-sm text-green-700">
-                    Acme Inc deal shows 85% risk score. Schedule a follow-up
-                    call this week.
+                    AI detected explicit demo request from John Smith.
+                    Meeting scheduling automation triggered.
                   </p>
                 </div>
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                  <p className="text-sm font-medium text-purple-900 mb-1">
-                    Cadence Optimization
+                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                  <p className="text-sm font-medium text-orange-900 mb-1">
+                    Negative Sentiment Alert
                   </p>
-                  <p className="text-sm text-purple-700">
-                    Email Step 3 in "Outbound Q4" has 45% open rate. Consider A/B
-                    testing subject lines.
+                  <p className="text-sm text-orange-700">
+                    Emma Davis sent reply with negative sentiment (-0.65).
+                    Recommended: Personal phone call to address concerns.
                   </p>
                 </div>
               </div>
