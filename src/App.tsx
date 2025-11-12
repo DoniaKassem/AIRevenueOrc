@@ -17,7 +17,6 @@ import PerformanceDashboardView from './components/dashboard/PerformanceDashboar
 import SocialSellingView from './components/dashboard/SocialSellingView';
 import IntegrationsView from './components/dashboard/IntegrationsView';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
-import { ThemeProvider } from './contexts/ThemeContext';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
 
 function App() {
@@ -74,12 +73,10 @@ function App() {
   };
 
   return (
-    <ThemeProvider>
-      <UndoRedoProvider>
-        <DashboardLayout currentView={currentView}>{renderView()}</DashboardLayout>
-        <KeyboardShortcuts onNavigate={setCurrentView} />
-      </UndoRedoProvider>
-    </ThemeProvider>
+    <UndoRedoProvider>
+      <DashboardLayout currentView={currentView}>{renderView()}</DashboardLayout>
+      <KeyboardShortcuts onNavigate={setCurrentView} />
+    </UndoRedoProvider>
   );
 }
 
