@@ -60,6 +60,7 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
     { name: 'Look-Alike Prospects', icon: UserCheck, href: '#lookalike', view: 'lookalike' },
     { name: 'Performance', icon: Award, href: '#performance', view: 'performance' },
     { name: 'Social Selling', icon: Linkedin, href: '#social', view: 'social' },
+    { name: 'Integration Hub', icon: Plug, href: '#integration-hub', view: 'integration-hub' },
     { name: 'Integrations', icon: Plug, href: '#integrations', view: 'integrations' },
     { name: 'Prospects', icon: Users, href: '#prospects', view: 'prospects' },
     { name: 'Cadences', icon: Target, href: '#cadences', view: 'cadences' },

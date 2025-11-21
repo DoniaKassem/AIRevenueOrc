@@ -16,6 +16,9 @@ import LookAlikeProspectsView from './components/dashboard/LookAlikeProspectsVie
 import PerformanceDashboardView from './components/dashboard/PerformanceDashboardView';
 import SocialSellingView from './components/dashboard/SocialSellingView';
 import IntegrationsView from './components/dashboard/IntegrationsView';
+import IntegrationControlCenter from './components/dashboard/IntegrationControlCenter';
+import IntegrationMarketplace from './components/dashboard/IntegrationMarketplace';
+import IntegrationFlowBuilder from './components/dashboard/IntegrationFlowBuilder';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
 
@@ -36,6 +39,19 @@ function App() {
   }, []);
 
   const renderView = () => {
+    // Helper function to navigate between integration hub views
+    const handleIntegrationNavigate = (view: string, integrationId?: string) => {
+      if (view === 'control-center') {
+        window.location.hash = 'integration-hub';
+      } else if (view === 'marketplace') {
+        window.location.hash = 'integration-marketplace';
+      } else if (view === 'flow-builder') {
+        window.location.hash = 'integration-flows';
+      } else if (view === 'integration-details' && integrationId) {
+        window.location.hash = `integration-details-${integrationId}`;
+      }
+    };
+
     switch (currentView) {
       case 'prospects':
         return <ProspectsView />;
@@ -65,6 +81,12 @@ function App() {
         return <SocialSellingView />;
       case 'integrations':
         return <IntegrationsView />;
+      case 'integration-hub':
+        return <IntegrationControlCenter onNavigate={handleIntegrationNavigate} />;
+      case 'integration-marketplace':
+        return <IntegrationMarketplace onNavigate={handleIntegrationNavigate} />;
+      case 'integration-flows':
+        return <IntegrationFlowBuilder onNavigate={handleIntegrationNavigate} />;
       case 'settings':
         return <SettingsView />;
       default:
