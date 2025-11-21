@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIRevenueOrc</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 300px;
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #202124;
+    }
+
+    .popup-container {
+      padding: 16px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #1a73e8;
+    }
+
+    .status {
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .status-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .status-label {
+      color: #5f6368;
+      font-size: 13px;
+    }
+
+    .status-value {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .status-connected {
+      color: #34a853;
+    }
+
+    .status-disconnected {
+      color: #ea4335;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background: #1a73e8;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #1765cc;
+    }
+
+    button.secondary {
+      background: #ffffff;
+      color: #1a73e8;
+      border: 1px solid #1a73e8;
+    }
+
+    button.secondary:hover {
+      background: #f8f9fa;
+    }
+
+    .footer {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e0e0e0;
+      text-align: center;
+      font-size: 12px;
+      color: #5f6368;
+    }
+  </style>
+</head>
+<body>
+  <div class="popup-container">
+    <div class="header">
+      <h1>AIRevenueOrc</h1>
+    </div>
+
+    <div class="status">
+      <div class="status-item">
+        <span class="status-label">Status:</span>
+        <span class="status-value" id="connection-status">Checking...</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">User:</span>
+        <span class="status-value" id="user-email">-</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="open-dashboard-btn">Open Dashboard</button>
+      <button id="settings-btn" class="secondary">Settings</button>
+      <button id="logout-btn" class="secondary" style="display: none;">Sign Out</button>
+    </div>
+
+    <div class="footer">
+      <p>Version 1.0.0</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

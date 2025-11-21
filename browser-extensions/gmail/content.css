@@ -1,0 +1,159 @@
+/**
+ * AIRevenueOrc Gmail Extension - Content Styles
+ */
+
+/* Sidebar */
+.airevenueorc-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e0e0e0;
+  z-index: 9999;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Compose Toolbar */
+.airevenueorc-compose-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border-top: 1px solid #e0e0e0;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.airevenueorc-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  color: #5f6368;
+  font-size: 13px;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.airevenueorc-btn:hover {
+  background: #f8f9fa;
+  border-color: #c6c6c6;
+}
+
+.airevenueorc-btn.active {
+  background: #1a73e8;
+  color: #ffffff;
+  border-color: #1a73e8;
+}
+
+.airevenueorc-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Modal */
+.airevenueorc-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.airevenueorc-modal-content {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.airevenueorc-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.airevenueorc-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.airevenueorc-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #5f6368;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.airevenueorc-modal-close:hover {
+  background: #f1f3f4;
+}
+
+.airevenueorc-modal-body {
+  padding: 16px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Templates List */
+.airevenueorc-templates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.airevenueorc-template-item {
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.airevenueorc-template-item:hover {
+  border-color: #1a73e8;
+  background: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.airevenueorc-template-item h4 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.airevenueorc-template-item p {
+  margin: 0;
+  font-size: 13px;
+  color: #5f6368;
+  line-height: 1.4;
+}
