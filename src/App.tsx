@@ -19,6 +19,7 @@ import IntegrationsView from './components/dashboard/IntegrationsView';
 import IntegrationControlCenter from './components/dashboard/IntegrationControlCenter';
 import IntegrationMarketplace from './components/dashboard/IntegrationMarketplace';
 import IntegrationFlowBuilder from './components/dashboard/IntegrationFlowBuilder';
+import ResearchCenter from './components/dashboard/ResearchCenter';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
 
@@ -87,6 +88,8 @@ function App() {
         return <IntegrationMarketplace onNavigate={handleIntegrationNavigate} />;
       case 'integration-flows':
         return <IntegrationFlowBuilder onNavigate={handleIntegrationNavigate} />;
+      case 'research-center':
+        return <ResearchCenter />;
       case 'settings':
         return <SettingsView />;
       default:
