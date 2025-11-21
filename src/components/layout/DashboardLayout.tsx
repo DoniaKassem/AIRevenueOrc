@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import AIAssistantChat from '../common/AIAssistantChat';
 import GlobalSearch from '../common/GlobalSearch';
+import NotificationCenter from '../common/NotificationCenter';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useUndoRedo } from '../../contexts/UndoRedoContext';
 import { useEffect } from 'react';
@@ -168,6 +169,7 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
             >
               <Redo2 className="w-5 h-5" />
             </button>
+            <NotificationCenter />
           </div>
         </div>
         <div className="p-8">{children}</div>
