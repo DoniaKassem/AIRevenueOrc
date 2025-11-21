@@ -21,9 +21,12 @@ import IntegrationMarketplace from './components/dashboard/IntegrationMarketplac
 import IntegrationFlowBuilder from './components/dashboard/IntegrationFlowBuilder';
 import ResearchCenter from './components/dashboard/ResearchCenter';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
+import LoginForm from './components/auth/LoginForm';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
+import { useAuth } from './contexts/AuthContext';
 
 function App() {
+  const { isAuthenticated, loading } = useAuth();
   const [currentView, setCurrentView] = useState('');
 
   useEffect(() => {
@@ -38,6 +41,25 @@ function App() {
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+          <p className="mt-4 text-slate-600 dark:text-slate-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login form if not authenticated
+  if (!isAuthenticated) {
+    return <LoginForm />;
+  }
+
+  // Show dashboard if authenticated
 
   const renderView = () => {
     // Helper function to navigate between integration hub views

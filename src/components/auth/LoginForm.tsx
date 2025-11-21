@@ -18,12 +18,11 @@ export default function LoginForm() {
 
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password, fullName);
-        if (error) throw error;
+        await signUp(email, password, fullName);
       } else {
-        const { error } = await signIn(email, password);
-        if (error) throw error;
+        await signIn(email, password);
       }
+      // If successful, App.tsx will redirect to dashboard
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
