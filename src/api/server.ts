@@ -31,7 +31,10 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 
 // Routes
 import searchRoutes from './search/routes';
-// Other routes would be imported here
+import teamRoutes from './team/routes';
+import apiKeysRoutes from './apiKeys/routes';
+import billingRoutes from './billing/routes';
+import userRoutes from './user/routes';
 
 // =============================================
 // SERVER CONFIGURATION
@@ -189,6 +192,12 @@ export function createServer(): Express {
   // Search routes (already built)
   v1Router.use('/search', requireAuth, searchRoutes);
 
+  // SaaS Feature routes
+  v1Router.use('/team', requireAuth, teamRoutes);
+  v1Router.use('/api-keys', requireAuth, apiKeysRoutes);
+  v1Router.use('/billing', requireAuth, billingRoutes);
+  v1Router.use('/me', requireAuth, userRoutes);
+
   // Email routes (to be implemented)
   // v1Router.use('/email', requireAuth, emailRoutes);
 
@@ -203,16 +212,7 @@ export function createServer(): Express {
   // Analytics routes (to be implemented)
   // v1Router.use('/analytics', requireAuth, analyticsRoutes);
 
-  // User/Org management routes
-  v1Router.get('/me', requireAuth, async (req, res) => {
-    res.json({
-      success: true,
-      data: {
-        user: req.user,
-      },
-    });
-  });
-
+  // Organization management routes
   v1Router.get('/organizations/:id', requireAuth, async (req, res) => {
     // Get organization details
     res.json({ success: true, message: 'Get organization endpoint' });

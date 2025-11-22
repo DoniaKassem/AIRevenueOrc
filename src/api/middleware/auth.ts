@@ -155,66 +155,51 @@ async function authenticateWithApiKey(
   next: NextFunction
 ) {
   try {
-    // Get API key from database
-    const { data: key, error } = await supabase
-      .from('api_keys')
-      .select('*, users(id, email, organization_id, role, permissions)')
-      .eq('key', apiKey)
-      .eq('is_active', true)
+    // Import apiKeyService
+    const { apiKeyService } = await import('../../lib/apiKeys/apiKeyService');
+
+    // Validate API key
+    const validation = await apiKeyService.validateAPIKey(apiKey);
+
+    if (!validation) {
+      return res.status(401).json({
+        success: false,
+        error: 'Unauthorized',
+        message: 'Invalid or expired API key',
+      });
+    }
+
+    // Get user from database
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('id, email, organization_id, role, permissions')
+      .eq('id', validation.userId)
       .single();
 
-    if (error || !key) {
+    if (error || !user) {
       return res.status(401).json({
         success: false,
         error: 'Unauthorized',
-        message: 'Invalid API key',
+        message: 'User not found for API key',
       });
     }
 
-    // Check if expired
-    if (key.expires_at && new Date(key.expires_at) < new Date()) {
-      return res.status(401).json({
-        success: false,
-        error: 'Unauthorized',
-        message: 'API key expired',
-      });
-    }
-
-    // Check IP whitelist
-    if (key.ip_whitelist && key.ip_whitelist.length > 0) {
-      const clientIp = req.ip || req.connection.remoteAddress;
-      if (!key.ip_whitelist.includes(clientIp)) {
-        return res.status(403).json({
-          success: false,
-          error: 'Forbidden',
-          message: 'IP address not whitelisted',
-        });
-      }
-    }
-
-    // Update last used
-    await supabase
-      .from('api_keys')
-      .update({ last_used_at: new Date().toISOString() })
-      .eq('id', key.id);
-
-    // Attach user to request
-    const user = key.users;
+    // Attach user to request with API key scopes
     req.user = {
       id: user.id,
       email: user.email,
       organizationId: user.organization_id,
       role: user.role,
-      permissions: key.scopes || user.permissions || [],
+      permissions: validation.scopes,
     };
     req.apiKey = apiKey;
 
     next();
-  } catch (error) {
+  } catch (error: any) {
     return res.status(401).json({
       success: false,
       error: 'Unauthorized',
-      message: 'Authentication failed',
+      message: 'Invalid API key',
     });
   }
 }
