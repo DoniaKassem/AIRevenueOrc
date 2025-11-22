@@ -15,8 +15,10 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
+import { randomBytes } from 'crypto';
 import { createClient } from '@supabase/supabase-js';
+import { AuthUser } from '../../types/database';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -26,14 +28,6 @@ const supabase = createClient(
 // =============================================
 // TYPES & INTERFACES
 // =============================================
-
-export interface AuthUser {
-  id: string;
-  email: string;
-  organizationId: string;
-  role: 'admin' | 'user' | 'viewer';
-  permissions: string[];
-}
 
 export interface JWTPayload {
   userId: string;
@@ -97,7 +91,7 @@ async function authenticateWithJWT(
     // Get user from database
     const { data: user, error } = await supabase
       .from('users')
-      .select('id, email, organization_id, role, permissions')
+      .select('id, email, organization_id, role, permissions, status')
       .eq('id', decoded.userId)
       .single();
 
@@ -110,7 +104,7 @@ async function authenticateWithJWT(
     }
 
     // Check if user is active
-    if (user.status === 'suspended') {
+    if ((user as any).status === 'suspended') {
       return res.status(403).json({
         success: false,
         error: 'Forbidden',
@@ -125,6 +119,7 @@ async function authenticateWithJWT(
       organizationId: user.organization_id,
       role: user.role,
       permissions: user.permissions || [],
+      isAdmin: user.role === 'admin',
     };
 
     next();
@@ -191,6 +186,7 @@ async function authenticateWithApiKey(
       organizationId: user.organization_id,
       role: user.role,
       permissions: validation.scopes,
+      isAdmin: user.role === 'admin',
     };
     req.apiKey = apiKey;
 
@@ -449,7 +445,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<{
  */
 export function generateApiKey(): string {
   const prefix = 'sk_live_'; // Secret key for live environment
-  const random = crypto.randomBytes(32).toString('hex');
+  const random = randomBytes(32).toString('hex');
   return prefix + random;
 }
 
@@ -517,7 +513,7 @@ export async function createSession(params: {
   ipAddress?: string;
   userAgent?: string;
 }): Promise<string> {
-  const sessionToken = crypto.randomBytes(32).toString('hex');
+  const sessionToken = randomBytes(32).toString('hex');
 
   await supabase.from('sessions').insert({
     user_id: params.userId,
@@ -553,6 +549,7 @@ export async function validateSession(sessionToken: string): Promise<AuthUser | 
     organizationId: user.organization_id,
     role: user.role,
     permissions: user.permissions || [],
+    isAdmin: user.role === 'admin',
   };
 }
 
@@ -569,8 +566,6 @@ export async function revokeSession(sessionToken: string): Promise<void> {
 // =============================================
 // EXPORTS
 // =============================================
-
-import crypto from 'crypto';
 
 export default {
   requireAuth,

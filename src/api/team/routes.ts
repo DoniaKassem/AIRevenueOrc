@@ -14,6 +14,7 @@
 import { Router, Request, Response } from 'express';
 import { teamService } from '../../lib/team/teamService';
 import { APIError, ValidationError } from '../middleware/errorHandler';
+import '../express'; // Import type extensions
 
 const router = Router();
 

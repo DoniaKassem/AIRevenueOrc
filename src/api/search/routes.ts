@@ -19,8 +19,9 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { createSearchService, SearchQuery } from '@/lib/search/searchService';
-import { createSearchIndexer } from '@/lib/search/searchIndexer';
+import { createSearchService, SearchQuery, SearchableObjectType } from '../../lib/search/searchService';
+import { createSearchIndexer } from '../../lib/search/searchIndexer';
+import '../express'; // Import type extensions
 
 const router = Router();
 const searchService = createSearchService();
@@ -95,8 +96,8 @@ router.post('/search', requireAuth, async (req: Request, res: Response) => {
 
     const query: SearchQuery = {
       q: q.trim(),
-      organizationId: req.user.organizationId,
-      userId: req.user.id,
+      organizationId: req.user!.organizationId,
+      userId: req.user!.id,
       types,
       statuses,
       owners,
@@ -143,8 +144,8 @@ router.get('/search/suggest', requireAuth, async (req: Request, res: Response) =
 
     const suggestions = await searchService.suggest({
       q: (q as string).trim(),
-      organizationId: req.user.organizationId,
-      types: types ? (types as string).split(',') : undefined,
+      organizationId: req.user!.organizationId,
+      types: types ? ((types as string).split(',') as SearchableObjectType[]) : undefined,
       limit: limit ? parseInt(limit as string) : 5,
     });
 
@@ -167,7 +168,7 @@ router.get('/search/suggest', requireAuth, async (req: Request, res: Response) =
  */
 router.post('/search/track-click', requireAuth, async (req: Request, res: Response) => {
   try {
-    const { searchId, resultId, resultType, position } = req.body;
+    const { searchId: _searchId, resultId: _resultId, resultType: _resultType, position: _position } = req.body;
 
     // Update search analytics with click
     // This would update the search_analytics record
@@ -196,7 +197,7 @@ router.post('/search/save', requireAuth, async (req: Request, res: Response) => 
     }
 
     const savedSearch = await searchService.saveSearch({
-      userId: req.user.id,
+      userId: req.user!.id,
       name,
       query,
       isPinned: isPinned || false,
@@ -221,7 +222,7 @@ router.post('/search/save', requireAuth, async (req: Request, res: Response) => 
  */
 router.get('/search/saved', requireAuth, async (req: Request, res: Response) => {
   try {
-    const savedSearches = await searchService.getSavedSearches(req.user.id);
+    const savedSearches = await searchService.getSavedSearches(req.user!.id);
 
     res.json({
       success: true,
@@ -294,7 +295,7 @@ router.get('/search/analytics', requireAuth, async (req: Request, res: Response)
     const { dateFrom, dateTo, userId } = req.query;
 
     const analytics = await searchService.getSearchAnalytics({
-      organizationId: req.user.organizationId,
+      organizationId: req.user!.organizationId,
       userId: userId as string | undefined,
       dateFrom: dateFrom ? new Date(dateFrom as string) : undefined,
       dateTo: dateTo ? new Date(dateTo as string) : undefined,
@@ -319,7 +320,7 @@ router.get('/search/analytics', requireAuth, async (req: Request, res: Response)
  */
 router.get('/search/popular', requireAuth, async (req: Request, res: Response) => {
   try {
-    const { limit } = req.query;
+    const { limit: _limit } = req.query;
 
     // Query popular queries from database view
     // This would come from the search_popular_queries table

@@ -13,6 +13,7 @@
 import { Router, Request, Response } from 'express';
 import { userService } from '../../lib/user/userService';
 import { APIError, ValidationError } from '../middleware/errorHandler';
+import '../express'; // Import type extensions
 
 const router = Router();
 

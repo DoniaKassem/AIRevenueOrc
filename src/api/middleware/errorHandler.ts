@@ -16,6 +16,17 @@
 
 import { Request, Response, NextFunction } from 'express';
 import * as Sentry from '@sentry/node';
+import { AuthUser } from '../../types/database';
+
+// Extend Express Request to include user
+declare global {
+  namespace Express {
+    interface Request {
+      user?: AuthUser;
+      apiKey?: string;
+    }
+  }
+}
 
 // =============================================
 // CUSTOM ERROR CLASSES

@@ -567,7 +567,7 @@ export function createSSOOrchestrator(): SSOOrchestrator {
 /**
  * Check if organization has SSO enabled
  */
-export async function isS SOEnabled(organizationId: string): Promise<boolean> {
+export async function isSSOEnabled(organizationId: string): Promise<boolean> {
   const { data } = await supabase
     .from('sso_providers')
     .select('id')

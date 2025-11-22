@@ -10,6 +10,7 @@
 import { Router, Request, Response } from 'express';
 import { apiKeyService } from '../../lib/apiKeys/apiKeyService';
 import { APIError, ValidationError } from '../middleware/errorHandler';
+import '../express'; // Import type extensions
 
 const router = Router();
 

@@ -12,6 +12,7 @@
 import { Router, Request, Response } from 'express';
 import { billingService } from '../../lib/billing/billingService';
 import { APIError, ValidationError } from '../middleware/errorHandler';
+import '../express'; // Import type extensions
 
 const router = Router();
 

@@ -46,6 +46,9 @@ export interface User {
   organizationId: string;
   role: 'admin' | 'user' | 'viewer';
   permissions?: string[];
+  name?: string | null;
+  team_id?: string | null;
+  teamId?: string;
 }
 
 export interface LoginRequest {

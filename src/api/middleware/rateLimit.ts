@@ -17,6 +17,17 @@
 
 import { Request, Response, NextFunction } from 'express';
 import { createClient } from 'redis';
+import { AuthUser } from '../../types/database';
+
+// Extend Express Request to include user
+declare global {
+  namespace Express {
+    interface Request {
+      user?: AuthUser;
+      apiKey?: string;
+    }
+  }
+}
 
 // Redis client (optional, falls back to in-memory)
 let redis: ReturnType<typeof createClient> | null = null;
