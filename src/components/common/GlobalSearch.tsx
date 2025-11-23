@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { supabase } from '../../lib/supabase';
-import { Search, X, TrendingUp, Users, Target, Mail, Calendar } from 'lucide-react';
+import apiClient from '../../lib/api-client';
+import { Search, X, TrendingUp, Users, Target, Mail, Calendar, FileText, MessageSquare, Ticket } from 'lucide-react';
 
 interface SearchResult {
   id: string;
-  type: 'prospect' | 'deal' | 'cadence';
+  type: 'prospect' | 'deal' | 'cadence' | 'email_campaign' | 'template' | 'ticket' | 'knowledge_article';
   title: string;
   subtitle: string;
   metadata?: string;
+  score?: number;
 }
 
 interface GlobalSearchProps {
@@ -19,6 +20,8 @@ export default function GlobalSearch({ onSelectResult }: GlobalSearchProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchTime, setSearchTime] = useState<number>(0);
+  const [totalResults, setTotalResults] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -57,67 +60,97 @@ export default function GlobalSearch({ onSelectResult }: GlobalSearchProps) {
       performSearch(query);
     } else {
       setResults([]);
+      setSearchTime(0);
+      setTotalResults(0);
     }
   }, [query]);
 
   async function performSearch(searchQuery: string) {
     setLoading(true);
+    const startTime = performance.now();
+
     try {
-      const searchTerm = searchQuery.toLowerCase();
-
-      const [prospectsData, dealsData, cadencesData] = await Promise.all([
-        supabase
-          .from('prospects')
-          .select('*')
-          .or(`first_name.ilike.%${searchTerm}%,last_name.ilike.%${searchTerm}%,email.ilike.%${searchTerm}%,company.ilike.%${searchTerm}%`)
-          .limit(5),
-        supabase
-          .from('deals')
-          .select('*')
-          .or(`deal_name.ilike.%${searchTerm}%,company_name.ilike.%${searchTerm}%`)
-          .limit(5),
-        supabase
-          .from('cadences')
-          .select('*')
-          .or(`name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`)
-          .limit(5),
-      ]);
-
-      const searchResults: SearchResult[] = [];
-
-      (prospectsData.data || []).forEach((prospect) => {
-        searchResults.push({
-          id: prospect.id,
-          type: 'prospect',
-          title: `${prospect.first_name || ''} ${prospect.last_name || ''}`.trim() || 'No Name',
-          subtitle: prospect.company || 'No Company',
-          metadata: prospect.title || prospect.email || '',
-        });
+      const response = await apiClient.search({
+        q: searchQuery,
+        limit: 20, // Get more results for better UX
       });
 
-      (dealsData.data || []).forEach((deal) => {
-        searchResults.push({
-          id: deal.id,
-          type: 'deal',
-          title: deal.deal_name || 'Unnamed Deal',
-          subtitle: `$${deal.amount.toLocaleString()} • ${deal.stage}`,
-          metadata: deal.company_name || '',
-        });
-      });
+      const endTime = performance.now();
+      setSearchTime(endTime - startTime);
+      setTotalResults(response.total || 0);
 
-      (cadencesData.data || []).forEach((cadence) => {
-        searchResults.push({
-          id: cadence.id,
-          type: 'cadence',
-          title: cadence.name,
-          subtitle: cadence.description || 'No description',
-          metadata: cadence.is_active ? 'Active' : 'Paused',
-        });
+      // Transform API results to component format
+      const searchResults: SearchResult[] = (response.results || []).map((result: any) => {
+        const type = result.type || 'prospect';
+
+        // Format based on type
+        let title = '';
+        let subtitle = '';
+        let metadata = '';
+
+        switch (type) {
+          case 'prospect':
+            title = result.name || `${result.first_name || ''} ${result.last_name || ''}`.trim() || 'No Name';
+            subtitle = result.company || 'No Company';
+            metadata = result.title || result.email || '';
+            break;
+
+          case 'deal':
+            title = result.deal_name || result.name || 'Unnamed Deal';
+            subtitle = result.amount ? `$${result.amount.toLocaleString()} • ${result.stage || 'Unknown'}` : result.stage || 'Unknown Stage';
+            metadata = result.company_name || '';
+            break;
+
+          case 'cadence':
+            title = result.name || 'Unnamed Cadence';
+            subtitle = result.description || 'No description';
+            metadata = result.is_active ? 'Active' : 'Paused';
+            break;
+
+          case 'email_campaign':
+            title = result.name || 'Unnamed Campaign';
+            subtitle = `${result.total_recipients || 0} recipients`;
+            metadata = result.status || '';
+            break;
+
+          case 'template':
+            title = result.name || 'Unnamed Template';
+            subtitle = result.type || 'Email Template';
+            metadata = result.category || '';
+            break;
+
+          case 'ticket':
+            title = result.subject || 'No Subject';
+            subtitle = `${result.status || 'Unknown'} • Priority: ${result.priority || 'Normal'}`;
+            metadata = result.assignee_name || 'Unassigned';
+            break;
+
+          case 'knowledge_article':
+            title = result.title || 'Untitled Article';
+            subtitle = result.summary || result.content?.substring(0, 100) || 'No summary';
+            metadata = result.category || '';
+            break;
+
+          default:
+            title = result.name || result.title || 'Unknown';
+            subtitle = '';
+        }
+
+        return {
+          id: result.id,
+          type,
+          title,
+          subtitle,
+          metadata,
+          score: result.score,
+        };
       });
 
       setResults(searchResults);
     } catch (error) {
       console.error('Search error:', error);
+      setResults([]);
+      setTotalResults(0);
     } finally {
       setLoading(false);
     }
@@ -139,6 +172,14 @@ export default function GlobalSearch({ onSelectResult }: GlobalSearchProps) {
         return <TrendingUp className="w-4 h-4 text-green-600" />;
       case 'cadence':
         return <Target className="w-4 h-4 text-purple-600" />;
+      case 'email_campaign':
+        return <Mail className="w-4 h-4 text-cyan-600" />;
+      case 'template':
+        return <FileText className="w-4 h-4 text-orange-600" />;
+      case 'ticket':
+        return <Ticket className="w-4 h-4 text-red-600" />;
+      case 'knowledge_article':
+        return <MessageSquare className="w-4 h-4 text-indigo-600" />;
       default:
         return <Search className="w-4 h-4 text-slate-600" />;
     }
@@ -152,6 +193,14 @@ export default function GlobalSearch({ onSelectResult }: GlobalSearchProps) {
         return 'bg-green-100 text-green-700';
       case 'cadence':
         return 'bg-purple-100 text-purple-700';
+      case 'email_campaign':
+        return 'bg-cyan-100 text-cyan-700';
+      case 'template':
+        return 'bg-orange-100 text-orange-700';
+      case 'ticket':
+        return 'bg-red-100 text-red-700';
+      case 'knowledge_article':
+        return 'bg-indigo-100 text-indigo-700';
       default:
         return 'bg-slate-100 text-slate-700';
     }
@@ -186,7 +235,7 @@ export default function GlobalSearch({ onSelectResult }: GlobalSearchProps) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search prospects, deals, cadences..."
+                placeholder="Search across all your data..."
                 className="flex-1 text-lg outline-none placeholder:text-slate-400"
               />
               {query && (
@@ -279,6 +328,12 @@ export default function GlobalSearch({ onSelectResult }: GlobalSearchProps) {
                   Close
                 </span>
               </div>
+              {totalResults > 0 && (
+                <div className="text-xs text-slate-500">
+                  <span className="font-medium">{totalResults}</span> results in{' '}
+                  <span className="font-medium">{searchTime.toFixed(0)}ms</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

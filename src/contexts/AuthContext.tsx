@@ -1,74 +1,70 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
-
-interface Profile {
-  id: string;
-  email: string;
-  full_name: string | null;
-  role: 'rep' | 'manager' | 'admin';
-  team_id: string | null;
-}
+import apiClient, { User, TokenStorage, wsClient } from '../lib/api-client';
+import type { AuthUser } from '../types/database';
 
 interface AuthContextType {
   user: User | null;
-  session: Session | null;
-  profile: Profile | null;
+  profile: User | null; // Backward compatibility alias for user
+  authUser: AuthUser | null; // Stricter auth user type with permissions
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
+  isAuthenticated: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
   signOut: () => Promise<void>;
+  register: (email: string, password: string, name: string, organizationName?: string) => Promise<void>;
+  signUp: (email: string, password: string, name: string, organizationName?: string) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        loadProfile(session.user.id);
-      } else {
-        setLoading(false);
-      }
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      (async () => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await loadProfile(session.user.id);
-        } else {
-          setProfile(null);
-          setLoading(false);
-        }
-      })();
-    });
-
-    return () => subscription.unsubscribe();
+    // Check if user is already logged in
+    if (TokenStorage.hasTokens()) {
+      loadCurrentUser();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
-  async function loadProfile(userId: string) {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, email, full_name, role, team_id')
-        .eq('id', userId)
-        .maybeSingle();
+  useEffect(() => {
+    // Connect to WebSocket when user is authenticated
+    if (user) {
+      wsClient.connect();
+    }
 
-      if (error) throw error;
-      setProfile(data);
+    return () => {
+      wsClient.disconnect();
+    };
+  }, [user]);
+
+  async function loadCurrentUser() {
+    try {
+      const currentUser = await apiClient.getCurrentUser();
+      setUser(currentUser);
+
+      // Create AuthUser from the User data for stricter typing
+      const authUserData: AuthUser = {
+        id: currentUser.id,
+        email: currentUser.email,
+        organizationId: currentUser.organizationId,
+        role: currentUser.role as 'admin' | 'user' | 'viewer',
+        permissions: currentUser.permissions || [],
+        isAdmin: currentUser.role === 'admin',
+      };
+      setAuthUser(authUserData);
     } catch (error) {
-      console.error('Error loading profile:', error);
+      console.error('Failed to load current user:', error);
+      // If loading user fails, clear tokens (they might be invalid)
+      TokenStorage.clearTokens();
+      setUser(null);
+      setAuthUser(null);
     } finally {
       setLoading(false);
     }
@@ -76,55 +72,89 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      return { error };
+      const response = await apiClient.login({ email, password });
+      setUser(response.user);
+
+      // Create AuthUser from the User data for stricter typing
+      const authUserData: AuthUser = {
+        id: response.user.id,
+        email: response.user.email,
+        organizationId: response.user.organizationId,
+        role: response.user.role as 'admin' | 'user' | 'viewer',
+        permissions: response.user.permissions || [],
+        isAdmin: response.user.role === 'admin',
+      };
+      setAuthUser(authUserData);
     } catch (error) {
-      return { error: error as Error };
+      console.error('Login failed:', error);
+      throw error;
     }
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const login = signIn; // Alias for backward compatibility
+
+  const signUp = async (email: string, password: string, name: string, organizationName?: string) => {
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+      const response = await apiClient.register({
         email,
         password,
+        name,
+        organizationName,
       });
+      setUser(response.user);
 
-      if (authError) return { error: authError };
-
-      if (authData.user) {
-        const { error: profileError } = await supabase.from('profiles').insert({
-          id: authData.user.id,
-          email,
-          full_name: fullName,
-          role: 'rep',
-        });
-
-        if (profileError) return { error: profileError };
-      }
-
-      return { error: null };
+      // Create AuthUser from the User data for stricter typing
+      const authUserData: AuthUser = {
+        id: response.user.id,
+        email: response.user.email,
+        organizationId: response.user.organizationId,
+        role: response.user.role as 'admin' | 'user' | 'viewer',
+        permissions: response.user.permissions || [],
+        isAdmin: response.user.role === 'admin',
+      };
+      setAuthUser(authUserData);
     } catch (error) {
-      return { error: error as Error };
+      console.error('Registration failed:', error);
+      throw error;
     }
   };
+
+  const register = signUp; // Alias for alternative naming
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setProfile(null);
+    try {
+      await apiClient.logout();
+      setUser(null);
+      setAuthUser(null);
+      wsClient.disconnect();
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Even if API call fails, clear local state
+      setUser(null);
+      setAuthUser(null);
+      TokenStorage.clearTokens();
+    }
   };
 
-  const value = {
+  const logout = signOut; // Alias for backward compatibility
+
+  const refreshUser = async () => {
+    await loadCurrentUser();
+  };
+
+  const value: AuthContextType = {
     user,
-    session,
-    profile,
+    profile: user, // Backward compatibility alias
+    authUser,
     loading,
+    isAuthenticated: !!user,
+    login,
     signIn,
-    signUp,
+    logout,
     signOut,
+    register,
+    signUp,
+    refreshUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

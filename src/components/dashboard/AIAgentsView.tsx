@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
+import type { Database } from '../../types/database';
 import {
   Sparkles,
   Target,
@@ -13,16 +14,17 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
-interface AgentExecution {
-  id: string;
-  agent_type: string;
-  status: string;
-  results: any;
-  created_at: string;
+type AiPrediction = Database['public']['Tables']['ai_predictions']['Row'];
+
+interface ReasoningData {
+  summary?: string;
+  next_steps?: string[];
+  gaps?: string[];
+  [key: string]: any;
 }
 
 export default function AIAgentsView() {
-  const [executions, setExecutions] = useState<AgentExecution[]>([]);
+  const [executions, setExecutions] = useState<AiPrediction[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
 
@@ -265,20 +267,20 @@ export default function AIAgentsView() {
                       </span>
                     </div>
 
-                    {execution.reasoning?.summary && (
+                    {(execution.reasoning as ReasoningData)?.summary && (
                       <p className="text-sm text-slate-700 mb-3">
-                        {execution.reasoning.summary}
+                        {(execution.reasoning as ReasoningData).summary}
                       </p>
                     )}
 
-                    {execution.reasoning?.next_steps &&
-                      execution.reasoning.next_steps.length > 0 && (
+                    {(execution.reasoning as ReasoningData)?.next_steps &&
+                      (execution.reasoning as ReasoningData).next_steps!.length > 0 && (
                         <div className="mt-3">
                           <p className="text-xs font-medium text-slate-600 mb-2">
                             Recommended Actions:
                           </p>
                           <ul className="space-y-1">
-                            {execution.reasoning.next_steps
+                            {(execution.reasoning as ReasoningData).next_steps!
                               .slice(0, 3)
                               .map((step: string, idx: number) => (
                                 <li
@@ -293,10 +295,10 @@ export default function AIAgentsView() {
                         </div>
                       )}
 
-                    {execution.reasoning?.gaps &&
-                      execution.reasoning.gaps.length > 0 && (
+                    {(execution.reasoning as ReasoningData)?.gaps &&
+                      (execution.reasoning as ReasoningData).gaps!.length > 0 && (
                         <div className="mt-3 flex flex-wrap gap-2">
-                          {execution.reasoning.gaps.map(
+                          {(execution.reasoning as ReasoningData).gaps!.map(
                             (gap: string, idx: number) => (
                               <span
                                 key={idx}

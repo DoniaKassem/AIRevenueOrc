@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "AIRevenueOrc for Gmail",
+  "version": "1.0.0",
+  "description": "Enterprise sales engagement platform for Gmail - Log emails, use templates, track engagement",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "identity"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://*.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["sidebar.html", "sidebar.css", "sidebar.js"],
+      "matches": ["https://mail.google.com/*"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

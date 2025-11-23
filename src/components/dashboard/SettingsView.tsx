@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Settings, Mail, Plug, Bell, Shield, Plus, Sparkles, Key, Database, Moon, Sun, Monitor } from 'lucide-react';
+import { Settings, Mail, Plug, Bell, Shield, Plus, Sparkles, Key, Database, Moon, Sun, Monitor, Users, CreditCard, User as UserIcon } from 'lucide-react';
 import EmailTemplateForm from '../forms/EmailTemplateForm';
 import EnrichmentProvidersPanel from './EnrichmentProvidersPanel';
+import TeamManagement from '../settings/TeamManagement';
+import APIKeysManagement from '../settings/APIKeysManagement';
+import UserProfile from '../settings/UserProfile';
+import BillingSubscription from '../settings/BillingSubscription';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export default function SettingsView() {
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState('profile');
   const [templates, setTemplates] = useState<any[]>([]);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -26,6 +30,10 @@ export default function SettingsView() {
   }
 
   const tabs = [
+    { id: 'profile', name: 'Profile', icon: UserIcon },
+    { id: 'team', name: 'Team', icon: Users },
+    { id: 'billing', name: 'Billing', icon: CreditCard },
+    { id: 'api-keys', name: 'API Keys', icon: Key },
     { id: 'general', name: 'General', icon: Settings },
     { id: 'ai', name: 'AI Settings', icon: Sparkles },
     { id: 'enrichment', name: 'Data Enrichment', icon: Database },
@@ -65,6 +73,14 @@ export default function SettingsView() {
         </div>
 
         <div className="p-6">
+          {activeTab === 'profile' && <UserProfile />}
+
+          {activeTab === 'team' && <TeamManagement />}
+
+          {activeTab === 'billing' && <BillingSubscription />}
+
+          {activeTab === 'api-keys' && <APIKeysManagement />}
+
           {activeTab === 'general' && (
             <div className="space-y-6">
               <div>

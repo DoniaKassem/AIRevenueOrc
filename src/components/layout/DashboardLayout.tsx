@@ -20,9 +20,11 @@ import {
   Award,
   Linkedin,
   Plug,
+  Search,
 } from 'lucide-react';
 import AIAssistantChat from '../common/AIAssistantChat';
 import GlobalSearch from '../common/GlobalSearch';
+import NotificationCenter from '../common/NotificationCenter';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useUndoRedo } from '../../contexts/UndoRedoContext';
 import { useEffect } from 'react';
@@ -61,6 +63,7 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
     { name: 'Performance', icon: Award, href: '#performance', view: 'performance' },
     { name: 'Social Selling', icon: Linkedin, href: '#social', view: 'social' },
     { name: 'Integration Hub', icon: Plug, href: '#integration-hub', view: 'integration-hub' },
+    { name: 'Research Center', icon: Search, href: '#research-center', view: 'research-center' },
     { name: 'Integrations', icon: Plug, href: '#integrations', view: 'integrations' },
     { name: 'Prospects', icon: Users, href: '#prospects', view: 'prospects' },
     { name: 'Cadences', icon: Target, href: '#cadences', view: 'cadences' },
@@ -166,6 +169,7 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
             >
               <Redo2 className="w-5 h-5" />
             </button>
+            <NotificationCenter />
           </div>
         </div>
         <div className="p-8">{children}</div>
