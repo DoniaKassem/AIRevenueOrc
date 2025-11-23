@@ -463,6 +463,24 @@ async function executeActionNode(
     case 'create_activity':
       return await createActivityAction(context, config, input);
 
+    case 'enrich_prospect':
+      return await enrichProspectAction(context, config, input);
+
+    case 'enrich_company':
+      return await enrichCompanyAction(context, config, input);
+
+    case 'extract_signals':
+      return await extractSignalsAction(context, config, input);
+
+    case 'linkedin_profile_view':
+      return await linkedInProfileViewAction(context, config, input);
+
+    case 'linkedin_connect':
+      return await linkedInConnectAction(context, config, input);
+
+    case 'linkedin_message':
+      return await linkedInMessageAction(context, config, input);
+
     default:
       console.warn(`Unknown action type: ${actionType}`);
       return input;
@@ -762,4 +780,242 @@ export async function getFlowExecutions(
   }
 
   return data || [];
+}
+
+// =============================================
+// NEW ENRICHMENT & LINKEDIN ACTIONS
+// =============================================
+
+/**
+ * Enrich prospect with external data
+ */
+async function enrichProspectAction(
+  context: FlowExecutionContext,
+  config: any,
+  input: any
+): Promise<any> {
+  try {
+    // Dynamic import to avoid circular dependencies
+    const { enrichProspectWorkflowAction } = await import('./enrichment/externalApiConnectors');
+
+    const prospectId = config.prospectId || input.prospectId || input.prospect?.id;
+    if (!prospectId) {
+      throw new Error('No prospect ID provided for enrichment');
+    }
+
+    const results = await enrichProspectWorkflowAction(context.teamId, prospectId);
+
+    return {
+      ...input,
+      enrichmentResults: results,
+      prospectEnriched: true,
+    };
+  } catch (error: any) {
+    console.error('Prospect enrichment action failed:', error);
+    return { ...input, enrichmentError: error.message };
+  }
+}
+
+/**
+ * Enrich company with external data
+ */
+async function enrichCompanyAction(
+  context: FlowExecutionContext,
+  config: any,
+  input: any
+): Promise<any> {
+  try {
+    const { enrichCompanyWorkflowAction } = await import('./enrichment/externalApiConnectors');
+
+    const companyProfileId = config.companyProfileId || input.companyProfileId || input.company?.id;
+    const domain = config.domain || input.domain || input.company?.website;
+
+    if (!companyProfileId || !domain) {
+      throw new Error('No company ID or domain provided for enrichment');
+    }
+
+    const results = await enrichCompanyWorkflowAction(context.teamId, companyProfileId, domain);
+
+    return {
+      ...input,
+      enrichmentResults: results,
+      companyEnriched: true,
+    };
+  } catch (error: any) {
+    console.error('Company enrichment action failed:', error);
+    return { ...input, enrichmentError: error.message };
+  }
+}
+
+/**
+ * Extract intent signals from company data
+ */
+async function extractSignalsAction(
+  context: FlowExecutionContext,
+  config: any,
+  input: any
+): Promise<any> {
+  try {
+    const { extractSignalsWorkflowAction } = await import('./research/advancedSignalExtraction');
+
+    const companyProfileId = config.companyProfileId || input.companyProfileId || input.company?.id;
+    if (!companyProfileId) {
+      throw new Error('No company ID provided for signal extraction');
+    }
+
+    const signalAnalysis = await extractSignalsWorkflowAction(context.teamId, companyProfileId);
+
+    return {
+      ...input,
+      signalAnalysis,
+      intentScore: signalAnalysis.overallIntentScore,
+      recommendedAction: signalAnalysis.recommendedAction,
+    };
+  } catch (error: any) {
+    console.error('Signal extraction action failed:', error);
+    return { ...input, signalExtractionError: error.message };
+  }
+}
+
+/**
+ * View LinkedIn profile (track impression)
+ */
+async function linkedInProfileViewAction(
+  context: FlowExecutionContext,
+  config: any,
+  input: any
+): Promise<any> {
+  try {
+    const prospectId = config.prospectId || input.prospectId || input.prospect?.id;
+    const linkedInUrl = config.linkedInUrl || input.linkedInUrl || input.prospect?.linkedin_url;
+
+    if (!linkedInUrl) {
+      throw new Error('No LinkedIn URL provided');
+    }
+
+    // Log LinkedIn activity
+    await supabase.from('linkedin_activities').insert({
+      team_id: context.teamId,
+      prospect_id: prospectId,
+      action_type: 'profile_view',
+      target_url: linkedInUrl,
+      status: 'completed',
+      completed_at: new Date().toISOString(),
+    });
+
+    return {
+      ...input,
+      linkedInProfileViewed: true,
+      linkedInUrl,
+    };
+  } catch (error: any) {
+    console.error('LinkedIn profile view action failed:', error);
+    return { ...input, linkedInError: error.message };
+  }
+}
+
+/**
+ * Send LinkedIn connection request
+ */
+async function linkedInConnectAction(
+  context: FlowExecutionContext,
+  config: any,
+  input: any
+): Promise<any> {
+  try {
+    const prospectId = config.prospectId || input.prospectId || input.prospect?.id;
+    const linkedInUrl = config.linkedInUrl || input.linkedInUrl || input.prospect?.linkedin_url;
+    const message = config.message || input.connectionMessage || '';
+
+    if (!linkedInUrl) {
+      throw new Error('No LinkedIn URL provided');
+    }
+
+    // Log LinkedIn activity
+    await supabase.from('linkedin_activities').insert({
+      team_id: context.teamId,
+      prospect_id: prospectId,
+      action_type: 'connection_request',
+      target_url: linkedInUrl,
+      message,
+      status: 'completed',
+      completed_at: new Date().toISOString(),
+    });
+
+    // Update prospect status
+    if (prospectId) {
+      await supabase
+        .from('prospects')
+        .update({
+          linkedin_connection_status: 'pending',
+          linkedin_last_contacted_at: new Date().toISOString(),
+        })
+        .eq('id', prospectId);
+    }
+
+    return {
+      ...input,
+      linkedInConnectionSent: true,
+      linkedInUrl,
+    };
+  } catch (error: any) {
+    console.error('LinkedIn connection action failed:', error);
+    return { ...input, linkedInError: error.message };
+  }
+}
+
+/**
+ * Send LinkedIn message
+ */
+async function linkedInMessageAction(
+  context: FlowExecutionContext,
+  config: any,
+  input: any
+): Promise<any> {
+  try {
+    const prospectId = config.prospectId || input.prospectId || input.prospect?.id;
+    const linkedInUrl = config.linkedInUrl || input.linkedInUrl || input.prospect?.linkedin_url;
+    const message = config.message || input.message || '';
+
+    if (!linkedInUrl || !message) {
+      throw new Error('LinkedIn URL and message are required');
+    }
+
+    // Log LinkedIn activity
+    await supabase.from('linkedin_activities').insert({
+      team_id: context.teamId,
+      prospect_id: prospectId,
+      action_type: 'message',
+      target_url: linkedInUrl,
+      message,
+      status: 'completed',
+      completed_at: new Date().toISOString(),
+    });
+
+    // Update prospect message count
+    if (prospectId) {
+      const { data: prospect } = await supabase
+        .from('prospects')
+        .select('linkedin_message_count')
+        .eq('id', prospectId)
+        .single();
+
+      await supabase
+        .from('prospects')
+        .update({
+          linkedin_message_count: (prospect?.linkedin_message_count || 0) + 1,
+          linkedin_last_contacted_at: new Date().toISOString(),
+        })
+        .eq('id', prospectId);
+    }
+
+    return {
+      ...input,
+      linkedInMessageSent: true,
+      linkedInUrl,
+    };
+  } catch (error: any) {
+    console.error('LinkedIn message action failed:', error);
+    return { ...input, linkedInError: error.message };
+  }
 }
