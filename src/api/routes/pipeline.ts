@@ -7,6 +7,7 @@ import { Router, Request, Response } from 'express';
 import { authenticateToken, AuthenticatedRequest } from '../middleware/auth';
 import {
   runProspectToOutreachPipeline,
+  runAdvancedPipeline,
   importFromSalesforceAndEnrich,
   importFromHubSpotAndEnrich,
   quickEnrichAndEmail,
@@ -16,6 +17,9 @@ import {
 import { runEnrichmentPipeline } from '../../lib/enrichment/multiSourcePipeline';
 import { generatePersonalizedEmail, generateOutreachSequence } from '../../lib/ai/enhancedEmailWriter';
 import { transformSignalsToOutreach } from '../../lib/ai/signalToOutreach';
+import { generateAdvancedPersonalization } from '../../lib/ai/advancedPersonalization';
+import { analyzeEmailPerformance, optimizeEmail, createEmailOptimizer } from '../../lib/ai/emailOptimizer';
+import { generateIndustryTailoredEmail, createIndustryMessagingEngine } from '../../lib/ai/industryMessaging';
 import { supabase } from '../../lib/supabase';
 
 const router = Router();
@@ -64,12 +68,82 @@ router.post('/run', authenticateToken, async (req: AuthenticatedRequest, res: Re
           signalsUsed: result.generatedEmail.signalsUsed,
         } : null,
         generatedSequence: result.generatedSequence,
+        advancedPersonalization: result.advancedPersonalization,
+        industryMessaging: result.industryMessaging,
       },
     });
   } catch (error) {
     console.error('Pipeline error:', error);
     res.status(500).json({
       error: error instanceof Error ? error.message : 'Pipeline execution failed',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/run-advanced
+ * Run the complete pipeline with all advanced AI features enabled
+ */
+router.post('/run-advanced', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectId, prospectData, crmEntityId, crmEntityType, productContext } = req.body;
+
+    if (!prospectId && !prospectData && !crmEntityId) {
+      return res.status(400).json({
+        error: 'Must provide prospectId, prospectData, or crmEntityId',
+      });
+    }
+
+    const input: PipelineInput = {};
+    if (prospectId) input.prospectId = prospectId;
+    if (prospectData) input.prospectData = prospectData;
+    if (crmEntityId) {
+      input.crmEntityId = crmEntityId;
+      input.crmEntityType = crmEntityType || 'contact';
+    }
+
+    const result = await runAdvancedPipeline(
+      req.user!.teamId,
+      input,
+      productContext
+    );
+
+    res.json({
+      success: result.success,
+      data: {
+        prospectId: result.prospectId,
+        steps: result.steps,
+        totalDuration: result.totalDuration,
+        enrichmentScore: result.enrichmentScore,
+        personalizationScore: result.personalizationScore,
+        dataSourcesUsed: result.dataSourcesUsed,
+        generatedEmail: result.generatedEmail ? {
+          subject: result.generatedEmail.subject,
+          body: result.generatedEmail.body,
+          alternativeSubjects: result.generatedEmail.alternativeSubjects,
+          signalsUsed: result.generatedEmail.signalsUsed,
+          metadata: result.generatedEmail.metadata,
+        } : null,
+        generatedSequence: result.generatedSequence,
+        advancedPersonalization: result.advancedPersonalization ? {
+          persona: result.advancedPersonalization.persona,
+          competitiveContext: result.advancedPersonalization.competitiveContext,
+          triggerAnalysis: result.advancedPersonalization.triggerAnalysis,
+          strategy: result.advancedPersonalization.strategy,
+          subjectLines: result.advancedPersonalization.subjectLines,
+          emailVariants: result.advancedPersonalization.emailVariants,
+          followUpSequence: result.advancedPersonalization.followUpSequence,
+          personalizationDepth: result.advancedPersonalization.personalizationDepth,
+          confidenceScore: result.advancedPersonalization.confidenceScore,
+          reasoningChain: result.advancedPersonalization.reasoningChain,
+        } : null,
+        industryMessaging: result.industryMessaging,
+      },
+    });
+  } catch (error) {
+    console.error('Advanced pipeline error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Advanced pipeline execution failed',
     });
   }
 });
@@ -379,6 +453,283 @@ router.get('/status/:prospectId', authenticateToken, async (req: AuthenticatedRe
     console.error('Status check error:', error);
     res.status(500).json({
       error: error instanceof Error ? error.message : 'Status check failed',
+    });
+  }
+});
+
+// =============================================
+// ADVANCED AI PERSONALIZATION ENDPOINTS
+// =============================================
+
+/**
+ * POST /api/v1/pipeline/advanced-personalization
+ * Generate deeply personalized content using multi-step AI reasoning
+ */
+router.post('/advanced-personalization', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectId, productContext } = req.body;
+
+    if (!prospectId) {
+      return res.status(400).json({ error: 'prospectId is required' });
+    }
+
+    const result = await generateAdvancedPersonalization(prospectId, productContext);
+
+    res.json({
+      success: true,
+      data: {
+        persona: result.persona,
+        competitiveContext: result.competitiveContext,
+        triggerAnalysis: result.triggerAnalysis,
+        strategy: result.strategy,
+        subjectLines: result.subjectLines,
+        emailVariants: result.emailVariants,
+        followUpSequence: result.followUpSequence,
+        personalizationDepth: result.personalizationDepth,
+        confidenceScore: result.confidenceScore,
+        reasoningChain: result.reasoningChain,
+      },
+    });
+  } catch (error) {
+    console.error('Advanced personalization error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Advanced personalization failed',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/analyze-performance
+ * Analyze email performance and get optimization insights
+ */
+router.post('/analyze-performance', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { daysBack } = req.body;
+
+    const report = await analyzeEmailPerformance(req.user!.teamId, daysBack || 30);
+
+    res.json({
+      success: true,
+      data: report,
+    });
+  } catch (error) {
+    console.error('Performance analysis error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Performance analysis failed',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/optimize-email
+ * Optimize an email before sending based on historical performance
+ */
+router.post('/optimize-email', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { email, prospectContext } = req.body;
+
+    if (!email || !email.subject || !email.body) {
+      return res.status(400).json({ error: 'email with subject and body is required' });
+    }
+
+    const result = await optimizeEmail(req.user!.teamId, email, prospectContext || {});
+
+    res.json({
+      success: true,
+      data: {
+        optimizedSubject: result.optimizedSubject,
+        optimizedBody: result.optimizedBody,
+        changes: result.changes,
+        expectedImprovements: result.expectedImprovements,
+      },
+    });
+  } catch (error) {
+    console.error('Email optimization error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Email optimization failed',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/analyze-reply
+ * Analyze a prospect's reply and get recommended response
+ */
+router.post('/analyze-reply', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { originalEmail, replyContent, prospectContext } = req.body;
+
+    if (!originalEmail || !replyContent) {
+      return res.status(400).json({ error: 'originalEmail and replyContent are required' });
+    }
+
+    const optimizer = createEmailOptimizer();
+    const analysis = await optimizer.analyzeReply(originalEmail, replyContent, prospectContext || {});
+
+    res.json({
+      success: true,
+      data: {
+        sentiment: analysis.sentiment,
+        intent: analysis.intent,
+        keyObjections: analysis.keyObjections,
+        followUpRecommendation: analysis.followUpRecommendation,
+        suggestedResponse: analysis.suggestedResponse,
+      },
+    });
+  } catch (error) {
+    console.error('Reply analysis error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Reply analysis failed',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/learn-from-success
+ * Record a successful email interaction for future optimization
+ */
+router.post('/learn-from-success', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { email, outcome, prospectContext } = req.body;
+
+    if (!email || !outcome) {
+      return res.status(400).json({ error: 'email and outcome are required' });
+    }
+
+    const optimizer = createEmailOptimizer();
+    await optimizer.learnFromSuccess(req.user!.teamId, email, outcome, prospectContext || {});
+
+    res.json({
+      success: true,
+      message: 'Success pattern recorded for future optimization',
+    });
+  } catch (error) {
+    console.error('Learn from success error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Failed to record success pattern',
+    });
+  }
+});
+
+// =============================================
+// INDUSTRY-SPECIFIC MESSAGING ENDPOINTS
+// =============================================
+
+/**
+ * POST /api/v1/pipeline/industry-email
+ * Generate an industry-tailored email using sector-specific knowledge
+ */
+router.post('/industry-email', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectId, valueProposition, emailType } = req.body;
+
+    if (!prospectId) {
+      return res.status(400).json({ error: 'prospectId is required' });
+    }
+
+    if (!valueProposition) {
+      return res.status(400).json({ error: 'valueProposition is required' });
+    }
+
+    // Get prospect signals
+    const { data: prospect } = await supabase
+      .from('prospects')
+      .select('enrichment_data')
+      .eq('id', prospectId)
+      .single();
+
+    if (!prospect?.enrichment_data) {
+      return res.status(400).json({
+        error: 'Prospect has not been enriched. Run enrichment first.',
+      });
+    }
+
+    const result = await generateIndustryTailoredEmail(
+      prospect.enrichment_data,
+      valueProposition,
+      emailType || 'cold_outreach'
+    );
+
+    res.json({
+      success: true,
+      data: {
+        subject: result.subject,
+        body: result.body,
+        industryScore: result.industryScore,
+        elementsUsed: result.elementsUsed,
+      },
+    });
+  } catch (error) {
+    console.error('Industry email error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Industry email generation failed',
+    });
+  }
+});
+
+/**
+ * GET /api/v1/pipeline/industry-profile/:industry
+ * Get industry profile with terminology, challenges, and timing recommendations
+ */
+router.get('/industry-profile/:industry', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { industry } = req.params;
+
+    const engine = createIndustryMessagingEngine();
+    const profile = await engine.getIndustryProfile(industry);
+    const timing = engine.getTimingRecommendation(industry);
+
+    res.json({
+      success: true,
+      data: {
+        profile,
+        timing,
+      },
+    });
+  } catch (error) {
+    console.error('Industry profile error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Failed to get industry profile',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/industry-messaging
+ * Generate industry-specific messaging components
+ */
+router.post('/industry-messaging', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectId, valueProposition } = req.body;
+
+    if (!prospectId || !valueProposition) {
+      return res.status(400).json({ error: 'prospectId and valueProposition are required' });
+    }
+
+    // Get prospect signals
+    const { data: prospect } = await supabase
+      .from('prospects')
+      .select('enrichment_data')
+      .eq('id', prospectId)
+      .single();
+
+    if (!prospect?.enrichment_data) {
+      return res.status(400).json({
+        error: 'Prospect has not been enriched. Run enrichment first.',
+      });
+    }
+
+    const engine = createIndustryMessagingEngine();
+    const messaging = await engine.generateIndustryMessaging(prospect.enrichment_data, valueProposition);
+
+    res.json({
+      success: true,
+      data: messaging,
+    });
+  } catch (error) {
+    console.error('Industry messaging error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Industry messaging generation failed',
     });
   }
 });

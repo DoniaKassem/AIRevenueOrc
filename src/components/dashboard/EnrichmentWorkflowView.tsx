@@ -78,6 +78,57 @@ interface GeneratedEmail {
   previewText: string;
   alternativeSubjects: string[];
   signalsUsed: string[];
+  metadata?: {
+    optimized?: boolean;
+    optimizationChanges?: string[];
+    expectedImprovements?: string[];
+  };
+}
+
+interface BuyerPersona {
+  archetype: string;
+  communicationStyle: string;
+  buyingRole: string;
+  riskTolerance: string;
+  primaryMotivations: string[];
+  expectedObjections: string[];
+  valueDrivers: string[];
+}
+
+interface AdvancedPersonalization {
+  persona: BuyerPersona;
+  competitiveContext: {
+    currentSolutions: string[];
+    likelyPainWithCurrent: string[];
+    differentiators: string[];
+  };
+  triggerAnalysis: {
+    trigger: string;
+    urgencyLevel: string;
+    recommendedAngle: string;
+  } | null;
+  strategy: {
+    primaryAngle: string;
+    emotionalAppeal: string;
+    ctaStyle: string;
+  };
+  emailVariants: Array<{
+    variant: string;
+    angle: string;
+    body: string;
+    strengths: string[];
+  }>;
+  personalizationDepth: number;
+  confidenceScore: number;
+  reasoningChain: string[];
+}
+
+interface IndustryMessaging {
+  industryRelevantOpener: string;
+  industryPainPoint: string;
+  industryValueProp: string;
+  industryTermsUsed: string[];
+  industryTrend: string;
 }
 
 interface PipelineStep {
@@ -104,16 +155,42 @@ const EnrichmentWorkflowView: React.FC = () => {
     signals: true,
     talkingPoints: true,
     email: true,
+    persona: true,
+    industry: false,
+    variants: false,
   });
 
-  const [pipelineSteps, setPipelineSteps] = useState<PipelineStep[]>([
+  // Advanced AI features state
+  const [enableAdvancedMode, setEnableAdvancedMode] = useState(false);
+  const [advancedPersonalization, setAdvancedPersonalization] = useState<AdvancedPersonalization | null>(null);
+  const [industryMessaging, setIndustryMessaging] = useState<IndustryMessaging | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<number>(0);
+
+  // Base pipeline steps
+  const basePipelineSteps: PipelineStep[] = [
     { id: 'salesforce', name: 'Salesforce', icon: <Database className="h-4 w-4" />, status: 'pending' },
     { id: 'zoominfo', name: 'ZoomInfo', icon: <Target className="h-4 w-4" />, status: 'pending' },
     { id: 'hubspot', name: 'HubSpot', icon: <Building className="h-4 w-4" />, status: 'pending' },
     { id: 'linkedin', name: 'LinkedIn', icon: <Linkedin className="h-4 w-4" />, status: 'pending' },
     { id: 'research', name: 'Deep Research', icon: <Search className="h-4 w-4" />, status: 'pending' },
     { id: 'ai', name: 'AI Compose', icon: <Sparkles className="h-4 w-4" />, status: 'pending' },
-  ]);
+  ];
+
+  // Advanced pipeline steps (added when advanced mode is on)
+  const advancedPipelineSteps: PipelineStep[] = [
+    ...basePipelineSteps.slice(0, 5),
+    { id: 'persona', name: 'Buyer Persona', icon: <User className="h-4 w-4" />, status: 'pending' },
+    { id: 'industry', name: 'Industry Intel', icon: <Building className="h-4 w-4" />, status: 'pending' },
+    { id: 'ai', name: 'AI Compose', icon: <Sparkles className="h-4 w-4" />, status: 'pending' },
+    { id: 'optimize', name: 'Optimize', icon: <TrendingUp className="h-4 w-4" />, status: 'pending' },
+  ];
+
+  const [pipelineSteps, setPipelineSteps] = useState<PipelineStep[]>(basePipelineSteps);
+
+  // Update pipeline steps when advanced mode changes
+  useEffect(() => {
+    setPipelineSteps(enableAdvancedMode ? advancedPipelineSteps : basePipelineSteps);
+  }, [enableAdvancedMode]);
 
   // Load prospects
   useEffect(() => {
@@ -144,13 +221,17 @@ const EnrichmentWorkflowView: React.FC = () => {
     setSignals(null);
     setTalkingPoints([]);
     setGeneratedEmail(null);
+    setAdvancedPersonalization(null);
+    setIndustryMessaging(null);
+    setSelectedVariant(0);
 
     // Reset steps
-    setPipelineSteps(steps => steps.map(s => ({ ...s, status: 'pending' as const })));
+    const currentSteps = enableAdvancedMode ? advancedPipelineSteps : basePipelineSteps;
+    setPipelineSteps(currentSteps.map(s => ({ ...s, status: 'pending' as const })));
 
     try {
       // Simulate step-by-step progress for better UX
-      for (let i = 0; i < pipelineSteps.length; i++) {
+      for (let i = 0; i < currentSteps.length; i++) {
         setCurrentStep(i);
         setPipelineSteps(steps =>
           steps.map((s, idx) => ({
@@ -160,11 +241,14 @@ const EnrichmentWorkflowView: React.FC = () => {
         );
 
         // Small delay for visual feedback
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 400));
       }
 
+      // Choose endpoint based on mode
+      const endpoint = enableAdvancedMode ? '/api/v1/pipeline/run-advanced' : '/api/v1/pipeline/run';
+
       // Run actual pipeline
-      const response = await fetch('/api/v1/pipeline/run', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -172,11 +256,20 @@ const EnrichmentWorkflowView: React.FC = () => {
         },
         body: JSON.stringify({
           prospectId: selectedProspect,
-          options: {
-            enableDeepResearch: true,
-            enableAIEnhancement: true,
-            emailType,
-          },
+          ...(enableAdvancedMode ? {
+            productContext: {
+              productName: 'AI Revenue Orchestrator',
+              valueProps: ['Automate sales workflows', 'AI-powered personalization', 'Multi-source enrichment'],
+              targetPersonas: ['VP Sales', 'Revenue Operations', 'Sales Managers'],
+              competitors: ['Outreach', 'Salesloft', 'Apollo'],
+            },
+          } : {
+            options: {
+              enableDeepResearch: true,
+              enableAIEnhancement: true,
+              emailType,
+            },
+          }),
         }),
       });
 
@@ -230,6 +323,16 @@ const EnrichmentWorkflowView: React.FC = () => {
         // Set generated email
         if (result.data.generatedEmail) {
           setGeneratedEmail(result.data.generatedEmail);
+        }
+
+        // Set advanced personalization data (if advanced mode)
+        if (result.data.advancedPersonalization) {
+          setAdvancedPersonalization(result.data.advancedPersonalization);
+        }
+
+        // Set industry messaging (if available)
+        if (result.data.industryMessaging) {
+          setIndustryMessaging(result.data.industryMessaging);
         }
       }
     } catch (error) {
@@ -354,6 +457,46 @@ const EnrichmentWorkflowView: React.FC = () => {
                 <option value="follow_up">Follow Up</option>
                 <option value="trigger_based">Trigger Based</option>
               </select>
+            </div>
+
+            {/* Advanced AI Mode Toggle */}
+            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <label className="flex items-center justify-between cursor-pointer">
+                <div>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Advanced AI Mode
+                  </span>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    Buyer persona, industry insights, A/B variants
+                  </p>
+                </div>
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    checked={enableAdvancedMode}
+                    onChange={(e) => setEnableAdvancedMode(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-10 h-6 rounded-full transition-colors ${
+                      enableAdvancedMode ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                    onClick={() => setEnableAdvancedMode(!enableAdvancedMode)}
+                  >
+                    <div
+                      className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform mt-1 ${
+                        enableAdvancedMode ? 'translate-x-5' : 'translate-x-1'
+                      }`}
+                    />
+                  </div>
+                </div>
+              </label>
+              {enableAdvancedMode && (
+                <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 rounded text-xs text-blue-700 dark:text-blue-300">
+                  <Sparkles className="h-3 w-3 inline mr-1" />
+                  Multi-step AI reasoning enabled with buyer persona analysis, competitive context, and email optimization.
+                </div>
+              )}
             </div>
 
             {/* Run Button */}
@@ -754,6 +897,267 @@ const EnrichmentWorkflowView: React.FC = () => {
                       <Send className="h-4 w-4" />
                       Send Email
                     </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Advanced Personalization Panels */}
+          {advancedPersonalization && (
+            <>
+              {/* Buyer Persona Panel */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+                <button
+                  onClick={() => toggleSection('persona')}
+                  className="w-full p-4 flex items-center justify-between text-left"
+                >
+                  <h2 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                    <User className="h-5 w-5" />
+                    Buyer Persona Analysis
+                    <span className="text-sm font-normal text-purple-600">
+                      {advancedPersonalization.persona.archetype}
+                    </span>
+                  </h2>
+                  {expandedSections.persona ? (
+                    <ChevronDown className="h-5 w-5 text-gray-400" />
+                  ) : (
+                    <ChevronRight className="h-5 w-5 text-gray-400" />
+                  )}
+                </button>
+
+                {expandedSections.persona && (
+                  <div className="p-4 pt-0">
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      {/* Communication Style */}
+                      <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                        <h4 className="text-xs font-medium text-purple-600 dark:text-purple-400 uppercase mb-1">
+                          Communication Style
+                        </h4>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
+                          {advancedPersonalization.persona.communicationStyle}
+                        </p>
+                      </div>
+
+                      {/* Buying Role */}
+                      <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <h4 className="text-xs font-medium text-blue-600 dark:text-blue-400 uppercase mb-1">
+                          Buying Role
+                        </h4>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
+                          {advancedPersonalization.persona.buyingRole.replace('_', ' ')}
+                        </p>
+                      </div>
+
+                      {/* Risk Tolerance */}
+                      <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <h4 className="text-xs font-medium text-green-600 dark:text-green-400 uppercase mb-1">
+                          Risk Tolerance
+                        </h4>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">
+                          {advancedPersonalization.persona.riskTolerance}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Motivations & Objections */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">
+                          Primary Motivations
+                        </h4>
+                        <div className="space-y-1">
+                          {advancedPersonalization.persona.primaryMotivations.slice(0, 4).map((m, i) => (
+                            <div key={i} className="text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                              {m}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">
+                          Expected Objections
+                        </h4>
+                        <div className="space-y-1">
+                          {advancedPersonalization.persona.expectedObjections.slice(0, 4).map((o, i) => (
+                            <div key={i} className="text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                              {o}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Strategy Summary */}
+                    <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">
+                        Recommended Strategy
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                          Angle: {advancedPersonalization.strategy.primaryAngle}
+                        </span>
+                        <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">
+                          Appeal: {advancedPersonalization.strategy.emotionalAppeal}
+                        </span>
+                        <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
+                          CTA: {advancedPersonalization.strategy.ctaStyle}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Email Variants Panel */}
+              {advancedPersonalization.emailVariants && advancedPersonalization.emailVariants.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+                  <button
+                    onClick={() => toggleSection('variants')}
+                    className="w-full p-4 flex items-center justify-between text-left"
+                  >
+                    <h2 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                      <FileText className="h-5 w-5" />
+                      A/B Email Variants
+                      <span className="text-sm font-normal text-gray-500">
+                        ({advancedPersonalization.emailVariants.length} variants)
+                      </span>
+                    </h2>
+                    {expandedSections.variants ? (
+                      <ChevronDown className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+
+                  {expandedSections.variants && (
+                    <div className="p-4 pt-0">
+                      {/* Variant Selector */}
+                      <div className="flex gap-2 mb-4">
+                        {advancedPersonalization.emailVariants.map((variant, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setSelectedVariant(idx)}
+                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                              selectedVariant === idx
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                            }`}
+                          >
+                            {variant.variant.replace('-', ' ')}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Selected Variant */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">
+                            {advancedPersonalization.emailVariants[selectedVariant].angle}
+                          </span>
+                          {advancedPersonalization.emailVariants[selectedVariant].strengths?.slice(0, 2).map((s, i) => (
+                            <span key={i} className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+
+                        <textarea
+                          value={advancedPersonalization.emailVariants[selectedVariant].body}
+                          readOnly
+                          rows={8}
+                          className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                        />
+
+                        <button
+                          onClick={() => copyToClipboard(advancedPersonalization.emailVariants[selectedVariant].body)}
+                          className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm"
+                        >
+                          <Copy className="h-4 w-4" />
+                          Copy Variant
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* AI Reasoning Chain */}
+              {advancedPersonalization.reasoningChain && advancedPersonalization.reasoningChain.length > 0 && (
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg p-4">
+                  <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-purple-500" />
+                    AI Reasoning Chain
+                  </h3>
+                  <div className="space-y-1">
+                    {advancedPersonalization.reasoningChain.map((step, i) => (
+                      <div key={i} className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-2">
+                        <span className="text-purple-500 font-mono">{i + 1}.</span>
+                        <span>{step}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-3 flex gap-4 text-xs">
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Personalization Depth: <span className="font-semibold text-purple-600">{advancedPersonalization.personalizationDepth}%</span>
+                    </span>
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Confidence: <span className="font-semibold text-blue-600">{advancedPersonalization.confidenceScore}%</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Industry Messaging Panel */}
+          {industryMessaging && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+              <button
+                onClick={() => toggleSection('industry')}
+                className="w-full p-4 flex items-center justify-between text-left"
+              >
+                <h2 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Building className="h-5 w-5" />
+                  Industry-Specific Messaging
+                </h2>
+                {expandedSections.industry ? (
+                  <ChevronDown className="h-5 w-5 text-gray-400" />
+                ) : (
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                )}
+              </button>
+
+              {expandedSections.industry && (
+                <div className="p-4 pt-0 space-y-3">
+                  <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <h4 className="text-xs font-medium text-blue-600 uppercase mb-1">Industry Opener</h4>
+                    <p className="text-sm text-gray-900 dark:text-white">{industryMessaging.industryRelevantOpener}</p>
+                  </div>
+
+                  <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <h4 className="text-xs font-medium text-red-600 uppercase mb-1">Industry Pain Point</h4>
+                    <p className="text-sm text-gray-900 dark:text-white">{industryMessaging.industryPainPoint}</p>
+                  </div>
+
+                  <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                    <h4 className="text-xs font-medium text-green-600 uppercase mb-1">Industry Value Prop</h4>
+                    <p className="text-sm text-gray-900 dark:text-white">{industryMessaging.industryValueProp}</p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <span className="text-xs text-gray-500">Industry Terms:</span>
+                    {industryMessaging.industryTermsUsed.map((term, i) => (
+                      <span key={i} className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
+                        {term}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="text-xs text-gray-500">
+                    <span className="font-medium">Current Trend:</span> {industryMessaging.industryTrend}
                   </div>
                 </div>
               )}

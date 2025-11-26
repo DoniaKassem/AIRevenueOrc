@@ -23,6 +23,19 @@ import {
   transformSignalsToOutreach,
   PersonalizationContext,
 } from '../ai/signalToOutreach';
+import {
+  AdvancedPersonalizationEngine,
+  PersonalizedContent,
+  generateAdvancedPersonalization,
+} from '../ai/advancedPersonalization';
+import {
+  IndustryMessagingEngine,
+  createIndustryMessagingEngine,
+} from '../ai/industryMessaging';
+import {
+  EmailOptimizer,
+  createEmailOptimizer,
+} from '../ai/emailOptimizer';
 
 // =============================================
 // TYPES & INTERFACES
@@ -37,6 +50,17 @@ export interface PipelineConfig {
   emailType: 'cold_outreach' | 'follow_up' | 'trigger_based';
   generateSequence: boolean;
   sequenceLength?: number;
+
+  // Advanced personalization options
+  enableAdvancedPersonalization?: boolean;
+  enableIndustryMessaging?: boolean;
+  enableEmailOptimization?: boolean;
+  productContext?: {
+    productName: string;
+    valueProps: string[];
+    targetPersonas: string[];
+    competitors: string[];
+  };
 }
 
 export interface PipelineInput {
@@ -78,6 +102,18 @@ export interface PipelineResult {
   personalizationContext?: PersonalizationContext;
   generatedEmail?: EnhancedEmailResult;
   generatedSequence?: EmailSequence;
+
+  // Advanced AI outputs
+  advancedPersonalization?: PersonalizedContent;
+  industryMessaging?: {
+    industryRelevantOpener: string;
+    industryPainPoint: string;
+    industryValueProp: string;
+    industryProof: string;
+    industryCTA: string;
+    industryTermsUsed: string[];
+    industryTrend: string;
+  };
 
   // Metrics
   enrichmentScore: number;
@@ -173,7 +209,33 @@ export class ProspectToOutreachPipeline {
     });
     steps.push(transformStep);
 
-    // STEP 6: Generate Email
+    // STEP 6: Advanced Personalization (if enabled)
+    let advancedPersonalization: PersonalizedContent | undefined;
+    if (this.config.enableAdvancedPersonalization) {
+      const advancedStep = await this.executeStep('advanced_personalization', async () => {
+        advancedPersonalization = await generateAdvancedPersonalization(
+          prospectId,
+          this.config.productContext
+        );
+        return advancedPersonalization;
+      });
+      steps.push(advancedStep);
+    }
+
+    // STEP 7: Industry-Specific Messaging (if enabled)
+    let industryMessaging: PipelineResult['industryMessaging'];
+    if (this.config.enableIndustryMessaging && signals) {
+      const industryStep = await this.executeStep('industry_messaging', async () => {
+        const engine = createIndustryMessagingEngine();
+        const valueProposition = this.config.productContext?.valueProps?.[0] ||
+          'Help you achieve better results';
+        industryMessaging = await engine.generateIndustryMessaging(signals, valueProposition);
+        return industryMessaging;
+      });
+      steps.push(industryStep);
+    }
+
+    // STEP 8: Generate Email
     let generatedEmail: EnhancedEmailResult | undefined;
     const emailStep = await this.executeStep('generate_email', async () => {
       generatedEmail = await this.emailWriter.generateEmail({
@@ -184,7 +246,41 @@ export class ProspectToOutreachPipeline {
     });
     steps.push(emailStep);
 
-    // STEP 7: Generate Sequence (if enabled)
+    // STEP 9: Optimize Email (if enabled)
+    if (this.config.enableEmailOptimization && generatedEmail) {
+      const optimizeStep = await this.executeStep('optimize_email', async () => {
+        const optimizer = createEmailOptimizer();
+        const optimized = await optimizer.optimizeEmailBeforeSend(
+          this.config.teamId,
+          { subject: generatedEmail!.subject, body: generatedEmail!.body },
+          {
+            title: signals?.professional.title,
+            industry: signals?.company.industry,
+            seniority: signals?.professional.seniority,
+            buyingStage: signals?.intent.buyingStage,
+          }
+        );
+
+        // Apply optimizations if changes were made
+        if (optimized.changes.length > 0) {
+          generatedEmail = {
+            ...generatedEmail!,
+            subject: optimized.optimizedSubject,
+            body: optimized.optimizedBody,
+            metadata: {
+              ...generatedEmail!.metadata,
+              optimized: true,
+              optimizationChanges: optimized.changes,
+              expectedImprovements: optimized.expectedImprovements,
+            },
+          };
+        }
+        return optimized;
+      });
+      steps.push(optimizeStep);
+    }
+
+    // STEP 10: Generate Sequence (if enabled)
     let generatedSequence: EmailSequence | undefined;
     if (this.config.generateSequence) {
       const sequenceStep = await this.executeStep('generate_sequence', async () => {
@@ -221,6 +317,8 @@ export class ProspectToOutreachPipeline {
       personalizationContext,
       generatedEmail,
       generatedSequence,
+      advancedPersonalization,
+      industryMessaging,
       enrichmentScore,
       personalizationScore,
       dataSourcesUsed,
@@ -646,10 +744,34 @@ export async function runProspectToOutreachPipeline(
     emailType: options.emailType || 'cold_outreach',
     generateSequence: options.generateSequence ?? false,
     sequenceLength: options.sequenceLength || 5,
+    // Advanced AI options
+    enableAdvancedPersonalization: options.enableAdvancedPersonalization ?? false,
+    enableIndustryMessaging: options.enableIndustryMessaging ?? false,
+    enableEmailOptimization: options.enableEmailOptimization ?? false,
+    productContext: options.productContext,
   };
 
   const pipeline = new ProspectToOutreachPipeline(config);
   return pipeline.execute(input);
+}
+
+/**
+ * Run pipeline with all advanced AI features enabled
+ */
+export async function runAdvancedPipeline(
+  teamId: string,
+  input: PipelineInput,
+  productContext?: PipelineConfig['productContext']
+): Promise<PipelineResult> {
+  return runProspectToOutreachPipeline(teamId, input, {
+    enableDeepResearch: true,
+    enableAIEnhancement: true,
+    generateSequence: true,
+    enableAdvancedPersonalization: true,
+    enableIndustryMessaging: true,
+    enableEmailOptimization: true,
+    productContext,
+  });
 }
 
 /**
