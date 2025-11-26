@@ -162,9 +162,12 @@ export class ProspectToOutreachPipeline {
     steps.push(importResult);
 
     if (importResult.status === 'failed') {
-      return this.buildFailedResult(prospectId!, steps, startTime);
+      return this.buildFailedResult('unknown', steps, startTime);
     }
-    prospectId = importResult.data.prospectId;
+    prospectId = importResult.data?.prospectId;
+    if (!prospectId) {
+      return this.buildFailedResult('unknown', steps, startTime);
+    }
 
     // STEP 2: Run Multi-Source Enrichment
     let enrichmentResult: EnrichmentPipelineResult | undefined;
@@ -295,8 +298,8 @@ export class ProspectToOutreachPipeline {
 
     // Calculate metrics
     const dataSourcesUsed = enrichmentResult?.sourceResults
-      .filter(r => r.success)
-      .map(r => r.source) || [];
+      ?.filter(r => r.success)
+      ?.map(r => r.source) || [];
 
     const enrichmentScore = signals?.metadata.qualityScore || 0;
     const personalizationScore = personalizationContext?.personalizationScore || 0;

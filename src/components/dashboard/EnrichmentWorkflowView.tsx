@@ -165,6 +165,17 @@ const EnrichmentWorkflowView: React.FC = () => {
   const [advancedPersonalization, setAdvancedPersonalization] = useState<AdvancedPersonalization | null>(null);
   const [industryMessaging, setIndustryMessaging] = useState<IndustryMessaging | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+
+  // Helper function to get auth token
+  const getAuthToken = (): string | null => {
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      setError('Authentication required. Please log in.');
+      return null;
+    }
+    return token;
+  };
 
   // Base pipeline steps
   const basePipelineSteps: PipelineStep[] = [
@@ -198,23 +209,33 @@ const EnrichmentWorkflowView: React.FC = () => {
   }, []);
 
   const loadProspects = async () => {
+    const token = getAuthToken();
+    if (!token) return;
+
     try {
       const response = await fetch('/api/v1/prospects?limit=20', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+          'Authorization': `Bearer ${token}`,
         },
       });
       const data = await response.json();
       if (data.success) {
         setProspects(data.data || []);
+        setError(null);
+      } else {
+        setError(data.error || 'Failed to load prospects');
       }
-    } catch (error) {
-      console.error('Failed to load prospects:', error);
+    } catch (err) {
+      console.error('Failed to load prospects:', err);
+      setError('Failed to load prospects. Please try again.');
     }
   };
 
   const runPipeline = async () => {
     if (!selectedProspect) return;
+
+    const token = getAuthToken();
+    if (!token) return;
 
     setIsRunning(true);
     setCurrentStep(0);
@@ -224,6 +245,7 @@ const EnrichmentWorkflowView: React.FC = () => {
     setAdvancedPersonalization(null);
     setIndustryMessaging(null);
     setSelectedVariant(0);
+    setError(null);
 
     // Reset steps
     const currentSteps = enableAdvancedMode ? advancedPipelineSteps : basePipelineSteps;
@@ -252,7 +274,7 @@ const EnrichmentWorkflowView: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           prospectId: selectedProspect,
@@ -292,7 +314,7 @@ const EnrichmentWorkflowView: React.FC = () => {
         // Get signals from enriched prospect
         const signalsResponse = await fetch(`/api/v1/pipeline/status/${selectedProspect}`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+            'Authorization': `Bearer ${token}`,
           },
         });
         const signalsResult = await signalsResponse.json();
@@ -305,7 +327,7 @@ const EnrichmentWorkflowView: React.FC = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({ prospectId: selectedProspect }),
         });
@@ -335,8 +357,9 @@ const EnrichmentWorkflowView: React.FC = () => {
           setIndustryMessaging(result.data.industryMessaging);
         }
       }
-    } catch (error) {
-      console.error('Pipeline failed:', error);
+    } catch (err) {
+      console.error('Pipeline failed:', err);
+      setError(err instanceof Error ? err.message : 'Pipeline execution failed. Please try again.');
       setPipelineSteps(steps =>
         steps.map(s => ({ ...s, status: s.status === 'running' ? 'failed' : s.status }))
       );
@@ -348,12 +371,15 @@ const EnrichmentWorkflowView: React.FC = () => {
   const regenerateEmail = async () => {
     if (!selectedProspect) return;
 
+    const token = getAuthToken();
+    if (!token) return;
+
     try {
       const response = await fetch('/api/v1/pipeline/generate-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           prospectId: selectedProspect,
@@ -364,6 +390,9 @@ const EnrichmentWorkflowView: React.FC = () => {
       const result = await response.json();
       if (result.success) {
         setGeneratedEmail(result.data);
+        setError(null);
+      } else {
+        setError(result.error || 'Failed to regenerate email');
       }
     } catch (error) {
       console.error('Email regeneration failed:', error);
@@ -408,6 +437,22 @@ const EnrichmentWorkflowView: React.FC = () => {
           Salesforce → ZoomInfo → HubSpot → LinkedIn → Deep Research → AI Outreach
         </p>
       </div>
+
+      {/* Error Banner */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center justify-between">
+          <div className="flex items-center gap-2 text-red-700 dark:text-red-300">
+            <AlertCircle className="h-5 w-5" />
+            <span>{error}</span>
+          </div>
+          <button
+            onClick={() => setError(null)}
+            className="text-red-500 hover:text-red-700 dark:hover:text-red-300"
+          >
+            &times;
+          </button>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="grid grid-cols-12 gap-6">
@@ -1051,7 +1096,8 @@ const EnrichmentWorkflowView: React.FC = () => {
                         ))}
                       </div>
 
-                      {/* Selected Variant */}
+                      {/* Selected Variant - with bounds check */}
+                      {advancedPersonalization.emailVariants[selectedVariant] ? (
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
                           <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">
@@ -1079,6 +1125,9 @@ const EnrichmentWorkflowView: React.FC = () => {
                           Copy Variant
                         </button>
                       </div>
+                      ) : (
+                        <div className="text-sm text-gray-500">Select a variant to view</div>
+                      )}
                     </div>
                   )}
                 </div>
