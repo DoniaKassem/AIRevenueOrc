@@ -35,6 +35,7 @@ import teamRoutes from './team/routes';
 import apiKeysRoutes from './apiKeys/routes';
 import billingRoutes from './billing/routes';
 import userRoutes from './user/routes';
+import pipelineRoutes from './routes/pipeline';
 
 // =============================================
 // SERVER CONFIGURATION
@@ -197,6 +198,9 @@ export function createServer(): Express {
   v1Router.use('/api-keys', requireAuth, apiKeysRoutes);
   v1Router.use('/billing', requireAuth, billingRoutes);
   v1Router.use('/me', requireAuth, userRoutes);
+
+  // Pipeline routes (enrichment workflow)
+  v1Router.use('/pipeline', pipelineRoutes);
 
   // Email routes (to be implemented)
   // v1Router.use('/email', requireAuth, emailRoutes);
