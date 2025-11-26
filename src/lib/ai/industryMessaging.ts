@@ -282,12 +282,12 @@ Return as JSON:
     } catch {
       return {
         industryRelevantOpener: `As someone in ${industry}, you're likely focused on...`,
-        industryPainPoint: profile.commonChallenges[0] || 'efficiency',
+        industryPainPoint: profile.commonChallenges?.[0] || 'efficiency',
         industryValueProp: valueProposition,
         industryProof: 'Case study from similar company',
         industryCTA: 'Brief call to discuss?',
-        industryTermsUsed: profile.terminology.slice(0, 3),
-        industryTrend: profile.trendTopics[0] || 'digital transformation',
+        industryTermsUsed: profile.terminology?.slice(0, 3) || [],
+        industryTrend: profile.trendTopics?.[0] || 'digital transformation',
       };
     }
   }

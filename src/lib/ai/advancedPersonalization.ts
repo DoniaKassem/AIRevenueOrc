@@ -327,11 +327,11 @@ Return as JSON:
 TRIGGER TYPE: ${topTrigger.type}
 DESCRIPTION: ${topTrigger.description}
 CONFIDENCE: ${topTrigger.confidence}%
-DATE: ${topTrigger.timestamp}
+DATE: ${topTrigger.timestamp || 'Recent'}
 
 PROSPECT CONTEXT:
-- Title: ${signals.professional.title}
-- Company: ${signals.company.name}
+- Title: ${signals.professional.title || 'Unknown'}
+- Company: ${signals.company.name || 'Unknown'}
 - Industry: ${signals.company.industry || 'Unknown'}
 
 Provide:
@@ -390,20 +390,20 @@ Return as JSON:
     const prompt = `Develop an optimal email strategy for this prospect.
 
 BUYER PERSONA:
-- Archetype: ${persona.archetype}
-- Communication Style: ${persona.communicationStyle}
-- Buying Role: ${persona.buyingRole}
-- Risk Tolerance: ${persona.riskTolerance}
-- Primary Motivations: ${persona.primaryMotivations.join(', ')}
-- Expected Objections: ${persona.expectedObjections.join(', ')}
+- Archetype: ${persona.archetype || 'Business Professional'}
+- Communication Style: ${persona.communicationStyle || 'analytical'}
+- Buying Role: ${persona.buyingRole || 'influencer'}
+- Risk Tolerance: ${persona.riskTolerance || 'medium'}
+- Primary Motivations: ${persona.primaryMotivations?.join(', ') || 'Efficiency, Results'}
+- Expected Objections: ${persona.expectedObjections?.join(', ') || 'Budget, Timeline'}
 
 COMPETITIVE CONTEXT:
-- Current Solutions: ${competitiveContext.currentSolutions.join(', ') || 'Unknown'}
-- Likely Pains: ${competitiveContext.likelyPainWithCurrent.join(', ')}
+- Current Solutions: ${competitiveContext.currentSolutions?.join(', ') || 'Unknown'}
+- Likely Pains: ${competitiveContext.likelyPainWithCurrent?.join(', ') || 'Manual processes'}
 
 TRIGGER: ${triggerAnalysis?.trigger || 'None identified'}
-INTENT SCORE: ${signals.intent.score}/100
-BUYING STAGE: ${signals.intent.buyingStage || 'awareness'}
+INTENT SCORE: ${signals.intent?.score || 0}/100
+BUYING STAGE: ${signals.intent?.buyingStage || 'awareness'}
 
 Develop the optimal strategy:
 1. PRIMARY ANGLE: The main messaging approach (problem-focused, opportunity-focused, peer-influenced, etc.)
@@ -538,20 +538,20 @@ PROSPECT:
 - Industry: ${signals.company.industry || 'tech'}
 
 PERSONA:
-- Archetype: ${persona.archetype}
-- Communication Style: ${persona.communicationStyle}
-- Primary Motivations: ${persona.primaryMotivations.join(', ')}
-- Expected Objections: ${persona.expectedObjections.join(', ')}
+- Archetype: ${persona.archetype || 'Business Professional'}
+- Communication Style: ${persona.communicationStyle || 'analytical'}
+- Primary Motivations: ${persona.primaryMotivations?.join(', ') || 'Efficiency, Results'}
+- Expected Objections: ${persona.expectedObjections?.join(', ') || 'Budget, Timeline'}
 
 STRATEGY:
-- Primary Angle: ${strategy.primaryAngle}
-- Emotional Appeal: ${strategy.emotionalAppeal}
-- Logical Appeal: ${strategy.logicalAppeal}
-- CTA Style: ${strategy.ctaStyle}
+- Primary Angle: ${strategy.primaryAngle || 'value-focused'}
+- Emotional Appeal: ${strategy.emotionalAppeal || 'success'}
+- Logical Appeal: ${strategy.logicalAppeal || 'efficiency'}
+- CTA Style: ${strategy.ctaStyle || 'soft'}
 
 COMPETITIVE CONTEXT:
-- Current Solutions: ${competitiveContext.currentSolutions.join(', ') || 'Unknown'}
-- Likely Pains: ${competitiveContext.likelyPainWithCurrent.join(', ')}
+- Current Solutions: ${competitiveContext.currentSolutions?.join(', ') || 'Unknown'}
+- Likely Pains: ${competitiveContext.likelyPainWithCurrent?.join(', ') || 'Manual processes'}
 
 Generate 3 email variants:
 1. PROBLEM-AGITATE-SOLVE: Lead with a pain point

@@ -426,10 +426,22 @@ Return as JSON:
    */
   private calculateOverallMetrics(data: EmailPerformanceData[]) {
     const total = data.length;
+
+    // Guard against division by zero
+    if (total === 0) {
+      return {
+        totalEmails: 0,
+        openRate: 0,
+        replyRate: 0,
+        positiveReplyRate: 0,
+        avgPersonalizationScore: 0,
+      };
+    }
+
     const opened = data.filter(d => d.opened).length;
     const replied = data.filter(d => d.replied).length;
     const positiveReplies = data.filter(d => d.replySentiment === 'positive').length;
-    const avgScore = data.reduce((sum, d) => sum + d.personalizationScore, 0) / total;
+    const avgScore = data.reduce((sum, d) => sum + (d.personalizationScore || 0), 0) / total;
 
     return {
       totalEmails: total,
