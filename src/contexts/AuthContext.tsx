@@ -25,23 +25,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is already logged in
-    if (TokenStorage.hasTokens()) {
-      loadCurrentUser();
-    } else {
-      setLoading(false);
-    }
+    // Auto-login for single-user mode (no authentication required)
+    const mockUser: User = {
+      id: '00000000-0000-0000-0000-000000000001',
+      email: 'demo@example.com',
+      organizationId: '00000000-0000-0000-0000-000000000001',
+      role: 'admin',
+      permissions: ['*'],
+      name: 'Demo User',
+      teamId: '00000000-0000-0000-0000-000000000001',
+    };
+
+    const mockAuthUser: AuthUser = {
+      id: mockUser.id,
+      email: mockUser.email,
+      organizationId: mockUser.organizationId,
+      role: mockUser.role,
+      permissions: mockUser.permissions,
+      isAdmin: true,
+    };
+
+    setUser(mockUser);
+    setAuthUser(mockAuthUser);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    // Connect to WebSocket when user is authenticated
-    if (user) {
-      wsClient.connect();
-    }
-
-    return () => {
-      wsClient.disconnect();
-    };
+    // WebSocket connection disabled for single-user mode
+    // Uncomment when API server is running:
+    // if (user) {
+    //   wsClient.connect();
+    // }
+    // return () => {
+    //   wsClient.disconnect();
+    // };
   }, [user]);
 
   async function loadCurrentUser() {
