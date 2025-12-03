@@ -7,6 +7,17 @@
 import OpenAI from 'openai';
 import { supabase } from '../supabase';
 import { ProspectSignals } from '../enrichment/multiSourcePipeline';
+import {
+  withRetry,
+  safeJsonParse,
+  costTracker,
+  aiCache,
+  createCacheKey,
+  BuyerPersonaSchema,
+  CompetitiveContextSchema,
+  TriggerAnalysisSchema,
+  EmailStrategySchema,
+} from './aiUtils';
 
 // =============================================
 // TYPES & INTERFACES
@@ -221,35 +232,51 @@ Return as JSON:
   "preferredProofPoints": [...]
 }`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an expert B2B sales psychologist who creates accurate buyer personas. Return only valid JSON.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 1000,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert B2B sales psychologist who creates accurate buyer personas. Return only valid JSON.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 1000,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '{}');
-    } catch {
-      // Return default persona
-      return {
-        archetype: 'Business Professional',
-        primaryMotivations: ['Efficiency', 'Results', 'Growth'],
-        decisionCriteria: ['ROI', 'Ease of use', 'Support'],
-        communicationStyle: 'analytical',
-        riskTolerance: 'medium',
-        buyingRole: 'influencer',
-        expectedObjections: ['Budget constraints', 'Implementation time', 'Switching costs'],
-        valueDrivers: ['Time savings', 'Revenue impact', 'Team productivity'],
-        preferredProofPoints: ['Case studies', 'ROI calculator', 'Customer reviews'],
-      };
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'buyer_persona'
+      );
     }
+
+    // Use safe JSON parsing with fallback
+    const defaultPersona: BuyerPersona = {
+      archetype: 'Business Professional',
+      primaryMotivations: ['Efficiency', 'Results', 'Growth'],
+      decisionCriteria: ['ROI', 'Ease of use', 'Support'],
+      communicationStyle: 'analytical',
+      riskTolerance: 'medium',
+      buyingRole: 'influencer',
+      expectedObjections: ['Budget constraints', 'Implementation time', 'Switching costs'],
+      valueDrivers: ['Time savings', 'Revenue impact', 'Team productivity'],
+      preferredProofPoints: ['Case studies', 'ROI calculator', 'Customer reviews'],
+    };
+
+    return safeJsonParse(
+      completion.choices[0].message.content,
+      BuyerPersonaSchema,
+      defaultPersona
+    );
   }
 
   /**
@@ -284,30 +311,46 @@ Return as JSON:
   "differentiators": [...]
 }`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a competitive intelligence analyst. Return only valid JSON.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 800,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a competitive intelligence analyst. Return only valid JSON.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 800,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '{}');
-    } catch {
-      return {
-        currentSolutions: [],
-        likelyPainWithCurrent: ['Manual processes', 'Lack of visibility', 'Poor integration'],
-        competitiveAdvantages: ['Better automation', 'Unified platform', 'AI capabilities'],
-        switchingBarriers: ['Implementation effort', 'Team training', 'Data migration'],
-        differentiators: ['Ease of use', 'Better support', 'Faster time to value'],
-      };
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'competitive_context'
+      );
     }
+
+    const defaultContext: CompetitiveContext = {
+      currentSolutions: [],
+      likelyPainWithCurrent: ['Manual processes', 'Lack of visibility', 'Poor integration'],
+      competitiveAdvantages: ['Better automation', 'Unified platform', 'AI capabilities'],
+      switchingBarriers: ['Implementation effort', 'Team training', 'Data migration'],
+      differentiators: ['Ease of use', 'Better support', 'Faster time to value'],
+    };
+
+    return safeJsonParse(
+      completion.choices[0].message.content,
+      CompetitiveContextSchema,
+      defaultContext
+    );
   }
 
   /**
@@ -351,31 +394,47 @@ Return as JSON:
   "connectionToValue": "..."
 }`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a sales timing expert. Return only valid JSON.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 600,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a sales timing expert. Return only valid JSON.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 600,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '{}');
-    } catch {
-      return {
-        trigger: topTrigger.description,
-        urgencyLevel: 'medium',
-        timeWindow: '2-4 weeks',
-        recommendedAngle: 'Capitalize on momentum',
-        openingHook: `I noticed ${topTrigger.description}`,
-        connectionToValue: 'This is often when teams like yours evaluate new solutions',
-      };
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'trigger_analysis'
+      );
     }
+
+    const defaultTrigger: TriggerAnalysis = {
+      trigger: topTrigger.description,
+      urgencyLevel: 'medium',
+      timeWindow: '2-4 weeks',
+      recommendedAngle: 'Capitalize on momentum',
+      openingHook: `I noticed ${topTrigger.description}`,
+      connectionToValue: 'This is often when teams like yours evaluate new solutions',
+    };
+
+    return safeJsonParse(
+      completion.choices[0].message.content,
+      TriggerAnalysisSchema,
+      defaultTrigger
+    );
   }
 
   /**
@@ -425,32 +484,48 @@ Return as JSON:
   "anticipatedResponse": "..."
 }`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a sales strategy expert. Return only valid JSON.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 800,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a sales strategy expert. Return only valid JSON.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 800,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '{}');
-    } catch {
-      return {
-        primaryAngle: 'Value-focused',
-        emotionalAppeal: 'Desire for improvement',
-        logicalAppeal: 'Efficiency gains',
-        socialProofType: 'Case study',
-        ctaStyle: 'medium',
-        followUpStrategy: 'Add value with each touch',
-        anticipatedResponse: 'Request for more information',
-      };
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'email_strategy'
+      );
     }
+
+    const defaultStrategy: EmailStrategy = {
+      primaryAngle: 'Value-focused',
+      emotionalAppeal: 'Desire for improvement',
+      logicalAppeal: 'Efficiency gains',
+      socialProofType: 'Case study',
+      ctaStyle: 'medium',
+      followUpStrategy: 'Add value with each touch',
+      anticipatedResponse: 'Request for more information',
+    };
+
+    return safeJsonParse(
+      completion.choices[0].message.content,
+      EmailStrategySchema,
+      defaultStrategy
+    );
   }
 
   /**
@@ -497,27 +572,39 @@ Return as JSON array:
   ...
 ]`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an email subject line expert with 40%+ average open rates. Return only valid JSON array.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.9,
-      max_tokens: 500,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an email subject line expert with 40%+ average open rates. Return only valid JSON array.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.9,
+        max_tokens: 500,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '[]');
-    } catch {
-      return [
-        { text: `quick question about ${signals.company.name}`, angle: 'curiosity', expectedOpenRate: '25-30%' },
-        { text: 'noticed this about your team', angle: 'personalization', expectedOpenRate: '30-35%' },
-      ];
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'subject_lines'
+      );
     }
+
+    const defaultSubjects = [
+      { text: `quick question about ${signals.company.name}`, angle: 'curiosity', expectedOpenRate: '25-30%' },
+      { text: 'noticed this about your team', angle: 'personalization', expectedOpenRate: '30-35%' },
+    ];
+
+    return safeJsonParse(completion.choices[0].message.content, undefined, defaultSubjects);
   }
 
   /**
@@ -577,24 +664,34 @@ Return as JSON array:
   ...
 ]`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a world-class B2B copywriter. Write emails that feel personal, not templated. Return only valid JSON array.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.8,
-      max_tokens: 2000,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a world-class B2B copywriter. Write emails that feel personal, not templated. Return only valid JSON array.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.8,
+        max_tokens: 2000,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '[]');
-    } catch {
-      return [];
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'email_variants'
+      );
     }
+
+    return safeJsonParse(completion.choices[0].message.content, undefined, []);
   }
 
   /**
@@ -645,24 +742,34 @@ Return as JSON array:
   ...
 ]`;
 
-    const completion = await this.openai.chat.completions.create({
-      model: this.model,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a follow-up sequence expert. Each touch should provide value, not annoy. Return only valid JSON array.',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.8,
-      max_tokens: 2000,
-    });
+    // Use retry wrapper for reliability
+    const { result: completion } = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: this.model,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a follow-up sequence expert. Each touch should provide value, not annoy. Return only valid JSON array.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.8,
+        max_tokens: 2000,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit', 'timeout', 'server_error'] }
+    );
 
-    try {
-      return JSON.parse(completion.choices[0].message.content || '[]');
-    } catch {
-      return [];
+    // Track cost
+    if (completion.usage) {
+      costTracker.record(
+        this.model,
+        completion.usage.prompt_tokens,
+        completion.usage.completion_tokens,
+        'follow_up_sequence'
+      );
     }
+
+    return safeJsonParse(completion.choices[0].message.content, undefined, []);
   }
 
   /**

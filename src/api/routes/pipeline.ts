@@ -20,6 +20,15 @@ import { transformSignalsToOutreach } from '../../lib/ai/signalToOutreach';
 import { generateAdvancedPersonalization } from '../../lib/ai/advancedPersonalization';
 import { analyzeEmailPerformance, optimizeEmail, createEmailOptimizer } from '../../lib/ai/emailOptimizer';
 import { generateIndustryTailoredEmail, createIndustryMessagingEngine } from '../../lib/ai/industryMessaging';
+import {
+  generateEnhancedPersonalization,
+  getAIUsageStats,
+  getDailyAIUsage,
+  getCacheStats,
+  clearAICache,
+  EnhancedAIEngine,
+} from '../../lib/ai/enhancedAIEngine';
+import { getAIClient, costTracker, aiCache } from '../../lib/ai/aiUtils';
 import { supabase } from '../../lib/supabase';
 
 const router = Router();
@@ -730,6 +739,246 @@ router.post('/industry-messaging', authenticateToken, async (req: AuthenticatedR
     console.error('Industry messaging error:', error);
     res.status(500).json({
       error: error instanceof Error ? error.message : 'Industry messaging generation failed',
+    });
+  }
+});
+
+// =============================================
+// ENHANCED AI ENDPOINTS
+// =============================================
+
+/**
+ * POST /api/v1/pipeline/enhanced-personalization
+ * Generate personalization with improved AI (caching, retry, validation)
+ */
+router.post('/enhanced-personalization', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectId, productContext } = req.body;
+
+    if (!prospectId) {
+      return res.status(400).json({ error: 'prospectId is required' });
+    }
+
+    const result = await generateEnhancedPersonalization(prospectId, productContext);
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Enhanced personalization error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Enhanced personalization failed',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/stream-email
+ * Stream email generation for better UX
+ */
+router.post('/stream-email', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectId, emailType, streamFormat } = req.body;
+
+    if (!prospectId) {
+      return res.status(400).json({ error: 'prospectId is required' });
+    }
+
+    // Get prospect signals
+    const { data: prospect } = await supabase
+      .from('prospects')
+      .select('enrichment_data')
+      .eq('id', prospectId)
+      .single();
+
+    if (!prospect?.enrichment_data) {
+      return res.status(400).json({
+        error: 'Prospect has not been enriched. Run enrichment first.',
+      });
+    }
+
+    const signals = prospect.enrichment_data;
+    const client = getAIClient();
+
+    // Set up SSE if streaming
+    if (streamFormat === 'sse') {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      const { content, metadata } = await client.chatWithStreaming(
+        [
+          {
+            role: 'system',
+            content: `You are an elite sales copywriter. Write a compelling ${emailType || 'cold outreach'} email.
+
+The email should:
+- Start with something about THEM (not you)
+- Be 80-120 words
+- Sound human, not automated
+- Have ONE clear call-to-action
+- Reference their specific context`,
+          },
+          {
+            role: 'user',
+            content: `Write an email for:
+- Name: ${signals.contact?.email?.split('@')[0]?.replace(/[._]/g, ' ') || 'Prospect'}
+- Title: ${signals.professional?.title || 'Unknown'}
+- Company: ${signals.company?.name || 'Unknown'}
+- Industry: ${signals.company?.industry || 'Unknown'}`,
+          },
+        ],
+        (chunk) => {
+          res.write(`data: ${JSON.stringify({ chunk })}\n\n`);
+        },
+        { operation: 'stream_email' }
+      );
+
+      res.write(`data: ${JSON.stringify({ done: true, content, metadata })}\n\n`);
+      res.end();
+    } else {
+      // Non-streaming response
+      const response = await client.chat<string>(
+        [
+          {
+            role: 'system',
+            content: `You are an elite sales copywriter. Write a compelling ${emailType || 'cold outreach'} email.`,
+          },
+          {
+            role: 'user',
+            content: `Write an email for:
+- Name: ${signals.contact?.email?.split('@')[0]?.replace(/[._]/g, ' ') || 'Prospect'}
+- Title: ${signals.professional?.title || 'Unknown'}
+- Company: ${signals.company?.name || 'Unknown'}`,
+          },
+        ],
+        { operation: 'generate_email' }
+      );
+
+      res.json({
+        success: true,
+        data: {
+          content: response.data,
+          metadata: response.metadata,
+        },
+      });
+    }
+  } catch (error) {
+    console.error('Stream email error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Email streaming failed',
+    });
+  }
+});
+
+// =============================================
+// AI USAGE & COST TRACKING ENDPOINTS
+// =============================================
+
+/**
+ * GET /api/v1/pipeline/ai-usage
+ * Get AI usage statistics and cost tracking
+ */
+router.get('/ai-usage', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { days } = req.query;
+    const sinceDate = days ? new Date(Date.now() - Number(days) * 24 * 60 * 60 * 1000) : undefined;
+
+    const usage = getAIUsageStats(sinceDate);
+    const dailyUsage = getDailyAIUsage(Number(days) || 7);
+    const cacheStats = getCacheStats();
+
+    res.json({
+      success: true,
+      data: {
+        overall: {
+          totalCost: Math.round(usage.totalCost * 10000) / 10000,
+          totalTokens: usage.totalTokens,
+          costByModel: usage.byModel,
+          costByOperation: usage.byOperation,
+        },
+        daily: dailyUsage.map(d => ({
+          date: d.date,
+          tokens: d.tokens,
+          cost: Math.round(d.cost * 10000) / 10000,
+        })),
+        cache: {
+          size: cacheStats.size,
+          maxSize: cacheStats.maxSize,
+          hitRate: 'N/A', // Would need to track hits/misses
+        },
+      },
+    });
+  } catch (error) {
+    console.error('AI usage error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Failed to get AI usage',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/clear-ai-cache
+ * Clear the AI response cache
+ */
+router.post('/clear-ai-cache', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const beforeSize = getCacheStats().size;
+    clearAICache();
+    const afterSize = getCacheStats().size;
+
+    res.json({
+      success: true,
+      message: `Cache cleared. Removed ${beforeSize - afterSize} entries.`,
+    });
+  } catch (error) {
+    console.error('Clear cache error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Failed to clear cache',
+    });
+  }
+});
+
+/**
+ * POST /api/v1/pipeline/estimate-cost
+ * Estimate cost for a pipeline run
+ */
+router.post('/estimate-cost', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { prospectCount, options } = req.body;
+    const count = prospectCount || 1;
+
+    // Estimate based on typical usage per prospect
+    const estimates = {
+      basic: {
+        tokensPerProspect: 2000,
+        costPerProspect: 0.003,
+      },
+      advanced: {
+        tokensPerProspect: 8000,
+        costPerProspect: 0.012,
+      },
+    };
+
+    const mode = options?.enableAdvancedPersonalization ? 'advanced' : 'basic';
+    const estimate = estimates[mode];
+
+    res.json({
+      success: true,
+      data: {
+        prospectCount: count,
+        mode,
+        estimatedTokens: estimate.tokensPerProspect * count,
+        estimatedCost: Math.round(estimate.costPerProspect * count * 10000) / 10000,
+        currency: 'USD',
+        note: 'Estimates based on typical usage. Actual costs may vary.',
+      },
+    });
+  } catch (error) {
+    console.error('Estimate cost error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Failed to estimate cost',
     });
   }
 });
