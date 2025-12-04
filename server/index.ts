@@ -7,6 +7,9 @@ import morgan from 'morgan';
 import aiRoutes from './routes/ai';
 import prospectsRoutes from './routes/prospects';
 import notificationsRoutes from './routes/notifications';
+import dashboardRoutes from './routes/dashboard';
+import dealsRoutes from './routes/deals';
+import cadencesRoutes from './routes/cadences';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -46,6 +49,9 @@ async function startServer() {
   app.use('/api/ai', aiRoutes);
   app.use('/api/prospects', prospectsRoutes);
   app.use('/api/notifications', notificationsRoutes);
+  app.use('/api/dashboard', dashboardRoutes);
+  app.use('/api/deals', dealsRoutes);
+  app.use('/api/cadences', cadencesRoutes);
 
   // In development, set up Vite dev server
   const vite = await createViteServer({

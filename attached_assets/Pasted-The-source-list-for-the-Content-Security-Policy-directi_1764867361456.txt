@@ -1,0 +1,366 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+AIRevenueOrc:1  The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+AIRevenueOrc:1  The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+AIRevenueOrc:1  The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A27%3A49.636Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A27%3A49.636Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A27%3A49.637Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A27%3A49.637Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+  WebSocket connection to 'wss://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/?token=ADsyNlDlfNXS' failed: 
+setupWebSocket @ client:536
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/undefined/functions/v1/ai-openai:1   Failed to load resource: the server responded with a status of 404 (Not Found)
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/undefined/functions/v1/ai-openai:1   Failed to load resource: the server responded with a status of 404 (Not Found)
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A30%3A02.136Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A30%3A02.136Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A30%3A02.137Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A30%3A02.137Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A30%3A09.693Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A30%3A09.693Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A30%3A09.694Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A30%3A09.694Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=status%2Copened_at%2Cclicked_at:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=duration_seconds%2Cdisposition:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=stage%2Camount:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=is_active&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadence_enrollments?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=status%2Copened_at%2Cclicked_at:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=duration_seconds%2Cdisposition:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=is_active&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadence_enrollments?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=stage%2Camount:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/conversations?select=*&order=started_at.desc&limit=50:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/conversations?select=*&order=started_at.desc&limit=50:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=duration_seconds%2Cdisposition:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=status%2Copened_at%2Cclicked_at:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=is_active&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadence_enrollments?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=stage%2Camount:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=is_active&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadence_enrollments?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=status%2Copened_at%2Cclicked_at:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=duration_seconds%2Cdisposition:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=stage%2Camount:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/ai_predictions?select=*&order=created_at.desc&limit=20:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/ai_predictions?select=*&order=created_at.desc&limit=20:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A33%3A20.091Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A33%3A20.092Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A33%3A20.092Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A33%3A20.091Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+ca20a1fe0bc4f889.js:2  Missing field 'thinkingEnabled' while writing result {
+  "__typename": "AgentSettings",
+  "autonomyLevel": "max",
+  "chatMode": "general"
+}
+(anonymous) @ ca20a1fe0bc4f889.js:2
+ca20a1fe0bc4f889.js:2  Missing field 'modelProfile' while writing result {
+  "__typename": "AgentSettings",
+  "autonomyLevel": "max",
+  "chatMode": "general"
+}
+(anonymous) @ ca20a1fe0bc4f889.js:2
+ca20a1fe0bc4f889.js:2  Missing field 'enableAutomatedTesting' while writing result {
+  "__typename": "AgentSettings",
+  "autonomyLevel": "max",
+  "chatMode": "general"
+}
+(anonymous) @ ca20a1fe0bc4f889.js:2
+ca20a1fe0bc4f889.js:2  Missing field 'webSearchEnabled' while writing result {
+  "__typename": "AgentSettings",
+  "autonomyLevel": "max",
+  "chatMode": "general"
+}
+(anonymous) @ ca20a1fe0bc4f889.js:2
+ca20a1fe0bc4f889.js:2  Missing field 'imageGenerationEnabled' while writing result {
+  "__typename": "AgentSettings",
+  "autonomyLevel": "max",
+  "chatMode": "general"
+}
+(anonymous) @ ca20a1fe0bc4f889.js:2
+ca20a1fe0bc4f889.js:2  Missing field 'maxAutonomyEnabled' while writing result {
+  "__typename": "AgentSettings",
+  "autonomyLevel": "max",
+  "chatMode": "general"
+}
+(anonymous) @ ca20a1fe0bc4f889.js:2
+  WebSocket connection to 'wss://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/?token=t1hwQa2fT9bR' failed: 
+setupWebSocket @ client:536
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A34%3A16.433Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A34%3A16.433Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A34%3A16.433Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A34%3A16.433Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+  WebSocket connection to 'wss://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/?token=zb39lDvL9xek' failed: 
+setupWebSocket @ client:536
+/public/sounds/mixkit-achievement-bell-600.wav:1   Failed to load resource: net::ERR_CACHE_OPERATION_NOT_SUPPORTED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&order=amount.desc:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&order=amount.desc:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/conversations?select=*&order=started_at.desc&limit=50:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/conversations?select=*&order=started_at.desc&limit=50:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/ai_predictions?select=*&order=created_at.desc&limit=20:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/ai_predictions?select=*&order=created_at.desc&limit=20:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+  WebSocket connection to 'wss://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/?token=zb39lDvL9xek' failed: 
+setupWebSocket @ client:536
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&order=amount.desc:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading deals: Object
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&order=amount.desc:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading deals: Object
+(anonymous) @ injected.js:37
+client:536  WebSocket connection to 'wss://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/?token=zb39lDvL9xek' failed: 
+setupWebSocket @ client:536
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A48%3A42.614Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T16%3A48%3A42.614Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A48%3A42.614Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T16%3A48%3A42.614Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading tasks: TypeError: prospects.forEach is not a function
+    at generateDailyTasks (taskPrioritization.ts:96:13)
+    at loadTasks (DailyTasksView.tsx:18:31)
+    at DailyTasksView.tsx:12:5
+    at commitHookEffectListMount (react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (react-dom.development.js:24965:13)
+    at commitPassiveMountEffects_complete (react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (react-dom.development.js:27078:3)
+    at flushPassiveEffects (react-dom.development.js:27023:14)
+(anonymous) @ injected.js:37
+injected.js:37  Error loading tasks: TypeError: prospects.forEach is not a function
+    at generateDailyTasks (taskPrioritization.ts:96:13)
+    at loadTasks (DailyTasksView.tsx:18:31)
+    at DailyTasksView.tsx:12:5
+    at commitHookEffectListMount (react-dom.development.js:23189:26)
+    at invokePassiveEffectMountInDEV (react-dom.development.js:25193:13)
+    at invokeEffectsInDev (react-dom.development.js:27390:11)
+    at commitDoubleInvokeEffectsInDEV (react-dom.development.js:27369:7)
+    at flushPassiveEffectsImpl (react-dom.development.js:27095:5)
+    at flushPassiveEffects (react-dom.development.js:27023:14)
+    at commitRootImpl (react-dom.development.js:26974:5)
+(anonymous) @ injected.js:37
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading deals: Object
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading deals: Object
+(anonymous) @ injected.js:37
+injected.js:37  Warning: Received NaN for the `children` attribute. If this is expected, cast the value to a string.
+    at div
+    at div
+    at div
+    at div
+    at PipelineHealthView (https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/src/components/dashboard/PipelineHealthView.tsx:24:29)
+    at div
+    at main
+    at div
+    at DashboardLayout (https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/src/components/layout/DashboardLayout.tsx?t=1764866593916:49:43)
+    at UndoRedoProvider (https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/src/contexts/UndoRedoContext.tsx:20:36)
+    at App (https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/src/App.tsx?t=1764866593916:46:40)
+    at AuthProvider (https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/src/contexts/AuthContext.tsx:21:32)
+    at ThemeProvider (https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/src/contexts/ThemeContext.tsx:20:33)
+(anonymous) @ injected.js:37
+injected.js:37  Error loading tasks: TypeError: prospects.forEach is not a function
+    at generateDailyTasks (taskPrioritization.ts:96:13)
+    at loadTasks (DailyTasksView.tsx:18:31)
+    at DailyTasksView.tsx:12:5
+    at commitHookEffectListMount (react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (react-dom.development.js:24965:13)
+    at commitPassiveMountEffects_complete (react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (react-dom.development.js:27078:3)
+    at flushPassiveEffects (react-dom.development.js:27023:14)
+(anonymous) @ injected.js:37
+injected.js:37  Error loading tasks: TypeError: prospects.forEach is not a function
+    at generateDailyTasks (taskPrioritization.ts:96:13)
+    at loadTasks (DailyTasksView.tsx:18:31)
+    at DailyTasksView.tsx:12:5
+    at commitHookEffectListMount (react-dom.development.js:23189:26)
+    at invokePassiveEffectMountInDEV (react-dom.development.js:25193:13)
+    at invokeEffectsInDev (react-dom.development.js:27390:11)
+    at commitDoubleInvokeEffectsInDEV (react-dom.development.js:27369:7)
+    at flushPassiveEffectsImpl (react-dom.development.js:27095:5)
+    at flushPassiveEffects (react-dom.development.js:27023:14)
+    at commitRootImpl (react-dom.development.js:26974:5)
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading deals: Object
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=*&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading deals: Object
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=stage%2Camount:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=is_active&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadence_enrollments?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=status%2Copened_at%2Cclicked_at:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadence_enrollments?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=status%2Copened_at%2Cclicked_at:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=duration_seconds%2Cdisposition:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=is_active&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=status:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=duration_seconds%2Cdisposition:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=stage%2Camount:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/company_profiles?select=*&team_id=eq.00000000-0000-0000-0000-000000000001:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
