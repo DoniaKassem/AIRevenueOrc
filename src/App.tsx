@@ -20,6 +20,7 @@ import IntegrationControlCenter from './components/dashboard/IntegrationControlC
 import IntegrationMarketplace from './components/dashboard/IntegrationMarketplace';
 import IntegrationFlowBuilder from './components/dashboard/IntegrationFlowBuilder';
 import ResearchCenter from './components/dashboard/ResearchCenter';
+import EnrichmentWorkflowView from './components/dashboard/EnrichmentWorkflowView';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import LoginForm from './components/auth/LoginForm';
 import { UndoRedoProvider } from './contexts/UndoRedoContext';
@@ -112,6 +113,8 @@ function App() {
         return <IntegrationFlowBuilder onNavigate={handleIntegrationNavigate} />;
       case 'research-center':
         return <ResearchCenter />;
+      case 'enrichment-workflow':
+        return <EnrichmentWorkflowView />;
       case 'settings':
         return <SettingsView />;
       default:
