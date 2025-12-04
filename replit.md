@@ -3,20 +3,45 @@
 ## Project Overview
 AIRevenueOrc is a comprehensive AI-powered sales and BDR (Business Development Representative) platform featuring CRM, AI agents, multi-channel outreach automation, conversation intelligence, marketing hub, service hub, and extensive integrations. This is an enterprise-grade SaaS solution.
 
-## Migration Status: In Progress
+## Migration Status: ~60% Complete
 
-### Completed
+### Completed (December 2024)
 - **Database Setup**: PostgreSQL (Neon) with pgvector extension - 94 tables fully deployed
 - **Drizzle ORM Schema**: Complete enterprise schema covering all platform features
 - **Server Setup**: Express + Vite integration on port 5000
-- **Core AI Features Migrated**: 3 of 6 Edge Functions converted to Express routes
+- **Core Dashboard Views Migrated**: 8 critical views converted from Supabase to Express API
+  - DashboardHome (stats, metrics)
+  - PipelineView (deals CRUD)
+  - CadencesView (sequences, enrollments)
+  - ConversationsView (call transcripts, insights)
+  - AIAgentsView (predictions, sessions)
+  - PipelineHealthView (deal analytics)
+  - DailyTasksView (task prioritization)
+  - Notifications (in-app alerts)
 
-### In Progress
-- **Frontend Integration**: Continue migrating remaining Supabase calls to Express API
+### Express API Routes Created
+- `/api/dashboard/stats` - Dashboard metrics aggregation
+- `/api/deals/*` - Full CRUD for sales deals
+- `/api/cadences/*` - Cadence management and enrollments
+- `/api/conversations/*` - Conversation transcripts and insights
+- `/api/ai/chat` - OpenAI integration endpoint
+- `/api/ai/predictions` - AI agent predictions
+- `/api/pipeline/health` - Pipeline health analytics
+- `/api/tasks/daily/:userId` - Daily task prioritization
+- `/api/notifications/*` - Notification management
+- `/api/prospects/*` - Prospect CRUD operations
+
+### Remaining Migration (~40 files still using Supabase)
+- **Forms**: AddProspectForm, LogCallForm, AIEmailComposer, EnrichContactForm, BulkEmailForm
+- **Research/Knowledge Modules**: researchOrchestrator, knowledgeRetrieval, researchProviders
+- **Social/Analytics**: SocialSellingView, integrationAnalytics, oauthIntegration
+- **Service Hub**: KnowledgeBaseView, tickets, chat
+- **Marketing Hub**: CampaignsView, workflows, forms
 
 ### Pending
-- Additional AI Functions (email sending, document processing, deep research, website crawling)
 - Authentication middleware (JWT, SSO/SAML, MFA implementation)
+- Complete form migrations (prospect, call, email forms)
+- Knowledge/research module migrations
 - Rate Limiting and security middleware
 - Testing and production deployment
 
