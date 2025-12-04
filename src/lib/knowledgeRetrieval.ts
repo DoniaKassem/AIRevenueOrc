@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 
 export interface CompanyKnowledge {
+  id?: string;
   company_name: string;
   industry?: string;
   company_description?: string;

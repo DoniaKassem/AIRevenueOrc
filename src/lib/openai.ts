@@ -36,7 +36,7 @@ export async function createOpenAICompletion(
         content: `${messages[0].content}\n\n${companyContext}\n\nIMPORTANT: Use the company information above to ensure all responses align with the company's brand voice, messaging guidelines, and values. Follow the communication DOs and DON'Ts strictly.`,
       };
 
-      if (agentType) {
+      if (agentType && knowledge.company_profile.id) {
         const knowledgeSources = knowledge.relevant_chunks.map(
           (chunk) => `${chunk.source_type}:${chunk.metadata?.file_name || chunk.metadata?.url || 'unknown'}`
         );
@@ -51,14 +51,10 @@ export async function createOpenAICompletion(
     }
   }
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-  const response = await fetch(`${supabaseUrl}/functions/v1/ai-openai`, {
+  const response = await fetch('/api/ai/chat', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${supabaseKey}`,
     },
     body: JSON.stringify({
       messages,
@@ -74,6 +70,11 @@ export async function createOpenAICompletion(
   }
 
   const data = await response.json();
+  
+  if (!data.success) {
+    throw new Error(data.error || 'OpenAI API request failed');
+  }
+  
   return data.content;
 }
 

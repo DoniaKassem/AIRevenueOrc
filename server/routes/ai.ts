@@ -85,9 +85,69 @@ router.post('/config/test', async (req: Request, res: Response) => {
 });
 
 // Validation schemas
+const chatSchema = z.object({
+  messages: z.array(z.object({
+    role: z.enum(['system', 'user', 'assistant']),
+    content: z.string(),
+  })),
+  model: z.string().optional().default('gpt-4o-mini'),
+  temperature: z.number().optional().default(0.7),
+  max_tokens: z.number().optional().default(1000),
+});
+
 const analyzeConversationSchema = z.object({
   conversation_id: z.string().uuid(),
   use_ai: z.boolean().optional().default(true),
+});
+
+// =============================================
+// GENERIC AI CHAT ENDPOINT
+// =============================================
+
+router.post('/chat', async (req: Request, res: Response) => {
+  try {
+    const { messages, model, temperature, max_tokens } = chatSchema.parse(req.body);
+
+    const openai = getOpenAIClient();
+    
+    if (!openai) {
+      return res.status(503).json({
+        success: false,
+        error: 'OpenAI API not configured',
+        content: null,
+      });
+    }
+
+    const response = await openai.chat.completions.create({
+      model,
+      messages,
+      temperature,
+      max_tokens,
+    });
+
+    const content = response.choices[0]?.message?.content || '';
+
+    res.json({
+      success: true,
+      content,
+      usage: response.usage,
+    });
+  } catch (error: any) {
+    console.error('AI chat error:', error);
+    
+    if (error.name === 'ZodError') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid request data',
+        details: error.errors,
+      });
+    }
+    
+    res.status(500).json({
+      success: false,
+      error: error.message || 'AI chat request failed',
+    });
+  }
 });
 
 const analyzeDealSchema = z.object({

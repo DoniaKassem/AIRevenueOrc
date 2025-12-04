@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import {
   TrendingUp,
   Users,
@@ -49,44 +48,19 @@ export default function DashboardHome() {
 
   async function loadDashboardStats() {
     try {
-      const [prospects, deals, emails, calls, cadences] = await Promise.all([
-        supabase
-          .from('prospects')
-          .select('id', { count: 'exact' }),
-        supabase
-          .from('deals')
-          .select('amount')
-          .not('stage', 'in', '(closed_won,closed_lost)'),
-        supabase
-          .from('email_sends')
-          .select('id', { count: 'exact' })
-          .gte(
-            'created_at',
-            new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-          ),
-        supabase
-          .from('call_logs')
-          .select('id', { count: 'exact' })
-          .gte(
-            'created_at',
-            new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-          ),
-        supabase
-          .from('cadences')
-          .select('id', { count: 'exact' })
-          .eq('is_active', true),
-      ]);
-
-      const pipelineValue = deals.data?.reduce((sum, d) => sum + d.amount, 0) || 0;
-
-      setStats({
-        prospects: prospects.count || 0,
-        activeDeals: deals.count || 0,
-        pipelineValue,
-        emailsSent: emails.count || 0,
-        callsMade: calls.count || 0,
-        activeCadences: cadences.count || 0,
-      });
+      const response = await fetch('/api/dashboard/stats');
+      const result = await response.json();
+      
+      if (result.success && result.data) {
+        setStats({
+          prospects: result.data.prospects || 0,
+          activeDeals: result.data.activeDeals || 0,
+          pipelineValue: result.data.pipelineValue || 0,
+          emailsSent: result.data.emailsSent || 0,
+          callsMade: result.data.callsMade || 0,
+          activeCadences: result.data.activeCadences || 0,
+        });
+      }
     } catch (error) {
       console.error('Error loading dashboard stats:', error);
     } finally {

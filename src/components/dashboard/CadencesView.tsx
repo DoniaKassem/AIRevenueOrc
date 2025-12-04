@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import { Target, Plus, Play, Pause, Users, Mail, Phone, MessageSquare } from 'lucide-react';
 import CadenceBuilderForm from '../forms/CadenceBuilderForm';
 import CadenceDetailModal from './CadenceDetailModal';
@@ -33,13 +32,11 @@ export default function CadencesView() {
 
   async function loadCadences() {
     try {
-      const { data, error } = await supabase
-        .from('cadences')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const response = await fetch('/api/cadences');
+      const result = await response.json();
 
-      if (error) throw error;
-      setCadences(data || []);
+      if (!result.success) throw new Error('Failed to load cadences');
+      setCadences(result.data || []);
     } catch (error) {
       console.error('Error loading cadences:', error);
     } finally {

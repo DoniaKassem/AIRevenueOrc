@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import { TrendingUp, DollarSign, Target, AlertCircle, Plus, Download } from 'lucide-react';
 import AddDealForm from '../forms/AddDealForm';
 import DealDetailModal from './DealDetailModal';
@@ -32,13 +31,11 @@ export default function PipelineView() {
 
   async function loadDeals() {
     try {
-      const { data, error } = await supabase
-        .from('deals')
-        .select('*')
-        .order('amount', { ascending: false });
+      const response = await fetch('/api/deals');
+      const result = await response.json();
 
-      if (error) throw error;
-      setDeals(data || []);
+      if (!result.success) throw new Error('Failed to load deals');
+      setDeals(result.data || []);
     } catch (error) {
       console.error('Error loading deals:', error);
     } finally {
