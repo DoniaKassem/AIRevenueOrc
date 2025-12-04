@@ -58,6 +58,7 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     'Analytics & Insights': true,
     'Integrations': true,
+    'Knowledge & Research': true,
   });
 
   useEffect(() => {
@@ -97,18 +98,25 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
         { name: 'Integrations', icon: Plug, href: '#integrations', view: 'integrations' },
       ],
     },
+    {
+      name: 'Knowledge & Research',
+      icon: Book,
+      defaultOpen: true,
+      items: [
+        { name: 'Knowledge Base', icon: Book, href: '#knowledge', view: 'knowledge' },
+        { name: 'Research Center', icon: Search, href: '#research-center', view: 'research-center' },
+      ],
+    },
   ];
 
   const standaloneNavigation: NavItem[] = [
     { name: 'Look-Alike Prospects', icon: UserCheck, href: '#lookalike', view: 'lookalike' },
     { name: 'Social Selling', icon: Linkedin, href: '#social', view: 'social' },
-    { name: 'Research Center', icon: Search, href: '#research-center', view: 'research-center' },
     { name: 'Prospects', icon: Users, href: '#prospects', view: 'prospects' },
     { name: 'Cadences', icon: Target, href: '#cadences', view: 'cadences' },
     { name: 'Pipeline', icon: TrendingUp, href: '#pipeline', view: 'pipeline' },
     { name: 'Conversations', icon: MessageSquare, href: '#conversations', view: 'conversations' },
     { name: 'AI Agents', icon: Sparkles, href: '#ai', view: 'ai' },
-    { name: 'Knowledge Base', icon: Book, href: '#knowledge', view: 'knowledge' },
   ];
 
   const isActive = (view: string) => currentView === view;
