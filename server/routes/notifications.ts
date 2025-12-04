@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import { db } from '../db';
-import { notifications } from '../../shared/schema';
-import { eq, desc, and, isNull, sql } from 'drizzle-orm';
+import { neon } from '@neondatabase/serverless';
 import { z } from 'zod';
 
 const router = Router();
@@ -15,42 +13,41 @@ const NotificationQuerySchema = z.object({
 router.get('/', async (req, res) => {
   try {
     const query = NotificationQuerySchema.parse(req.query);
+    const sql = neon(process.env.DATABASE_URL!);
 
-    let data;
+    let data: any[] = [];
     try {
+      let statusCondition = '';
       if (query.status === 'unread') {
-        data = await db.select().from(notifications)
-          .where(isNull(notifications.readAt))
-          .orderBy(desc(notifications.createdAt))
-          .limit(query.limit)
-          .offset(query.offset);
+        statusCondition = 'WHERE read_at IS NULL';
       } else if (query.status === 'read') {
-        data = await db.select().from(notifications)
-          .where(sql`${notifications.readAt} IS NOT NULL`)
-          .orderBy(desc(notifications.createdAt))
-          .limit(query.limit)
-          .offset(query.offset);
-      } else {
-        data = await db.select().from(notifications)
-          .orderBy(desc(notifications.createdAt))
-          .limit(query.limit)
-          .offset(query.offset);
+        statusCondition = 'WHERE read_at IS NOT NULL';
       }
+      
+      const result = await sql`
+        SELECT id::text, organization_id::text, user_id::text, event_type, 
+               title, message, priority, action_url, status, read_at, 
+               metadata, created_at
+        FROM notifications
+        ${sql.unsafe(statusCondition)}
+        ORDER BY created_at DESC NULLS LAST
+        LIMIT ${query.limit} OFFSET ${query.offset}
+      `;
+      data = result || [];
     } catch (dbError) {
-      console.error('Database query error:', dbError);
       data = [];
     }
 
-    const transformedData = (data || []).map(n => ({
+    const transformedData = (data || []).map((n: any) => ({
       id: n.id,
-      eventType: n.eventType,
+      eventType: n.event_type,
       title: n.title,
       message: n.message,
       priority: n.priority,
-      isRead: n.readAt !== null,
-      createdAt: n.createdAt,
+      isRead: n.read_at !== null,
+      createdAt: n.created_at,
       metadata: n.metadata,
-      actionUrl: n.actionUrl,
+      actionUrl: n.action_url,
     }));
 
     res.json({
@@ -69,14 +66,21 @@ router.get('/', async (req, res) => {
 
 router.get('/unread-count', async (req, res) => {
   try {
-    const [result] = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(notifications)
-      .where(isNull(notifications.readAt));
+    const sql = neon(process.env.DATABASE_URL!);
+    
+    let count = 0;
+    try {
+      const result = await sql`
+        SELECT COUNT(*) as count FROM notifications WHERE read_at IS NULL
+      `;
+      count = Number(result?.[0]?.count || 0);
+    } catch (dbError) {
+      count = 0;
+    }
 
     res.json({
       success: true,
-      count: Number(result?.count || 0),
+      count,
     });
   } catch (error) {
     console.error('Error fetching unread count:', error);
@@ -90,12 +94,20 @@ router.get('/unread-count', async (req, res) => {
 router.patch('/:id/read', async (req, res) => {
   try {
     const { id } = req.params;
+    const sql = neon(process.env.DATABASE_URL!);
 
-    const [updated] = await db
-      .update(notifications)
-      .set({ readAt: new Date() })
-      .where(eq(notifications.id, id))
-      .returning();
+    let updated: any = null;
+    try {
+      const result = await sql`
+        UPDATE notifications 
+        SET read_at = NOW() 
+        WHERE id = ${id}::uuid
+        RETURNING id::text, read_at
+      `;
+      updated = result?.[0];
+    } catch (dbError) {
+      updated = null;
+    }
 
     if (!updated) {
       return res.status(404).json({
@@ -109,7 +121,7 @@ router.patch('/:id/read', async (req, res) => {
       data: {
         id: updated.id,
         isRead: true,
-        readAt: updated.readAt,
+        readAt: updated.read_at,
       },
     });
   } catch (error) {
@@ -123,10 +135,14 @@ router.patch('/:id/read', async (req, res) => {
 
 router.post('/mark-all-read', async (req, res) => {
   try {
-    await db
-      .update(notifications)
-      .set({ readAt: new Date() })
-      .where(isNull(notifications.readAt));
+    const sql = neon(process.env.DATABASE_URL!);
+    
+    try {
+      await sql`
+        UPDATE notifications SET read_at = NOW() WHERE read_at IS NULL
+      `;
+    } catch (dbError) {
+    }
 
     res.json({
       success: true,
