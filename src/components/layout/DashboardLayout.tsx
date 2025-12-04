@@ -56,9 +56,9 @@ export default function DashboardLayout({ children, currentView, onDataRefresh }
   const { canUndo, canRedo, undo, redo } = useUndoRedo();
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    'Analytics & Insights': true,
-    'Integrations': true,
-    'Knowledge & Research': true,
+    'Analytics & Insights': false,
+    'Integrations': false,
+    'Knowledge & Research': false,
   });
 
   useEffect(() => {
