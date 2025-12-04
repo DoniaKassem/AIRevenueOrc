@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import Modal from '../common/Modal';
 
 interface AddProspectFormProps {
@@ -7,8 +6,6 @@ interface AddProspectFormProps {
   onClose: () => void;
   onSuccess: () => void;
 }
-
-const DEFAULT_TEAM_ID = '00000000-0000-0000-0000-000000000001';
 
 export default function AddProspectForm({
   isOpen,
@@ -34,13 +31,29 @@ export default function AddProspectForm({
     setError('');
 
     try {
-      const { error: insertError } = await supabase.from('prospects').insert({
-        ...formData,
-        team_id: DEFAULT_TEAM_ID,
-        priority_score: 50,
+      const response = await fetch('/api/prospects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.first_name,
+          lastName: formData.last_name,
+          email: formData.email,
+          phone: formData.phone || undefined,
+          title: formData.title || undefined,
+          company: formData.company || undefined,
+          linkedinUrl: formData.linkedin_url || undefined,
+          status: formData.status,
+          priorityScore: 50,
+        }),
       });
-
-      if (insertError) throw insertError;
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to add prospect');
+      }
 
       setFormData({
         first_name: '',
