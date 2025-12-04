@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import aiRoutes from './routes/ai';
+import prospectsRoutes from './routes/prospects';
+import notificationsRoutes from './routes/notifications';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -42,6 +44,8 @@ async function startServer() {
 
   // API routes
   app.use('/api/ai', aiRoutes);
+  app.use('/api/prospects', prospectsRoutes);
+  app.use('/api/notifications', notificationsRoutes);
 
   // In development, set up Vite dev server
   const vite = await createViteServer({

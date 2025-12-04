@@ -1,0 +1,547 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+AIRevenueOrc:1  The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+AIRevenueOrc:1  The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+AIRevenueOrc:1  The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+ed1e693c96a75807.js:2  Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+z @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iA @ ed1e693c96a75807.js:2
+iV @ ed1e693c96a75807.js:2
+iU @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+036e87648aa9f820.js:2   HEAD chrome-extension://invalid/ net::ERR_FAILED
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+l @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+asyncGeneratorStep$9 @ quillbot-content.js:2
+a @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+detectCompetitorExtensions @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+(anonymous) @ quillbot-content.js:2
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:2
+setTimeout
+g @ quillbot-content.js:2
+g @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+requestAnimationFrame
+value @ quillbot-content.js:23
+e @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+setTimeout
+c @ quillbot-content.js:23
+value @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+r @ quillbot-content.js:23
+s @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+(anonymous) @ quillbot-content.js:23
+t.HTMLElement.focus @ 036e87648aa9f820.js:2
+H @ fa82eb0d68e09b4b.js:2
+(anonymous) @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+value @ fa82eb0d68e09b4b.js:2
+focus @ da58ea7004149165.js:2
+(anonymous) @ f4379f6336848eb7.js:2
+uV @ ed1e693c96a75807.js:2
+iH @ ed1e693c96a75807.js:2
+iT @ ed1e693c96a75807.js:2
+r6 @ ed1e693c96a75807.js:2
+(anonymous) @ ed1e693c96a75807.js:2
+iB @ ed1e693c96a75807.js:2
+i_ @ ed1e693c96a75807.js:2
+C @ ed1e693c96a75807.js:2
+M @ ed1e693c96a75807.js:2
+workspace_iframe.html?initialPath=%2F&id=%3Ar2g%3A:32  Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.

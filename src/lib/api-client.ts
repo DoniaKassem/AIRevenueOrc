@@ -117,7 +117,7 @@ class APIClient {
   private refreshPromise: Promise<string> | null = null;
 
   constructor() {
-    const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
+    const baseURL = import.meta.env.VITE_API_URL || '/api';
 
     this.client = axios.create({
       baseURL,

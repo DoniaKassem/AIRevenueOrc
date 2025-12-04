@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import { UserPlus, Search, Filter, TrendingUp, Mail, Phone, Target, Download, PhoneCall, Sparkles, Database, Brain, Upload, Send } from 'lucide-react';
 import AddProspectForm from '../forms/AddProspectForm';
 import EnrollCadenceForm from '../forms/EnrollCadenceForm';
@@ -49,14 +48,14 @@ export default function ProspectsView() {
 
   async function loadProspects() {
     try {
-      const { data, error } = await supabase
-        .from('prospects')
-        .select('*')
-        .order('priority_score', { ascending: false })
-        .limit(50);
-
-      if (error) throw error;
-      setProspects(data || []);
+      const response = await fetch('/api/prospects?limit=50&orderBy=priority_score&orderDir=desc');
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to load prospects');
+      }
+      
+      setProspects(result.data || []);
     } catch (error) {
       console.error('Error loading prospects:', error);
     } finally {
