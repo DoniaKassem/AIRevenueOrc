@@ -17,6 +17,7 @@ import {
 import Modal from '../common/Modal';
 import CompanyProfileForm from '../forms/CompanyProfileForm';
 import TrainingInsightsModal from './TrainingInsightsModal';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface CompanyProfile {
   id: string;
@@ -46,6 +47,7 @@ interface KnowledgeWebsite {
 }
 
 export default function KnowledgeBaseView() {
+  const { user } = useAuth();
   const [companyProfile, setCompanyProfile] = useState<CompanyProfile | null>(
     null
   );
@@ -60,19 +62,21 @@ export default function KnowledgeBaseView() {
   const [showInsightsModal, setShowInsightsModal] = useState(false);
 
   useEffect(() => {
-    loadKnowledgeBase();
-  }, []);
+    if (user?.team_id) {
+      loadKnowledgeBase();
+    }
+  }, [user?.team_id]);
 
   async function loadKnowledgeBase() {
+    if (!user?.team_id) return;
+
     try {
       setLoading(true);
-
-      const defaultTeamId = '00000000-0000-0000-0000-000000000001';
 
       const { data: companyData } = await supabase
         .from('company_profiles')
         .select('*')
-        .eq('team_id', defaultTeamId)
+        .eq('team_id', user.team_id)
         .maybeSingle();
 
       setCompanyProfile(companyData);
@@ -246,6 +250,7 @@ export default function KnowledgeBaseView() {
           isOpen={showProfileForm}
           onClose={() => setShowProfileForm(false)}
           onSuccess={loadKnowledgeBase}
+          teamId={user?.team_id || ''}
         />
       </div>
     );
@@ -533,6 +538,7 @@ export default function KnowledgeBaseView() {
         onClose={() => setShowProfileForm(false)}
         onSuccess={loadKnowledgeBase}
         existingProfile={companyProfile}
+        teamId={user?.team_id || ''}
       />
 
       <TrainingInsightsModal

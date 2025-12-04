@@ -36,7 +36,8 @@ export default function IntegrationsView() {
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      const mockProviders: IntegrationProvider[] = [
+      // Available integration providers - only showing the main CRM and enrichment tools
+      const availableProviders: IntegrationProvider[] = [
         {
           id: '1',
           name: 'Salesforce',
@@ -57,81 +58,20 @@ export default function IntegrationsView() {
         },
         {
           id: '3',
-          name: 'Gmail',
-          category: 'Email',
-          description: 'Send and track emails through Gmail',
-          auth_type: 'oauth2',
-          capabilities: { send_email: true, track_email: true },
-          is_active: true,
-        },
-        {
-          id: '4',
-          name: 'Google Calendar',
-          category: 'Calendar',
-          description: 'Schedule meetings and sync calendar events',
-          auth_type: 'oauth2',
-          capabilities: { calendar_sync: true, meeting_schedule: true },
-          is_active: true,
-        },
-        {
-          id: '5',
-          name: 'Slack',
-          category: 'Communication',
-          description: 'Send notifications and updates to Slack',
-          auth_type: 'oauth2',
-          capabilities: { notifications: true, commands: true },
-          is_active: true,
-        },
-        {
-          id: '6',
           name: 'ZoomInfo',
           category: 'Enrichment',
-          description: 'Enrich contact and company data',
+          description: 'Enrich contact and company data with ZoomInfo',
           auth_type: 'api_key',
-          capabilities: { enrichment: true },
-          is_active: true,
-        },
-        {
-          id: '7',
-          name: 'Clearbit',
-          category: 'Enrichment',
-          description: 'Enrich contact and company data',
-          auth_type: 'api_key',
-          capabilities: { enrichment: true },
-          is_active: true,
-        },
-        {
-          id: '8',
-          name: 'Stripe',
-          category: 'Payment',
-          description: 'Process payments and manage subscriptions',
-          auth_type: 'api_key',
-          capabilities: { payments: true, webhooks: true },
+          capabilities: { enrichment: true, company_data: true, contact_data: true },
           is_active: true,
         },
       ];
 
-      const mockIntegrations: TeamIntegration[] = [
-        {
-          id: '1',
-          provider_id: '3',
-          provider_name: 'Gmail',
-          status: 'active',
-          last_sync_at: new Date(Date.now() - 3600000).toISOString(),
-          created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
-        },
-        {
-          id: '2',
-          provider_id: '4',
-          provider_name: 'Google Calendar',
-          status: 'active',
-          last_sync_at: new Date(Date.now() - 1800000).toISOString(),
-          created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-        },
-      ];
+      // No connected integrations by default - user needs to connect them
+      const connectedIntegrations: TeamIntegration[] = [];
 
-      setProviders(mockProviders);
-      setIntegrations(mockIntegrations);
+      setProviders(availableProviders);
+      setIntegrations(connectedIntegrations);
     } finally {
       setLoading(false);
     }

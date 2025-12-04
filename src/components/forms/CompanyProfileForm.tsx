@@ -8,6 +8,7 @@ interface CompanyProfileFormProps {
   onClose: () => void;
   onSuccess: () => void;
   existingProfile?: any;
+  teamId?: string;
 }
 
 export default function CompanyProfileForm({
@@ -15,6 +16,7 @@ export default function CompanyProfileForm({
   onClose,
   onSuccess,
   existingProfile,
+  teamId,
 }: CompanyProfileFormProps) {
   const [formData, setFormData] = useState({
     company_name: '',
@@ -43,11 +45,13 @@ export default function CompanyProfileForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!teamId) {
+      console.error('Team ID is required to create a company profile');
+      return;
+    }
     setLoading(true);
 
     try {
-      const defaultTeamId = '00000000-0000-0000-0000-000000000001';
-
       if (existingProfile) {
         await supabase
           .from('company_profiles')
@@ -59,7 +63,7 @@ export default function CompanyProfileForm({
       } else {
         await supabase.from('company_profiles').insert({
           ...formData,
-          team_id: defaultTeamId,
+          team_id: teamId,
         });
       }
 

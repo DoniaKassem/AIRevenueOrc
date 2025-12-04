@@ -15,85 +15,13 @@ export default function LookAlikeProspectsView() {
   async function loadLookAlikeProspects() {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      const mockProspects: LookAlikeScore[] = [
-        {
-          prospect_id: '1',
-          similarity_score: 92,
-          match_reasons: [
-            'Industry (Technology) is a top vertical',
-            'Company size (201-500) matches best customers',
-            'Uses technologies: Salesforce, HubSpot',
-            'Revenue range ($10M-$50M) aligns with ICP',
-          ],
-          fit_rating: 'excellent',
-          recommended_actions: [
-            'High-priority prospect - schedule call ASAP',
-            'Personalize outreach with industry-specific case studies',
-            'Consider multi-channel approach (email + LinkedIn + phone)',
-          ],
-        },
-        {
-          prospect_id: '2',
-          similarity_score: 85,
-          match_reasons: [
-            'Industry (SaaS) is a top vertical',
-            'Job title (VP of Sales) matches buyer persona',
-            'Geographic region (West Coast) is a strong fit',
-          ],
-          fit_rating: 'excellent',
-          recommended_actions: [
-            'High-priority prospect - schedule call ASAP',
-            'Personalize outreach with industry-specific case studies',
-            'Consider multi-channel approach (email + LinkedIn + phone)',
-          ],
-        },
-        {
-          prospect_id: '3',
-          similarity_score: 68,
-          match_reasons: [
-            'Company size (51-200) matches best customers',
-            'Seniority level (Director) is ideal',
-            'Revenue range ($5M-$10M) aligns with ICP',
-          ],
-          fit_rating: 'good',
-          recommended_actions: [
-            'Strong fit - add to high-priority cadence',
-            'Research recent company news for personalization',
-            'Start with value-focused email sequence',
-          ],
-        },
-        {
-          prospect_id: '4',
-          similarity_score: 58,
-          match_reasons: [
-            'Industry (Healthcare) is a top vertical',
-            'Job title (Sales Manager) matches buyer persona',
-          ],
-          fit_rating: 'good',
-          recommended_actions: [
-            'Strong fit - add to high-priority cadence',
-            'Research recent company news for personalization',
-            'Start with value-focused email sequence',
-          ],
-        },
-        {
-          prospect_id: '5',
-          similarity_score: 42,
-          match_reasons: [
-            'Geographic region (Northeast) is a strong fit',
-          ],
-          fit_rating: 'fair',
-          recommended_actions: [
-            'Moderate fit - add to nurture campaign',
-            'Share relevant content to build relationship',
-            'Monitor for trigger events',
-          ],
-        },
-      ];
+      // Empty prospects - will be populated when real prospect data is analyzed
+      // Look-alike scoring requires won deals to build an ICP (Ideal Customer Profile)
+      const emptyProspects: LookAlikeScore[] = [];
 
-      setProspects(mockProspects);
+      setProspects(emptyProspects);
     } finally {
       setLoading(false);
     }
