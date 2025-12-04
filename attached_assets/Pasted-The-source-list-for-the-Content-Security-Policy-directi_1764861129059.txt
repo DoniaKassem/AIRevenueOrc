@@ -1,0 +1,131 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+/~:1  The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+/~:1  The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+/~:1  The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+chrome-extension://invalid/:1   Failed to load resource: net::ERR_FAILED
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+(index):1   Failed to load resource: the server responded with a status of 403 (Forbidden)
+client:536  WebSocket connection to 'wss://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/?token=kCJG-wAZGznJ' failed: 
+setupWebSocket @ client:536
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T15%3A02%3A19.134Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/call_logs?select=id&created_at=gte.2025-11-04T15%3A02%3A19.135Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T15%3A02%3A19.135Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/email_sends?select=id&created_at=gte.2025-11-04T15%3A02%3A19.134Z:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/deals?select=amount&stage=not.in.%28closed_won%2Cclosed_lost%29:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=id:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/cadences?select=id&is_active=eq.true:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Failed to load notifications: Error: No response from server. Please check your connection.
+    at APIClient.handleError (api-client.ts:233:14)
+    at api-client.ts:173:36
+    at async Axios.request (Axios.js:40:14)
+    at async APIClient.getNotifications (api-client.ts:335:22)
+    at async loadNotifications (NotificationCenter.tsx:104:20)
+(anonymous) @ injected.js:37
+localhost:3000/api/v1/notifications?limit=20&offset=0:1   Failed to load resource: net::ERR_CONNECTION_REFUSED
+injected.js:37  Failed to load notifications: Error: No response from server. Please check your connection.
+    at APIClient.handleError (api-client.ts:233:14)
+    at api-client.ts:173:36
+    at async Axios.request (Axios.js:40:14)
+    at async APIClient.getNotifications (api-client.ts:335:22)
+    at async loadNotifications (NotificationCenter.tsx:104:20)
+(anonymous) @ injected.js:37
+localhost:3000/api/v1/notifications?limit=20&offset=0:1   Failed to load resource: net::ERR_CONNECTION_REFUSED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=*&order=priority_score.desc&limit=50:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading prospects: Object
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects?select=*&order=priority_score.desc&limit=50:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+injected.js:37  Error loading prospects: Object
+(anonymous) @ injected.js:37
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects:1   Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev:24678/:1   Failed to load resource: net::ERR_CONNECTION_TIMED_OUT
+injected.js:214   POST https://inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects net::ERR_NAME_NOT_RESOLVED
+apply @ injected.js:214
+(anonymous) @ fetch.ts:15
+(anonymous) @ fetch.ts:46
+fulfilled @ fetch.ts:2
+Promise.then
+step @ fetch.ts:2
+(anonymous) @ fetch.ts:2
+__awaiter6 @ fetch.ts:2
+(anonymous) @ fetch.ts:34
+then @ PostgrestBuilder.ts:115
