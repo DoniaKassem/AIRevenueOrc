@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       role: 'admin',
       permissions: ['*'],
       name: 'Demo User',
-      teamId: '00000000-0000-0000-0000-000000000001',
+      team_id: '00000000-0000-0000-0000-000000000001',
     };
 
     const mockAuthUser: AuthUser = {

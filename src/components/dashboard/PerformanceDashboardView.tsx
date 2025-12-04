@@ -16,107 +16,56 @@ export default function PerformanceDashboardView() {
   async function loadPerformanceData() {
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      const mockMetrics: PerformanceMetrics = {
-        user_id: '1',
+      // Empty metrics - will be populated with real data when available
+      const emptyMetrics: PerformanceMetrics = {
+        user_id: '',
         period: period,
         metrics: {
-          emails_sent: 156,
-          calls_made: 48,
-          meetings_booked: 12,
-          demos_completed: 8,
-          deals_created: 6,
-          deals_won: 2,
-          revenue_generated: 175000,
-          activities_logged: 224,
+          emails_sent: 0,
+          calls_made: 0,
+          meetings_booked: 0,
+          demos_completed: 0,
+          deals_created: 0,
+          deals_won: 0,
+          revenue_generated: 0,
+          activities_logged: 0,
         },
         conversion_rates: {
-          email_to_reply: 0.22,
-          call_to_meeting: 0.35,
-          meeting_to_demo: 0.67,
-          demo_to_proposal: 0.75,
-          proposal_to_close: 0.40,
+          email_to_reply: 0,
+          call_to_meeting: 0,
+          meeting_to_demo: 0,
+          demo_to_proposal: 0,
+          proposal_to_close: 0,
         },
         efficiency_scores: {
-          activity_consistency: 0.88,
-          response_time: 0.82,
-          pipeline_velocity: 0.75,
-          win_rate: 0.33,
+          activity_consistency: 0,
+          response_time: 0,
+          pipeline_velocity: 0,
+          win_rate: 0,
         },
         timestamp: new Date().toISOString(),
       };
 
-      const mockLeaderboard: LeaderboardEntry[] = [
+      // Empty leaderboard - will show "You" entry with no data
+      const emptyLeaderboard: LeaderboardEntry[] = [
         {
           user_id: '1',
           user_name: 'You',
-          rank: 3,
-          total_score: 82,
-          metrics: { revenue: 175000, deals_won: 2, activities: 224 },
-          badges: ['Call Champion', 'Meeting Master'],
-        },
-        {
-          user_id: '2',
-          user_name: 'Sarah Chen',
           rank: 1,
-          total_score: 95,
-          metrics: { revenue: 425000, deals_won: 5, activities: 312 },
-          badges: ['Revenue Rockstar', 'Deal Closer', 'Win Rate Wizard'],
-        },
-        {
-          user_id: '3',
-          user_name: 'Mike Johnson',
-          rank: 2,
-          total_score: 88,
-          metrics: { revenue: 350000, deals_won: 4, activities: 298 },
-          badges: ['Deal Closer', 'Consistency King'],
-        },
-        {
-          user_id: '4',
-          user_name: 'Emma Davis',
-          rank: 4,
-          total_score: 78,
-          metrics: { revenue: 225000, deals_won: 3, activities: 245 },
-          badges: ['Meeting Master'],
-        },
-        {
-          user_id: '5',
-          user_name: 'Alex Wong',
-          rank: 5,
-          total_score: 72,
-          metrics: { revenue: 150000, deals_won: 2, activities: 189 },
-          badges: ['Call Champion'],
+          total_score: 0,
+          metrics: { revenue: 0, deals_won: 0, activities: 0 },
+          badges: [],
         },
       ];
 
-      const mockCorrelations: ActivityCorrelation[] = [
-        {
-          activity_type: 'meeting',
-          correlation_to_revenue: 0.87,
-          optimal_frequency: 4,
-          impact_score: 0.696,
-          recommendation: 'Meetings convert well - book more',
-        },
-        {
-          activity_type: 'call',
-          correlation_to_revenue: 0.74,
-          optimal_frequency: 8,
-          impact_score: 0.37,
-          recommendation: 'Calls are your strongest activity - prioritize more',
-        },
-        {
-          activity_type: 'email',
-          correlation_to_revenue: 0.58,
-          optimal_frequency: 12,
-          impact_score: 0.174,
-          recommendation: 'Emails are highly effective - maintain volume',
-        },
-      ];
+      // Empty correlations - will be populated as activities are tracked
+      const emptyCorrelations: ActivityCorrelation[] = [];
 
-      setMetrics(mockMetrics);
-      setLeaderboard(mockLeaderboard);
-      setCorrelations(mockCorrelations);
+      setMetrics(emptyMetrics);
+      setLeaderboard(emptyLeaderboard);
+      setCorrelations(emptyCorrelations);
     } finally {
       setLoading(false);
     }
