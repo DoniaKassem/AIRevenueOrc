@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CheckCircle, Circle, Clock, AlertTriangle, ChevronRight, Calendar } from 'lucide-react';
-import { Task, generateDailyTasks, getTaskUrgency } from '../../lib/taskPrioritization';
+import { Task } from '../../lib/taskPrioritization';
 
 export default function DailyTasksView() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,8 +15,14 @@ export default function DailyTasksView() {
   async function loadTasks() {
     setLoading(true);
     try {
-      const realTasks = await generateDailyTasks('00000000-0000-0000-0000-000000000001');
-      setTasks(realTasks);
+      const response = await fetch('/api/tasks/daily/00000000-0000-0000-0000-000000000001');
+      const result = await response.json();
+      if (result.success && result.data) {
+        setTasks(result.data);
+      } else {
+        console.error('Error loading tasks:', result.error);
+        setTasks([]);
+      }
     } catch (error) {
       console.error('Error loading tasks:', error);
       setTasks([]);

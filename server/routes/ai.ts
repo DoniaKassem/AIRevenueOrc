@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import OpenAI from 'openai';
+import { neon } from '@neondatabase/serverless';
 import { db } from '../db';
 import { 
   prospects, 
@@ -14,6 +15,8 @@ import {
 import { eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
 import { getOpenAIKey, getAIConfigurationStatus } from '../services/keyResolver';
+
+const sqlClient = neon(process.env.DATABASE_URL!);
 
 const router = express.Router();
 
@@ -277,20 +280,19 @@ router.post('/deal/analyze', async (req: Request, res: Response) => {
     const useOpenAI = use_ai && openai;
 
     for (const dealId of deal_ids) {
-      const [deal] = await db.select().from(deals).where(eq(deals.id, dealId));
-      if (!deal) continue;
+      const dealResult = await sqlClient`
+        SELECT id::text, name, stage, amount, account_id::text, created_at, close_date
+        FROM deals WHERE id = ${dealId}::uuid
+      `;
+      if (!dealResult || dealResult.length === 0) continue;
+      const deal = dealResult[0];
 
-      // Get recent email and call activity - fixed to use proper joins
       const recentActivity: any[] = [];
       
-      if (deal.accountId) {
+      if (deal.account_id) {
         const [emails, calls] = await Promise.all([
-          db.select().from(emailSends)
-            .where(eq(emailSends.prospectId, deal.accountId))
-            .limit(20),
-          db.select().from(callLogs)
-            .where(eq(callLogs.prospectId, deal.accountId))
-            .limit(20),
+          sqlClient`SELECT * FROM email_sends WHERE prospect_id = ${deal.account_id}::uuid LIMIT 20`,
+          sqlClient`SELECT * FROM call_logs WHERE prospect_id = ${deal.account_id}::uuid LIMIT 20`,
         ]);
         recentActivity.push(...emails, ...calls);
       }
@@ -301,12 +303,20 @@ router.post('/deal/analyze', async (req: Request, res: Response) => {
       let nextSteps: string[];
       let keyRiskFactors: string[] = [];
 
+      const dealForFallback = {
+        name: deal.name,
+        stage: deal.stage,
+        amount: deal.amount,
+        createdAt: deal.created_at,
+        closeDate: deal.close_date,
+      };
+
       if (useOpenAI) {
-        const daysSinceCreated = deal.createdAt ? Math.floor(
-          (Date.now() - new Date(deal.createdAt).getTime()) / (1000 * 60 * 60 * 24)
+        const daysSinceCreated = deal.created_at ? Math.floor(
+          (Date.now() - new Date(deal.created_at).getTime()) / (1000 * 60 * 60 * 24)
         ) : 0;
-        const daysUntilClose = deal.closeDate
-          ? Math.floor((new Date(deal.closeDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+        const daysUntilClose = deal.close_date
+          ? Math.floor((new Date(deal.close_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
           : null;
 
         const response = await openai.chat.completions.create({
@@ -331,37 +341,52 @@ router.post('/deal/analyze', async (req: Request, res: Response) => {
           keyRiskFactors = aiAnalysis.keyRiskFactors || [];
         } catch (parseError) {
           console.error('Failed to parse OpenAI response:', parseError);
-          riskScore = calculateRiskScoreFallback(deal, recentActivity);
+          riskScore = calculateRiskScoreFallback(dealForFallback, recentActivity);
           summary = `${deal.name} in ${deal.stage} stage. Risk: ${riskScore}/100`;
           gaps = ['AI parsing error - using fallback'];
           nextSteps = ['Continue engagement'];
           keyRiskFactors = [];
         }
       } else {
-        // Fallback analysis
-        riskScore = calculateRiskScoreFallback(deal, recentActivity);
+        riskScore = calculateRiskScoreFallback(dealForFallback, recentActivity);
         summary = `${deal.name} in ${deal.stage} stage. Risk: ${riskScore}/100`;
         gaps = ['Insufficient data for detailed analysis'];
         nextSteps = ['Continue engagement'];
         keyRiskFactors = recentActivity.length === 0 ? ['No recent activity'] : [];
       }
 
-      // Update deal
-      await db.update(deals).set({
-        riskScore,
-        aiAnalysis: { summary, gaps, next_steps: nextSteps, key_risk_factors: keyRiskFactors },
-      }).where(eq(deals.id, dealId));
-
-      // Insert prediction
-      await db.insert(aiPredictions).values({
-        entityType: 'deal',
-        entityId: dealId,
-        predictionType: 'close_probability',
-        score: (100 - riskScore).toString(),
-        confidence: (useOpenAI ? 0.85 : 0.70).toString(),
-        reasoning: { summary, gaps, next_steps: nextSteps, risk_factors: keyRiskFactors },
-        modelVersion: useOpenAI ? 'gpt-4o-mini' : 'v1.0.0-fallback',
+      const aiAnalysisJson = JSON.stringify({ 
+        summary, 
+        gaps, 
+        next_steps: nextSteps, 
+        key_risk_factors: keyRiskFactors 
       });
+
+      await sqlClient`
+        UPDATE deals 
+        SET risk_score = ${riskScore}, ai_analysis = ${aiAnalysisJson}::jsonb
+        WHERE id = ${dealId}::uuid
+      `;
+
+      const predictionReasoning = JSON.stringify({ 
+        summary, 
+        gaps, 
+        next_steps: nextSteps, 
+        risk_factors: keyRiskFactors 
+      });
+
+      await sqlClient`
+        INSERT INTO ai_predictions (entity_type, entity_id, prediction_type, score, confidence, reasoning, model_version)
+        VALUES (
+          'deal', 
+          ${dealId}::uuid, 
+          'close_probability', 
+          ${(100 - riskScore).toString()}, 
+          ${(useOpenAI ? 0.85 : 0.70).toString()}, 
+          ${predictionReasoning}::jsonb,
+          ${useOpenAI ? 'gpt-4o-mini' : 'v1.0.0-fallback'}
+        )
+      `;
 
       results.push({ deal_id: dealId, risk_score: riskScore, summary, gaps, next_steps: nextSteps, used_ai: !!useOpenAI });
     }
@@ -384,7 +409,11 @@ router.post('/prioritize', async (req: Request, res: Response) => {
   try {
     const { prospect_ids, use_ai } = prioritizeSchema.parse(req.body);
 
-    const prospectList = await db.select().from(prospects).where(inArray(prospects.id, prospect_ids));
+    const prospectList = await sqlClient`
+      SELECT id::text, first_name, last_name, title, company, status, priority_score
+      FROM prospects 
+      WHERE id = ANY(${prospect_ids}::uuid[])
+    `;
     const results: Array<{ prospect_id: string; priority_score: number; insights: string[]; recommended_actions: string[]; used_ai: boolean }> = [];
     const openai = getOpenAIClient();
     const useOpenAI = use_ai && openai;
@@ -396,6 +425,15 @@ router.post('/prioritize', async (req: Request, res: Response) => {
       let contactMethod = 'email';
       let reasoning = '';
 
+      const prospectForScore = {
+        firstName: prospect.first_name,
+        lastName: prospect.last_name,
+        title: prospect.title,
+        company: prospect.company,
+        status: prospect.status,
+        priorityScore: prospect.priority_score,
+      };
+
       if (useOpenAI) {
         const response = await openai.chat.completions.create({
           model: 'gpt-4o-mini',
@@ -403,7 +441,7 @@ router.post('/prioritize', async (req: Request, res: Response) => {
             { role: 'system', content: 'You are an AI sales assistant specializing in lead qualification.' },
             {
               role: 'user',
-              content: `Analyze prospect as JSON with: priorityScore (0-100), insights, recommendedActions, contactMethod, reasoning. Prospect: ${prospect.firstName} ${prospect.lastName}, Title: ${prospect.title}, Company: ${prospect.company}, Status: ${prospect.status}`,
+              content: `Analyze prospect as JSON with: priorityScore (0-100), insights, recommendedActions, contactMethod, reasoning. Prospect: ${prospect.first_name} ${prospect.last_name}, Title: ${prospect.title}, Company: ${prospect.company}, Status: ${prospect.status}`,
             },
           ],
           temperature: 0.3,
@@ -419,30 +457,46 @@ router.post('/prioritize', async (req: Request, res: Response) => {
           reasoning = aiAnalysis.reasoning || '';
         } catch (parseError) {
           console.error('Failed to parse OpenAI response:', parseError);
-          score = calculatePriorityScoreFallback(prospect);
+          score = calculatePriorityScoreFallback(prospectForScore);
           insights = [`Priority score: ${score}/100 (fallback due to parsing error)`];
         }
       } else {
-        score = calculatePriorityScoreFallback(prospect);
+        score = calculatePriorityScoreFallback(prospectForScore);
         insights = [`Priority score: ${score}/100`];
       }
 
-      // Update prospect
-      await db.update(prospects).set({
-        priorityScore: score,
-        aiInsights: { insights, recommended_actions: recommendedActions, contact_method: contactMethod, reasoning },
-      }).where(eq(prospects.id, prospect.id));
-
-      // Insert prediction
-      await db.insert(aiPredictions).values({
-        entityType: 'prospect',
-        entityId: prospect.id,
-        predictionType: 'priority_score',
-        score: score.toString(),
-        confidence: (useOpenAI ? 0.90 : 0.75).toString(),
-        reasoning: { insights, recommended_actions: recommendedActions, contact_method: contactMethod, reasoning },
-        modelVersion: useOpenAI ? 'gpt-4o-mini' : 'v1.0.0-fallback',
+      const aiInsightsJson = JSON.stringify({ 
+        insights, 
+        recommended_actions: recommendedActions, 
+        contact_method: contactMethod, 
+        reasoning 
       });
+
+      await sqlClient`
+        UPDATE prospects 
+        SET priority_score = ${score}, ai_insights = ${aiInsightsJson}::jsonb
+        WHERE id = ${prospect.id}::uuid
+      `;
+
+      const predictionReasoning = JSON.stringify({ 
+        insights, 
+        recommended_actions: recommendedActions, 
+        contact_method: contactMethod, 
+        reasoning 
+      });
+      
+      await sqlClient`
+        INSERT INTO ai_predictions (entity_type, entity_id, prediction_type, score, confidence, reasoning, model_version)
+        VALUES (
+          'prospect', 
+          ${prospect.id}::uuid, 
+          'priority_score', 
+          ${score.toString()}, 
+          ${(useOpenAI ? 0.90 : 0.75).toString()}, 
+          ${predictionReasoning}::jsonb,
+          ${useOpenAI ? 'gpt-4o-mini' : 'v1.0.0-fallback'}
+        )
+      `;
 
       results.push({ prospect_id: prospect.id, priority_score: score, insights, recommended_actions: recommendedActions, used_ai: !!useOpenAI });
     }

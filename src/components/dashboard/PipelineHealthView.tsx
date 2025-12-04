@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AlertTriangle, TrendingDown, TrendingUp, Activity, DollarSign, Clock } from 'lucide-react';
-import { DealHealthMetrics, calculateDealHealth } from '../../lib/pipelineHealthMonitor';
-import { supabase } from '../../lib/supabase';
+import { DealHealthMetrics } from '../../lib/pipelineHealthMonitor';
 
 export default function PipelineHealthView() {
   const [deals, setDeals] = useState<any[]>([]);
@@ -16,28 +15,18 @@ export default function PipelineHealthView() {
   async function loadPipelineHealth() {
     setLoading(true);
     try {
-      const { data: deals, error } = await supabase
-        .from('deals')
-        .select('*')
-        .not('stage', 'in', '(closed_won,closed_lost)');
+      const response = await fetch('/api/pipeline/health');
+      const result = await response.json();
 
-      if (error) {
-        console.error('Error loading deals:', error);
+      if (!result.success) {
+        console.error('Error loading pipeline health:', result.error);
         setHealthMetrics([]);
         setDeals([]);
         return;
       }
 
-      const realDeals = deals || [];
-      setDeals(realDeals);
-
-      const metrics: DealHealthMetrics[] = [];
-      for (const deal of realDeals) {
-        const health = await calculateDealHealth(deal.id);
-        metrics.push(health);
-      }
-
-      setHealthMetrics(metrics);
+      setDeals(result.deals || []);
+      setHealthMetrics(result.healthMetrics || []);
     } catch (error) {
       console.error('Error calculating pipeline health:', error);
       setHealthMetrics([]);
@@ -54,9 +43,9 @@ export default function PipelineHealthView() {
 
   const criticalCount = healthMetrics.filter(m => m.risk_level === 'critical').length;
   const highCount = healthMetrics.filter(m => m.risk_level === 'high').length;
-  const avgHealth = Math.round(
-    healthMetrics.reduce((sum, m) => sum + m.health_score, 0) / healthMetrics.length
-  );
+  const avgHealth = healthMetrics.length > 0
+    ? Math.round(healthMetrics.reduce((sum, m) => sum + m.health_score, 0) / healthMetrics.length)
+    : 0;
 
   const getRiskColor = (level: DealHealthMetrics['risk_level']) => {
     switch (level) {

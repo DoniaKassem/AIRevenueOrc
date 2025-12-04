@@ -5,11 +5,15 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import aiRoutes from './routes/ai';
+import aiPredictionsRoutes from './routes/ai-predictions';
 import prospectsRoutes from './routes/prospects';
 import notificationsRoutes from './routes/notifications';
 import dashboardRoutes from './routes/dashboard';
 import dealsRoutes from './routes/deals';
 import cadencesRoutes from './routes/cadences';
+import conversationsRoutes from './routes/conversations';
+import pipelineHealthRoutes from './routes/pipeline-health';
+import tasksRoutes from './routes/tasks';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,11 +51,15 @@ async function startServer() {
 
   // API routes
   app.use('/api/ai', aiRoutes);
+  app.use('/api/ai', aiPredictionsRoutes);
   app.use('/api/prospects', prospectsRoutes);
   app.use('/api/notifications', notificationsRoutes);
   app.use('/api/dashboard', dashboardRoutes);
   app.use('/api/deals', dealsRoutes);
   app.use('/api/cadences', cadencesRoutes);
+  app.use('/api/conversations', conversationsRoutes);
+  app.use('/api/pipeline/health', pipelineHealthRoutes);
+  app.use('/api/tasks', tasksRoutes);
 
   // In development, set up Vite dev server
   const vite = await createViteServer({

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import {
   MessageSquare,
   Play,
@@ -56,14 +55,11 @@ export default function ConversationsView() {
 
   async function loadConversations() {
     try {
-      const { data, error } = await supabase
-        .from('conversations')
-        .select('*')
-        .order('started_at', { ascending: false })
-        .limit(50);
+      const response = await fetch('/api/conversations');
+      const result = await response.json();
 
-      if (error) throw error;
-      setConversations(data || []);
+      if (!result.success) throw new Error(result.error || 'Failed to load conversations');
+      setConversations(result.data || []);
     } catch (error) {
       console.error('Error loading conversations:', error);
     } finally {
@@ -74,20 +70,15 @@ export default function ConversationsView() {
   async function loadConversationDetails(id: string) {
     try {
       const [insightRes, transcriptRes] = await Promise.all([
-        supabase
-          .from('conversation_insights')
-          .select('*')
-          .eq('conversation_id', id)
-          .maybeSingle(),
-        supabase
-          .from('conversation_transcripts')
-          .select('*')
-          .eq('conversation_id', id)
-          .order('segment_number'),
+        fetch(`/api/conversations/${id}/insights`),
+        fetch(`/api/conversations/${id}/transcripts`),
       ]);
 
-      setInsight(insightRes.data);
-      setTranscripts(transcriptRes.data || []);
+      const insightResult = await insightRes.json();
+      const transcriptResult = await transcriptRes.json();
+
+      setInsight(insightResult.data || null);
+      setTranscripts(transcriptResult.data || []);
     } catch (error) {
       console.error('Error loading conversation details:', error);
     }

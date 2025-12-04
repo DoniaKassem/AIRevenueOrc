@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
-import type { Database } from '../../types/database';
 import {
   Sparkles,
   Target,
@@ -9,12 +7,22 @@ import {
   Brain,
   Zap,
   Play,
-  CheckCircle,
   AlertCircle,
   ArrowRight,
 } from 'lucide-react';
 
-type AiPrediction = Database['public']['Tables']['ai_predictions']['Row'];
+interface AiPrediction {
+  id: string;
+  entity_type: string | null;
+  entity_id: string | null;
+  prospect_id: string | null;
+  prediction_type: string;
+  score: number;
+  confidence: number;
+  reasoning: ReasoningData | null;
+  model_version: string | null;
+  created_at: string;
+}
 
 interface ReasoningData {
   summary?: string;
@@ -85,14 +93,14 @@ export default function AIAgentsView() {
 
   async function loadRecentExecutions() {
     try {
-      const { data, error } = await supabase
-        .from('ai_predictions')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20);
-
-      if (error) throw error;
-      setExecutions(data || []);
+      const response = await fetch('/api/ai/predictions');
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to fetch predictions');
+      }
+      
+      setExecutions(result.data || []);
     } catch (error) {
       console.error('Error loading executions:', error);
     }
@@ -103,61 +111,18 @@ export default function AIAgentsView() {
     setActiveAgent(agentId);
 
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const response = await fetch(`/api/ai/agents/run/${agentId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          use_ai: true,
+        }),
+      });
 
-      if (agentId === 'prioritize') {
-        const { data: prospects } = await supabase
-          .from('prospects')
-          .select('id')
-          .limit(100);
-
-        if (prospects && prospects.length > 0) {
-          const response = await fetch(
-            `${supabaseUrl}/functions/v1/ai-prioritize`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${supabaseKey}`,
-              },
-              body: JSON.stringify({
-                prospect_ids: prospects.map((p) => p.id),
-                use_ai: true,
-              }),
-            }
-          );
-
-          const result = await response.json();
-          console.log('Prioritization result:', result);
-        }
-      } else if (agentId === 'deal-analyzer') {
-        const { data: deals } = await supabase
-          .from('deals')
-          .select('id')
-          .not('stage', 'in', '(closed_won,closed_lost)')
-          .limit(50);
-
-        if (deals && deals.length > 0) {
-          const response = await fetch(
-            `${supabaseUrl}/functions/v1/ai-deal-analyzer`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${supabaseKey}`,
-              },
-              body: JSON.stringify({
-                deal_ids: deals.map((d) => d.id),
-                use_ai: true,
-              }),
-            }
-          );
-
-          const result = await response.json();
-          console.log('Deal analysis result:', result);
-        }
-      }
+      const result = await response.json();
+      console.log(`${agentId} result:`, result);
 
       await loadRecentExecutions();
     } catch (error) {
@@ -169,7 +134,7 @@ export default function AIAgentsView() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="ai-agents-view">
       <div>
         <h1 className="text-3xl font-bold text-slate-900">AI Agents</h1>
         <p className="text-slate-600 mt-1">
@@ -182,6 +147,7 @@ export default function AIAgentsView() {
           <div
             key={agent.id}
             className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition"
+            data-testid={`card-agent-${agent.id}`}
           >
             <div className="flex items-start justify-between mb-4">
               <div className={`bg-${agent.color}-100 p-3 rounded-lg`}>
@@ -204,6 +170,7 @@ export default function AIAgentsView() {
             <button
               onClick={() => runAgent(agent.id)}
               disabled={loading}
+              data-testid={`button-run-${agent.id}`}
               className={`w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg transition ${
                 loading && activeAgent === agent.id
                   ? 'bg-slate-300 cursor-not-allowed'
@@ -235,7 +202,7 @@ export default function AIAgentsView() {
 
         <div className="divide-y divide-slate-200">
           {executions.length === 0 ? (
-            <div className="p-12 text-center">
+            <div className="p-12 text-center" data-testid="empty-state">
               <Sparkles className="w-16 h-16 text-slate-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-slate-900 mb-2">
                 No agent activity yet
@@ -246,7 +213,7 @@ export default function AIAgentsView() {
             </div>
           ) : (
             executions.map((execution) => (
-              <div key={execution.id} className="p-6 hover:bg-slate-50 transition">
+              <div key={execution.id} className="p-6 hover:bg-slate-50 transition" data-testid={`row-prediction-${execution.id}`}>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
@@ -262,6 +229,7 @@ export default function AIAgentsView() {
                             ? 'bg-yellow-100 text-yellow-700'
                             : 'bg-red-100 text-red-700'
                         }`}
+                        data-testid={`badge-score-${execution.id}`}
                       >
                         Score: {Math.round(execution.score)}
                       </span>
