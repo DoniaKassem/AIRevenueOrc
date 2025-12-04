@@ -18,5 +18,8 @@ export default defineConfig({
     strictPort: false,
     allowedHosts: true,
     host: '0.0.0.0',
+    headers: {
+      'Content-Security-Policy': "default-src 'self' https: wss: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss: ws:; frame-src 'self' https:; frame-ancestors 'self' https://*.replit.dev https://*.replit.app https://replit.com;",
+    },
   },
 });
