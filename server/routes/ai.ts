@@ -212,7 +212,7 @@ router.post('/deal/analyze', async (req: Request, res: Response) => {
   try {
     const { deal_ids, use_ai } = analyzeDealSchema.parse(req.body);
 
-    const results = [];
+    const results: Array<{ deal_id: string; risk_score: number; summary: string; gaps: string[]; next_steps: string[]; used_ai: boolean }> = [];
     const openai = getOpenAIClient();
     const useOpenAI = use_ai && openai;
 
@@ -242,9 +242,9 @@ router.post('/deal/analyze', async (req: Request, res: Response) => {
       let keyRiskFactors: string[] = [];
 
       if (useOpenAI) {
-        const daysSinceCreated = Math.floor(
+        const daysSinceCreated = deal.createdAt ? Math.floor(
           (Date.now() - new Date(deal.createdAt).getTime()) / (1000 * 60 * 60 * 24)
-        );
+        ) : 0;
         const daysUntilClose = deal.closeDate
           ? Math.floor((new Date(deal.closeDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
           : null;
@@ -303,7 +303,7 @@ router.post('/deal/analyze', async (req: Request, res: Response) => {
         modelVersion: useOpenAI ? 'gpt-4o-mini' : 'v1.0.0-fallback',
       });
 
-      results.push({ deal_id: dealId, risk_score: riskScore, summary, gaps, next_steps: nextSteps, used_ai: useOpenAI });
+      results.push({ deal_id: dealId, risk_score: riskScore, summary, gaps, next_steps: nextSteps, used_ai: !!useOpenAI });
     }
 
     res.json({ success: true, results, used_openai: useOpenAI });
@@ -325,7 +325,7 @@ router.post('/prioritize', async (req: Request, res: Response) => {
     const { prospect_ids, use_ai } = prioritizeSchema.parse(req.body);
 
     const prospectList = await db.select().from(prospects).where(inArray(prospects.id, prospect_ids));
-    const results = [];
+    const results: Array<{ prospect_id: string; priority_score: number; insights: string[]; recommended_actions: string[]; used_ai: boolean }> = [];
     const openai = getOpenAIClient();
     const useOpenAI = use_ai && openai;
 
@@ -384,7 +384,7 @@ router.post('/prioritize', async (req: Request, res: Response) => {
         modelVersion: useOpenAI ? 'gpt-4o-mini' : 'v1.0.0-fallback',
       });
 
-      results.push({ prospect_id: prospect.id, priority_score: score, insights, recommended_actions: recommendedActions, used_ai: useOpenAI });
+      results.push({ prospect_id: prospect.id, priority_score: score, insights, recommended_actions: recommendedActions, used_ai: !!useOpenAI });
     }
 
     res.json({ success: true, results, used_openai: useOpenAI });
