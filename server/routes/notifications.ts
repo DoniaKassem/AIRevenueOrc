@@ -16,18 +16,17 @@ router.get('/', async (req, res) => {
   try {
     const query = NotificationQuerySchema.parse(req.query);
 
-    let whereClause = undefined;
-    if (query.status === 'unread') {
-      whereClause = isNull(notifications.readAt);
-    } else if (query.status === 'read') {
-      whereClause = sql`${notifications.readAt} IS NOT NULL`;
-    }
-
     let data;
     try {
-      if (whereClause) {
+      if (query.status === 'unread') {
         data = await db.select().from(notifications)
-          .where(whereClause)
+          .where(isNull(notifications.readAt))
+          .orderBy(desc(notifications.createdAt))
+          .limit(query.limit)
+          .offset(query.offset);
+      } else if (query.status === 'read') {
+        data = await db.select().from(notifications)
+          .where(sql`${notifications.readAt} IS NOT NULL`)
           .orderBy(desc(notifications.createdAt))
           .limit(query.limit)
           .offset(query.offset);

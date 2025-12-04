@@ -1,0 +1,51 @@
+injected.js:37  Error loading prospects: Error: Failed to fetch prospects
+    at loadProspects (ProspectsView.tsx:55:15)
+(anonymous) @ injected.js:37
+loadProspects @ ProspectsView.tsx:60
+await in loadProspects
+(anonymous) @ ProspectsView.tsx:46
+commitHookEffectListMount @ react-dom.development.js:23189
+commitPassiveMountOnFiber @ react-dom.development.js:24965
+commitPassiveMountEffects_complete @ react-dom.development.js:24930
+commitPassiveMountEffects_begin @ react-dom.development.js:24917
+commitPassiveMountEffects @ react-dom.development.js:24905
+flushPassiveEffectsImpl @ react-dom.development.js:27078
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+injected.js:214   GET https://22e48e1b-cb03-43c0-8f32-a246022e150f-00-1m2sc4zqayfk6.spock.replit.dev/api/prospects?limit=50&orderBy=priority_score&orderDir=desc 500 (Internal Server Error)
+apply @ injected.js:214
+loadProspects @ ProspectsView.tsx:51
+(anonymous) @ ProspectsView.tsx:46
+commitHookEffectListMount @ react-dom.development.js:23189
+invokePassiveEffectMountInDEV @ react-dom.development.js:25193
+invokeEffectsInDev @ react-dom.development.js:27390
+commitDoubleInvokeEffectsInDEV @ react-dom.development.js:27369
+flushPassiveEffectsImpl @ react-dom.development.js:27095
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+injected.js:37  Error loading prospects: Error: Failed to fetch prospects
+    at loadProspects (ProspectsView.tsx:55:15)
+(anonymous) @ injected.js:37
+loadProspects @ ProspectsView.tsx:60
+await in loadProspects
+(anonymous) @ ProspectsView.tsx:46
+commitHookEffectListMount @ react-dom.development.js:23189
+invokePassiveEffectMountInDEV @ react-dom.development.js:25193
+invokeEffectsInDev @ react-dom.development.js:27390
+commitDoubleInvokeEffectsInDEV @ react-dom.development.js:27369
+flushPassiveEffectsImpl @ react-dom.development.js:27095
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+injected.js:214   POST https://inhhrzqlezkenjumpvxa.supabase.co/rest/v1/prospects net::ERR_NAME_NOT_RESOLVED

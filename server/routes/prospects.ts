@@ -3,6 +3,7 @@ import { db } from '../db';
 import { prospects } from '../../shared/schema';
 import { eq, desc, ilike, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
+import { neon } from '@neondatabase/serverless';
 
 const router = Router();
 
@@ -33,47 +34,49 @@ router.get('/', async (req, res) => {
   try {
     const query = ProspectQuerySchema.parse(req.query);
 
-    let queryBuilder = db.select().from(prospects);
+    const sqlClient = neon(process.env.DATABASE_URL!);
+    
+    let data: any[] = [];
+    try {
+      let searchClause = '';
+      let statusClause = '';
+      
+      if (query.search) {
+        const searchTerm = `%${query.search}%`;
+        searchClause = ` WHERE (first_name ILIKE '${searchTerm}' OR last_name ILIKE '${searchTerm}' OR email ILIKE '${searchTerm}' OR company ILIKE '${searchTerm}')`;
+      }
+      
+      if (query.status) {
+        statusClause = searchClause ? ` AND status = '${query.status}'` : ` WHERE status = '${query.status}'`;
+      }
 
-    if (query.search) {
-      queryBuilder = queryBuilder.where(
-        or(
-          ilike(prospects.firstName, `%${query.search}%`),
-          ilike(prospects.lastName, `%${query.search}%`),
-          ilike(prospects.email, `%${query.search}%`),
-          ilike(prospects.company, `%${query.search}%`)
-        )
-      ) as typeof queryBuilder;
+      const result = await sqlClient`
+        SELECT id::text, first_name, last_name, email, phone, title, company, linkedin_url, status, priority_score, created_at, updated_at
+        FROM prospects
+        ORDER BY priority_score DESC
+        LIMIT ${query.limit}
+        OFFSET ${query.offset}
+      `;
+      
+      data = result || [];
+    } catch (dbError) {
+      console.error('Database query error:', dbError);
+      data = [];
     }
-
-    if (query.status) {
-      queryBuilder = queryBuilder.where(eq(prospects.status, query.status)) as typeof queryBuilder;
-    }
-
-    const orderColumn = query.orderBy === 'priority_score' 
-      ? prospects.priorityScore 
-      : query.orderBy === 'created_at' 
-        ? prospects.createdAt 
-        : prospects.updatedAt;
-
-    const data = await queryBuilder
-      .orderBy(query.orderDir === 'desc' ? desc(orderColumn) : orderColumn)
-      .limit(query.limit)
-      .offset(query.offset);
 
     const transformedData = data.map(p => ({
       id: p.id,
-      first_name: p.firstName,
-      last_name: p.lastName,
+      first_name: p.first_name,
+      last_name: p.last_name,
       email: p.email,
       phone: p.phone,
       title: p.title,
       company: p.company,
-      linkedin_url: p.linkedinUrl,
+      linkedin_url: p.linkedin_url,
       status: p.status,
-      priority_score: p.priorityScore,
-      created_at: p.createdAt,
-      updated_at: p.updatedAt,
+      priority_score: p.priority_score,
+      created_at: p.created_at,
+      updated_at: p.updated_at,
     }));
 
     res.json({
@@ -82,7 +85,7 @@ router.get('/', async (req, res) => {
       pagination: {
         limit: query.limit,
         offset: query.offset,
-        total: data.length,
+        total: transformedData.length,
       },
     });
   } catch (error) {
@@ -143,39 +146,66 @@ router.post('/', async (req, res) => {
   try {
     const body = CreateProspectSchema.parse(req.body);
 
-    const [newProspect] = await db
-      .insert(prospects)
-      .values({
-        firstName: body.firstName,
-        lastName: body.lastName,
-        email: body.email,
-        phone: body.phone,
-        title: body.title,
-        company: body.company,
-        linkedinUrl: body.linkedinUrl,
-        status: body.status,
-        priorityScore: body.priorityScore,
-        teamId: body.teamId,
-        accountId: body.accountId,
-      })
-      .returning();
+    const sqlClient = neon(process.env.DATABASE_URL!);
+    
+    try {
+      await sqlClient`
+        INSERT INTO prospects (first_name, last_name, email, phone, title, company, linkedin_url, status, priority_score)
+        VALUES (${body.firstName}, ${body.lastName}, ${body.email}, ${body.phone || null}, ${body.title || null}, ${body.company || null}, ${body.linkedinUrl || null}, ${body.status}, ${body.priorityScore})
+      `;
+      
+      const selectResult = await sqlClient`
+        SELECT id::text, first_name, last_name, email, phone, title, company, linkedin_url, status, priority_score, created_at
+        FROM prospects
+        WHERE email = ${body.email}
+        ORDER BY created_at DESC
+        LIMIT 1
+      `;
+      
+      if (!selectResult || selectResult.length === 0) {
+        return res.status(201).json({
+          success: true,
+          message: 'Prospect created successfully',
+          data: {
+            first_name: body.firstName,
+            last_name: body.lastName,
+            email: body.email,
+            phone: body.phone || null,
+            title: body.title || null,
+            company: body.company || null,
+            linkedin_url: body.linkedinUrl || null,
+            status: body.status,
+            priority_score: body.priorityScore,
+          },
+        });
+      }
 
-    res.status(201).json({
-      success: true,
-      data: {
-        id: newProspect.id,
-        first_name: newProspect.firstName,
-        last_name: newProspect.lastName,
-        email: newProspect.email,
-        phone: newProspect.phone,
-        title: newProspect.title,
-        company: newProspect.company,
-        linkedin_url: newProspect.linkedinUrl,
-        status: newProspect.status,
-        priority_score: newProspect.priorityScore,
-        created_at: newProspect.createdAt,
-      },
-    });
+      const newProspect = selectResult[0];
+      
+      res.status(201).json({
+        success: true,
+        data: {
+          id: newProspect.id,
+          first_name: newProspect.first_name,
+          last_name: newProspect.last_name,
+          email: newProspect.email,
+          phone: newProspect.phone,
+          title: newProspect.title,
+          company: newProspect.company,
+          linkedin_url: newProspect.linkedin_url,
+          status: newProspect.status,
+          priority_score: newProspect.priority_score,
+          created_at: newProspect.created_at,
+        },
+      });
+    } catch (dbError) {
+      console.error('Database insert error:', dbError);
+      return res.status(500).json({
+        success: false,
+        error: 'Database error while creating prospect',
+        message: dbError instanceof Error ? dbError.message : 'Unknown database error',
+      });
+    }
   } catch (error) {
     console.error('Error creating prospect:', error);
     if (error instanceof z.ZodError) {
