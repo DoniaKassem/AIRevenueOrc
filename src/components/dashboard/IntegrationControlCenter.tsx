@@ -13,6 +13,7 @@ import {
   Plus,
   Search,
   Filter,
+  Database,
 } from 'lucide-react';
 import {
   getIntegrationHealthStatus,
@@ -23,6 +24,7 @@ import {
   type UsageAnalyticsSummary,
 } from '../../lib/integrationAnalytics';
 import { useAuth } from '../../contexts/AuthContext';
+import { isSupabaseConfigured } from '../../lib/supabase';
 
 interface IntegrationControlCenterProps {
   onNavigate: (view: string, integrationId?: string) => void;
@@ -103,6 +105,39 @@ export default function IntegrationControlCenter({
         return <Activity className="w-5 h-5 text-gray-600" />;
     }
   };
+
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Integration Hub</h1>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            Monitor and manage all your API connections in one place
+          </p>
+        </div>
+
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-8 text-center">
+          <Database className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Database Setup Required
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md mx-auto">
+            To use the Integration Hub, you need to configure a Supabase database.
+          </p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 text-left max-w-lg mx-auto">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Setup steps:</p>
+            <ol className="text-sm text-gray-600 dark:text-gray-400 space-y-1 list-decimal list-inside">
+              <li>Create a free project at <span className="text-blue-600">supabase.com</span></li>
+              <li>Go to Settings → API</li>
+              <li>Copy your Project URL and anon key</li>
+              <li>Add them to your <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">.env</code> file</li>
+              <li>Restart the development server</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

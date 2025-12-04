@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import {
   Book,
   Globe,
@@ -13,6 +13,7 @@ import {
   AlertCircle,
   Loader,
   Eye,
+  Database,
 } from 'lucide-react';
 import Modal from '../common/Modal';
 import CompanyProfileForm from '../forms/CompanyProfileForm';
@@ -209,6 +210,39 @@ export default function KnowledgeBaseView() {
     } catch (error) {
       console.error('Error deleting website:', error);
     }
+  }
+
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Knowledge Base</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            Train your AI agents with company-specific knowledge
+          </p>
+        </div>
+
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-8 text-center">
+          <Database className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+            Database Setup Required
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-4 max-w-md mx-auto">
+            To use the Knowledge Base, you need to configure a Supabase database.
+          </p>
+          <div className="bg-white dark:bg-slate-800 rounded-lg p-4 text-left max-w-lg mx-auto">
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Setup steps:</p>
+            <ol className="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-decimal list-inside">
+              <li>Create a free project at <span className="text-blue-600">supabase.com</span></li>
+              <li>Go to Settings → API</li>
+              <li>Copy your Project URL and anon key</li>
+              <li>Add them to your <code className="bg-slate-100 dark:bg-slate-700 px-1 rounded">.env</code> file</li>
+              <li>Restart the development server</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (loading) {
