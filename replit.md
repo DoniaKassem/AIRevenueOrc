@@ -12,8 +12,7 @@ AIRevenueOrc is a comprehensive AI-powered sales and BDR (Business Development R
 - **Core AI Features Migrated**: 3 of 6 Edge Functions converted to Express routes
 
 ### In Progress
-- **OpenAI API Key**: Needs to be configured for full AI functionality
-- **Frontend Integration**: Update to use Express API instead of Supabase client
+- **Frontend Integration**: Continue migrating remaining Supabase calls to Express API
 
 ### Pending
 - Additional AI Functions (email sending, document processing, deep research, website crawling)
@@ -161,6 +160,8 @@ AIRevenueOrc is a comprehensive AI-powered sales and BDR (Business Development R
 - `POST /api/ai/conversation/analyze` - Analyze sales call transcripts
 - `POST /api/ai/deal/analyze` - Analyze deal health and risk
 - `POST /api/ai/prioritize` - Prioritize prospects with AI scoring
+- `GET /api/ai/config/status` - Get OpenAI configuration status
+- `POST /api/ai/config/test` - Test OpenAI API connection
 
 ### Health Check
 - `GET /api/health` - Server health status
@@ -169,6 +170,7 @@ AIRevenueOrc is a comprehensive AI-powered sales and BDR (Business Development R
 - `shared/schema.ts` - Complete database schema (94 tables)
 - `server/db.ts` - Database connection and Drizzle client
 - `server/routes/ai.ts` - AI API endpoints
+- `server/services/keyResolver.ts` - OpenAI key resolution service
 - `server/index.ts` - Express server setup
 - `drizzle.config.ts` - Drizzle configuration
 
@@ -201,12 +203,24 @@ AIRevenueOrc is a comprehensive AI-powered sales and BDR (Business Development R
 - **Dec 2024**: Updated frontend API client base URL to '/api'
 - **Dec 2024**: Updated ProspectsView to use Express API instead of Supabase client
 - **Dec 2024**: Added graceful error handling for Neon driver empty table edge cases
+- **Dec 2024**: Updated AddProspectForm to use Express API instead of Supabase
+- **Dec 2024**: Added OpenAI API key configuration UI in Settings → AI Settings tab
+- **Dec 2024**: Created key resolver service for future multi-tenant support
+- **Dec 2024**: Added API endpoints for AI config status and connection testing
+
+## OpenAI Configuration
+To enable AI features, add your OpenAI API key:
+1. Click the "Secrets" tab in Replit (lock icon in sidebar)
+2. Add a new secret: `OPENAI_API_KEY`
+3. Paste your OpenAI API key as the value
+4. Restart the application
+
+You can verify the configuration in Settings → AI Settings, which shows the key status and allows you to test the connection.
 
 ## Next Steps
-1. Configure OpenAI API key for full AI functionality
-2. Implement authentication middleware (JWT + sessions)
-3. Migrate remaining Edge Functions (email, document processing)
-4. Continue frontend migration (remaining Supabase calls)
-5. Implement rate limiting and security middleware
-6. Add comprehensive testing
-7. Set up production deployment configuration
+1. Implement authentication middleware (JWT + sessions)
+2. Migrate remaining Edge Functions (email, document processing)
+3. Continue frontend migration (remaining Supabase calls)
+4. Implement rate limiting and security middleware
+5. Add comprehensive testing
+6. Set up production deployment configuration
