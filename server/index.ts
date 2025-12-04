@@ -11,6 +11,8 @@ import notificationsRoutes from './routes/notifications';
 import dashboardRoutes from './routes/dashboard';
 import dealsRoutes from './routes/deals';
 import cadencesRoutes from './routes/cadences';
+import cadenceStepsRoutes from './routes/cadence-steps';
+import emailTemplatesRoutes from './routes/email-templates';
 import conversationsRoutes from './routes/conversations';
 import pipelineHealthRoutes from './routes/pipeline-health';
 import tasksRoutes from './routes/tasks';
@@ -57,6 +59,8 @@ async function startServer() {
   app.use('/api/dashboard', dashboardRoutes);
   app.use('/api/deals', dealsRoutes);
   app.use('/api/cadences', cadencesRoutes);
+  app.use('/api/cadence-steps', cadenceStepsRoutes);
+  app.use('/api/email-templates', emailTemplatesRoutes);
   app.use('/api/conversations', conversationsRoutes);
   app.use('/api/pipeline/health', pipelineHealthRoutes);
   app.use('/api/tasks', tasksRoutes);
