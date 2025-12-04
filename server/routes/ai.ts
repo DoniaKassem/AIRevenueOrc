@@ -13,18 +13,76 @@ import {
 } from '../../shared/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
+import { getOpenAIKey, getAIConfigurationStatus } from '../services/keyResolver';
 
 const router = express.Router();
 
-// Initialize OpenAI client (will be initialized per request if API key exists)
-function getOpenAIClient(): OpenAI | null {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
+// Initialize OpenAI client using key resolver
+function getOpenAIClient(orgId?: string): OpenAI | null {
+  const keyResult = getOpenAIKey(orgId);
+  if (!keyResult.key) {
     console.warn('OPENAI_API_KEY not configured, AI features will use fallback logic');
     return null;
   }
-  return new OpenAI({ apiKey });
+  return new OpenAI({ apiKey: keyResult.key });
 }
+
+// =============================================
+// AI CONFIGURATION STATUS & TEST
+// =============================================
+
+router.get('/config/status', async (req: Request, res: Response) => {
+  try {
+    const status = getAIConfigurationStatus();
+    res.json({
+      success: true,
+      ...status,
+    });
+  } catch (error: any) {
+    console.error('Failed to get AI config status:', error);
+    res.status(500).json({ success: false, error: 'Failed to get configuration status' });
+  }
+});
+
+router.post('/config/test', async (req: Request, res: Response) => {
+  try {
+    const keyResult = getOpenAIKey();
+    
+    if (!keyResult.isConfigured) {
+      return res.json({
+        success: false,
+        error: 'OpenAI API key not configured',
+        configured: false,
+      });
+    }
+
+    // Test the key with a minimal API call
+    const openai = new OpenAI({ apiKey: keyResult.key! });
+    
+    // Use a cheap endpoint to test - list models
+    await openai.models.list();
+
+    res.json({
+      success: true,
+      configured: true,
+      source: keyResult.source,
+      maskedKey: keyResult.maskedKey,
+      message: 'OpenAI API key is valid and working',
+    });
+  } catch (error: any) {
+    console.error('OpenAI test failed:', error);
+    
+    // Determine if it's an auth error or other issue
+    const isAuthError = error.status === 401 || error.code === 'invalid_api_key';
+    
+    res.json({
+      success: false,
+      configured: true,
+      error: isAuthError ? 'Invalid API key' : (error.message || 'Connection test failed'),
+      errorType: isAuthError ? 'auth' : 'connection',
+    });
+  }
+});
 
 // Validation schemas
 const analyzeConversationSchema = z.object({

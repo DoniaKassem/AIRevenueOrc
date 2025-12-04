@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Settings, Mail, Plug, Bell, Shield, Plus, Sparkles, Key, Database, Moon, Sun, Monitor, Users, CreditCard, User as UserIcon } from 'lucide-react';
+import { Settings, Mail, Plug, Bell, Shield, Plus, Sparkles, Key, Database, Moon, Sun, Monitor, Users, CreditCard, User as UserIcon, CheckCircle, XCircle, AlertCircle, Loader2, ExternalLink } from 'lucide-react';
 import EmailTemplateForm from '../forms/EmailTemplateForm';
 import EnrichmentProvidersPanel from './EnrichmentProvidersPanel';
 import TeamManagement from '../settings/TeamManagement';
@@ -9,17 +9,68 @@ import UserProfile from '../settings/UserProfile';
 import BillingSubscription from '../settings/BillingSubscription';
 import { useTheme } from '../../contexts/ThemeContext';
 
+interface AIConfigStatus {
+  openai: {
+    isConfigured: boolean;
+    source: string;
+    maskedKey: string | null;
+  };
+}
+
 export default function SettingsView() {
   const [activeTab, setActiveTab] = useState('profile');
   const [templates, setTemplates] = useState<any[]>([]);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const { theme, setTheme } = useTheme();
+  
+  const [aiConfig, setAiConfig] = useState<AIConfigStatus | null>(null);
+  const [aiConfigLoading, setAiConfigLoading] = useState(false);
+  const [testingConnection, setTestingConnection] = useState(false);
+  const [testResult, setTestResult] = useState<{success: boolean; message: string} | null>(null);
 
   useEffect(() => {
     if (activeTab === 'templates') {
       loadTemplates();
     }
+    if (activeTab === 'ai') {
+      loadAIConfig();
+    }
   }, [activeTab]);
+
+  async function loadAIConfig() {
+    setAiConfigLoading(true);
+    try {
+      const response = await fetch('/api/ai/config/status');
+      const data = await response.json();
+      if (data.success) {
+        setAiConfig(data);
+      }
+    } catch (error) {
+      console.error('Failed to load AI config:', error);
+    } finally {
+      setAiConfigLoading(false);
+    }
+  }
+
+  async function testOpenAIConnection() {
+    setTestingConnection(true);
+    setTestResult(null);
+    try {
+      const response = await fetch('/api/ai/config/test', { method: 'POST' });
+      const data = await response.json();
+      setTestResult({
+        success: data.success,
+        message: data.success ? 'Connection successful! API key is valid.' : (data.error || 'Connection failed')
+      });
+      if (data.success) {
+        loadAIConfig();
+      }
+    } catch (error) {
+      setTestResult({ success: false, message: 'Failed to test connection' });
+    } finally {
+      setTestingConnection(false);
+    }
+  }
 
   async function loadTemplates() {
     const { data } = await supabase
@@ -165,37 +216,130 @@ export default function SettingsView() {
                 </p>
               </div>
 
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-6">
+              <div className={`border rounded-lg p-6 ${aiConfig?.openai?.isConfigured ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200' : 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200'}`}>
                 <div className="flex items-start space-x-4">
-                  <div className="bg-blue-600 p-3 rounded-lg">
+                  <div className={`p-3 rounded-lg ${aiConfig?.openai?.isConfigured ? 'bg-green-600' : 'bg-amber-600'}`}>
                     <Key className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                      OpenAI API Key
-                    </h3>
-                    <p className="text-sm text-slate-700 mb-4">
-                      Your OpenAI API key is already configured in the environment. The system uses <code className="px-2 py-1 bg-white rounded text-blue-600 font-mono text-xs">gpt-4o-mini</code> for all AI features.
-                    </p>
-                    <div className="bg-white rounded-lg p-4 border border-slate-200">
-                      <p className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-2">
-                        Current Configuration
-                      </p>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-slate-600">Default Model:</span>
-                          <span className="font-medium text-slate-900">gpt-4o-mini</span>
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-900">
+                        OpenAI API Key
+                      </h3>
+                      {aiConfigLoading ? (
+                        <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
+                      ) : aiConfig?.openai?.isConfigured ? (
+                        <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                          <CheckCircle className="w-3 h-3" />
+                          <span>Configured</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                          <AlertCircle className="w-3 h-3" />
+                          <span>Not Configured</span>
+                        </span>
+                      )}
+                    </div>
+                    
+                    {aiConfig?.openai?.isConfigured ? (
+                      <div className="space-y-4">
+                        <p className="text-sm text-slate-700">
+                          Your OpenAI API key is configured via environment secrets. The system uses <code className="px-2 py-1 bg-white rounded text-blue-600 font-mono text-xs">gpt-4o-mini</code> for all AI features.
+                        </p>
+                        <div className="bg-white rounded-lg p-4 border border-slate-200">
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between gap-4">
+                              <span className="text-slate-600">API Key:</span>
+                              <span className="font-mono text-slate-900">{aiConfig.openai.maskedKey}</span>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                              <span className="text-slate-600">Source:</span>
+                              <span className="font-medium text-slate-900 capitalize">{aiConfig.openai.source} Variable</span>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                              <span className="text-slate-600">Default Model:</span>
+                              <span className="font-medium text-slate-900">gpt-4o-mini</span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-600">Temperature:</span>
-                          <span className="font-medium text-slate-900">0.7 (Balanced)</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-600">Max Tokens:</span>
-                          <span className="font-medium text-slate-900">1000-1500</span>
+                        <div className="flex items-center space-x-3">
+                          <button
+                            onClick={testOpenAIConnection}
+                            disabled={testingConnection}
+                            className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition text-sm font-medium"
+                            data-testid="button-test-openai"
+                          >
+                            {testingConnection ? (
+                              <>
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                <span>Testing...</span>
+                              </>
+                            ) : (
+                              <>
+                                <CheckCircle className="w-4 h-4" />
+                                <span>Test Connection</span>
+                              </>
+                            )}
+                          </button>
+                          {testResult && (
+                            <span className={`text-sm ${testResult.success ? 'text-green-600' : 'text-red-600'}`}>
+                              {testResult.success ? (
+                                <span className="flex items-center space-x-1">
+                                  <CheckCircle className="w-4 h-4" />
+                                  <span>{testResult.message}</span>
+                                </span>
+                              ) : (
+                                <span className="flex items-center space-x-1">
+                                  <XCircle className="w-4 h-4" />
+                                  <span>{testResult.message}</span>
+                                </span>
+                              )}
+                            </span>
+                          )}
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <p className="text-sm text-slate-700">
+                          To enable AI features, you need to configure your OpenAI API key. The key is securely stored in Replit Secrets.
+                        </p>
+                        <div className="bg-white rounded-lg p-4 border border-amber-200">
+                          <h4 className="text-sm font-semibold text-slate-900 mb-3">How to configure:</h4>
+                          <ol className="space-y-2 text-sm text-slate-700 list-decimal list-inside">
+                            <li>Click the "Secrets" tab in your Replit workspace (lock icon in the sidebar)</li>
+                            <li>Add a new secret with key: <code className="px-2 py-0.5 bg-slate-100 rounded font-mono text-xs">OPENAI_API_KEY</code></li>
+                            <li>Paste your OpenAI API key as the value</li>
+                            <li>Click "Save" and restart the app</li>
+                          </ol>
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <a 
+                              href="https://platform.openai.com/api-keys" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                              <span>Get your API key from OpenAI</span>
+                            </a>
+                          </div>
+                        </div>
+                        <button
+                          onClick={loadAIConfig}
+                          disabled={aiConfigLoading}
+                          className="inline-flex items-center space-x-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 disabled:bg-slate-400 text-white rounded-lg transition text-sm font-medium"
+                          data-testid="button-refresh-config"
+                        >
+                          {aiConfigLoading ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              <span>Checking...</span>
+                            </>
+                          ) : (
+                            <span>Refresh Status</span>
+                          )}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
