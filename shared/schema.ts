@@ -83,7 +83,7 @@ export const ssoSessions = pgTable('sso_sessions', {
 
 export const ssoAuditLog = pgTable('sso_audit_log', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
-  organizationId: text('organization_id').notNull(),
+  organizationId: uuid('organization_id'),
   userId: uuid('user_id'),
   provider: text('provider').notNull(),
   action: text('action').notNull(),
